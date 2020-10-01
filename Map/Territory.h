@@ -6,4 +6,16 @@ class Territory {
         string territoryName;
         int ownerId;
         int numberOfArmies;
+
+    public:
+    //-------------- Getters --------------//
+        string getTerritoryName();
+        int getOwnerId();
+        int getNumberOfArmies();
+
+    //-------------- Setters --------------//
+        void setTerritoryName(string newTerritoryName);
+        void setOwnerId(int newOwnerId);
+        void setNumberOfArmies(int newNumberOfArmies);
+
 };
