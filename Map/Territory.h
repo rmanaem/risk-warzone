@@ -4,10 +4,15 @@ using namespace std;
 class Territory {
     private:
         string territoryName;
-        int ownerId;
+        int ownerId; //the player ID
         int numberOfArmies;
 
     public:
+    //-------------- Constructors --------------//
+        Territory();
+        Territory(string territoryName, int ownerId, int numberOfArmies);
+        Territory(string territoryName);
+
     //-------------- Getters --------------//
         string getTerritoryName();
         int getOwnerId();
