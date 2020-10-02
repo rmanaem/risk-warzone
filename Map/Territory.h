@@ -1,6 +1,7 @@
 #include <iostream>
 using namespace std;
 
+#pragma once
 class Territory {
     private:
         string territoryName;

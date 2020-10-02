@@ -26,7 +26,7 @@ using namespace std;
 //     private:
 //         void addEdge(string edge);//Add edge to E vector
 // };
-
+#pragma once
 class Graph{
     private:
         class Node{
@@ -53,9 +53,6 @@ class Graph{
         std::vector<Node> V; //A vector of vertices (i.e. Territories)
 
     public:
-        //-------------- Constructors --------------//
-        Graph();
-
         //-------------- Getters --------------//
         std::vector<Node> getV(); //get vertices
 

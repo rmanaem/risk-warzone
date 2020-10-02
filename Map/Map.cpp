@@ -35,7 +35,6 @@ void Graph::Node::addEdge(string edge){
 
 
 //-------------------------- Graph class --------------------------//
-Graph::Graph(){}
 
 //-------------- Getters --------------//
 std::vector<Graph::Node> Graph::getV(){
