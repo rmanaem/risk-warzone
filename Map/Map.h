@@ -28,36 +28,38 @@ using namespace std;
 // };
 
 class Graph{
-    
     private:
         class Node{
             Territory data; //A territory object
             vector<string> E; //A vector of edges
             
             //-------------- Constructors --------------//
-            Node();
-            Node(Territory data);//Create a node without connecting it
+            public:
+                Node();
+                Node(Territory data);//Create a node without connecting it
             // Node(Territory dataA, Territory dataB);//Creates and connects two nodes
 
-            //-------------- Getters --------------//
-            Territory getData();
-            vector<string> getE(); //Get edges
+            private:
+                //-------------- Getters --------------//
+                Territory getData();
+                vector<string> getE(); //Get edges
 
-            //-------------- Setters --------------//
-            void setData(Territory data);
+                //-------------- Setters --------------//
+                void setData(Territory data);
 
             //-------------- Other functions --------------//
-            void addEdge(string edge);//Add edge to E vector
+            public:
+                void addEdge(string edge);//Add edge to E vector
         };
-
-        vector<Node> V; //A vector of vertices (i.e. Territories)
+        
+        std::vector<Node> V; //A vector of vertices (i.e. Territories)
 
     public:
         //-------------- Constructors --------------//
         Graph();
 
         //-------------- Getters --------------//
-        vector<Node> getV(); //get vertices
+        std::vector<Node> getV(); //get vertices
 
         //-------------- Inserting and connecting territories --------------//
         void insertATerritory(Territory data);
