@@ -57,6 +57,8 @@ void Graph::insertAndConnectTwoTerritories(Territory dataA, Territory dataB){
 }
 
 void Graph::connectTwoNodes(Node A, Node B){
-    A.addEdge("e");
-    A.addEdge("e");
+    string edgeName = A.getData().getTerritoryName() + B.getData().getTerritoryName(); //AB
+    
+    A.addEdge(edgeName);
+    A.addEdge(edgeName);
 }

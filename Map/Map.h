@@ -39,16 +39,14 @@ class Graph{
                 Node(Territory data);//Create a node without connecting it
             // Node(Territory dataA, Territory dataB);//Creates and connects two nodes
 
-            private:
-                //-------------- Getters --------------//
+            //-------------- Getters --------------//
                 Territory getData();
                 vector<string> getE(); //Get edges
 
-                //-------------- Setters --------------//
+            //-------------- Setters --------------//
                 void setData(Territory data);
 
             //-------------- Other functions --------------//
-            public:
                 void addEdge(string edge);//Add edge to E vector
         };
         
