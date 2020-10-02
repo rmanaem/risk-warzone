@@ -29,14 +29,15 @@ using namespace std;
 
 class Graph{
     
-    class Node{
-        Territory data; //A territory object
-        vector<string> E; //A vector of edges
-        public:
+    private:
+        class Node{
+            Territory data; //A territory object
+            vector<string> E; //A vector of edges
+            
             //-------------- Constructors --------------//
             Node();
             Node(Territory data);//Create a node without connecting it
-            Node(Territory dataA, Territory dataB);//Creates and connects two nodes
+            // Node(Territory dataA, Territory dataB);//Creates and connects two nodes
 
             //-------------- Getters --------------//
             Territory getData();
@@ -47,9 +48,8 @@ class Graph{
 
             //-------------- Other functions --------------//
             void addEdge(string edge);//Add edge to E vector
-    };
+        };
 
-    private:
         vector<Node> V; //A vector of vertices (i.e. Territories)
 
     public:
@@ -63,6 +63,4 @@ class Graph{
         void insertATerritory(Territory data);
         void insertAndConnectTwoTerritories(Territory dataA, Territory dataB);
         static void connectTwoNodes(Node A, Node B); //Invokes addEdge function for A and B nodes
-    private:
-        void x();
 };
