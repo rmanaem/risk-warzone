@@ -27,34 +27,35 @@ using namespace std;
 //         void addEdge(string edge);//Add edge to E vector
 // };
 #pragma once
+
+class Node{
+    Territory data; //A territory object
+    vector<string> E; //A vector of edges
+    
+    //-------------- Constructors --------------//
+    public:
+        Node();
+        Node(Territory data);//Create a node without connecting it
+    // Node(Territory dataA, Territory dataB);//Creates and connects two nodes
+
+    //-------------- Getters --------------//
+        Territory getData();
+        vector<string> getE(); //Get edges
+
+    //-------------- Setters --------------//
+        void setData(Territory data);
+
+    //-------------- Other functions --------------//
+        void addEdge(string edge);//Add edge to E vector
+};
+
 class Graph{
     private:
-        class Node{
-            Territory data; //A territory object
-            vector<string> E; //A vector of edges
-            
-            //-------------- Constructors --------------//
-            public:
-                Node();
-                Node(Territory data);//Create a node without connecting it
-            // Node(Territory dataA, Territory dataB);//Creates and connects two nodes
-
-            //-------------- Getters --------------//
-                Territory getData();
-                vector<string> getE(); //Get edges
-
-            //-------------- Setters --------------//
-                void setData(Territory data);
-
-            //-------------- Other functions --------------//
-                void addEdge(string edge);//Add edge to E vector
-        };
-        
-        std::vector<Node> V; //A vector of vertices (i.e. Territories)
+        vector<Node*> V; //A vector of vertices (i.e. Territories)
 
     public:
         //-------------- Getters --------------//
-        std::vector<Node> getV(); //get vertices
+        vector<Node*> getV(); //get vertices
 
         //-------------- Inserting and connecting territories --------------//
         void insertATerritory(Territory data);

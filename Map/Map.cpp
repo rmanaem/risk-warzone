@@ -2,11 +2,12 @@
 using namespace std;
 #include <vector>
 #include "./Map.h"
+#include "./Territory.h"
 
 //-------------------------- Node class (nested in Graph) --------------------------//
-Graph::Node::Node(){}
+Node::Node(){}
 
-Graph::Node::Node(Territory data){
+Node::Node(Territory data){
     this->data = data;
 }
 
@@ -15,21 +16,21 @@ Graph::Node::Node(Territory data){
 // }
 
 //-------------- Getters --------------//
-Territory Graph::Node::getData(){
+Territory Node::getData(){
     return data;
 }
 
-vector<string> Graph::Node::getE(){
+vector<string> Node::getE(){
     return E;
 }
 
 //-------------- Setters --------------//
-void Graph::Node::setData(Territory data){
+void Node::setData(Territory data){
     this->data = data;
 }
 
 //-------------- Other functions --------------//
-void Graph::Node::addEdge(string edge){
+void Node::addEdge(string edge){
     getE().push_back(edge);
 }
 
@@ -37,14 +38,14 @@ void Graph::Node::addEdge(string edge){
 //-------------------------- Graph class --------------------------//
 
 //-------------- Getters --------------//
-std::vector<Graph::Node> Graph::getV(){
-    return V;
+vector<Node*> Graph::getV(){
+    return this->V;
 }
 
 //-------------- Inserting and connecting territories --------------//
 void Graph::insertATerritory(Territory data){
-    Node newTerritory = Node(data);
-    getV().push_back(newTerritory);
+    Node* newTerritory = new Node(data);
+    V.push_back(newTerritory);
 }
 
 void Graph::insertAndConnectTwoTerritories(Territory dataA, Territory dataB){
@@ -52,7 +53,7 @@ void Graph::insertAndConnectTwoTerritories(Territory dataA, Territory dataB){
     insertATerritory(dataA);
     insertATerritory(dataB);
     //2- make the connection between the two territories
-    connectTwoNodes(getV()[-1],getV()[-2]);
+    connectTwoNodes(*getV()[-1],*getV()[-2]);
 }
 
 void Graph::connectTwoNodes(Node A, Node B){
@@ -60,4 +61,14 @@ void Graph::connectTwoNodes(Node A, Node B){
     
     A.addEdge(edgeName);
     A.addEdge(edgeName);
+}
+
+
+int main(){
+    Graph myGraph;
+    Territory europe("E. Europe");
+    myGraph.insertATerritory(europe);
+    cout<<myGraph.getV()[0];
+    //myGraph.connectTwoNodes(myGraph.getV()[0],myGraph.getV()[1]);
+ return 0;
 }
