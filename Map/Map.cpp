@@ -31,7 +31,7 @@ void Node::setData(Territory data){
 
 //-------------- Other functions --------------//
 void Node::addEdge(string edge){
-    getE().push_back(edge);
+    E.push_back(edge);
 }
 
 
