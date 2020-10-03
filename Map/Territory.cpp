@@ -1,16 +1,35 @@
 #include "./Territory.h"
 
+//--------------------------------Continent class----------------------------//
+//-------------- Constructors --------------//
+Continent::Continent(string continentName){
+    this->continentName = continentName;
+}
+
+//-------------- Getters --------------//
+string Continent::getContinentName(){
+    return continentName;
+}
+
+//-------------- Setters --------------//
+void Continent::setContinentName(string newContinentName){
+    continentName = newContinentName;
+}
+
+//--------------------------------Territory class----------------------------//
 //-------------- Constructors --------------//
 Territory::Territory(){}
 
-Territory::Territory(string territoryName, int ownerId, int numberOfArmies){
+Territory::Territory(string territoryName, Continent* continent, int ownerId, int numberOfArmies){
     this->territoryName = territoryName;
     this->ownerId = ownerId;
     this->numberOfArmies = numberOfArmies;
+    this->continent = continent;
 }
 
-Territory::Territory(string territoryName){
+Territory::Territory(string territoryName, Continent* continent){
     this->territoryName = territoryName;
+    this->continent = continent;
 }
 
 //-------------- Getters --------------//
@@ -26,6 +45,10 @@ int Territory::getNumberOfArmies(){
     return numberOfArmies;
 }
 
+Continent* Territory::getContinent(){
+    return continent;
+}
+
 //-------------- Setters --------------//
 void Territory::setTerritoryName(string newTerritoryName){
     territoryName = newTerritoryName;
@@ -38,6 +61,9 @@ void Territory::setNumberOfArmies(int newNumberOfArmies){
     numberOfArmies = newNumberOfArmies;
 }
 
+void Territory::setContinent(Continent* newContinent){
+    this->continent = newContinent;
+}
 // int main(){
 //     Territory ter1;
 //     Territory ter2("B",1,7);

@@ -69,18 +69,25 @@ Germany --> France --> Spain
 */
 int main(){
     Graph myGraph;
-    Territory spain("Spain"); 
+    Continent* europe = new Continent("Europe");
+    Territory spain("Spain", europe); 
     myGraph.insertATerritory(spain); //Unconnected node
-    myGraph.insertAndConnectTwoTerritories(Territory("France"), Territory("Germany"));// Germany --> France
+    Territory france("France", europe);
+    Territory germany("Germany", europe);
+    myGraph.insertAndConnectTwoTerritories(france, germany);// Germany --> France
     myGraph.connectTwoNodes(myGraph.getV()[0], myGraph.getV()[1]); //Spain --> France
 
     for(Node* territory : myGraph.getV()){
-        cout<<territory->getData().getTerritoryName() + " has the following edges:"<<endl;
+        cout<<territory->getData().getTerritoryName() + " belongs to " + territory->getData().getContinent()->getContinentName()
+            + " has the following edges:"<<endl;
+        cout<<"The continent address is "<<territory->getData().getContinent()<<endl;
         for(string edge : territory->getE()){
             cout<<edge<<endl;
         }
     }
     
+    // Continent* ptr = myGraph.getV()[0]->getData().getContinent();
+    // cout<<ptr<<endl;
     //cout<<myGraph.getV()[2]->getE()[0];   To check the edges in a specific node
     //myGraph.connectTwoNodes(myGraph.getV()[0],myGraph.getV()[1]);
  return 0;
