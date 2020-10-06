@@ -11,7 +11,7 @@ int main() {
     Deck deck;
     // Fill deck with 54 cards of random types
     srand(time(0));
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 54; i++) {
         int randomNb = rand() % 6;
         switch (randomNb)
         {
@@ -27,16 +27,29 @@ int main() {
 
     Hand hand;
 
+    hand.print();
+    deck.print();
+    cout<< "--------------------------"<<endl;
+
+    // Fill hand with 5 cards
     for (int i = 0; i < 5; i++) {
         deck.draw(&hand);
     }
     
-    Card card2;
-    hand.addCardToHand(&card2);
+    // Add another card to hand
+    Card card;
+    hand.addCardToHand(&card);
+
     hand.print();
     deck.print();
     cout<< "--------------------------"<<endl;
-    card2.play(&deck, &hand);
+    
+    // Play newly added card
+    card.play(&deck, &hand);
+    // TODO: Once merged use this instead
+    // Player player;
+    // card.play(&deck, &hand, &player);
+
     hand.print();
     deck.print();
 
