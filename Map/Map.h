@@ -61,4 +61,8 @@ class Graph{
         void insertATerritory(Territory data);
         void insertAndConnectTwoTerritories(Territory dataA, Territory dataB);
         static void connectTwoNodes(Node* A, Node* B); //Invokes addEdge function for A and B nodes
+        
+        //-------------- Others --------------//
+        bool areConnected(Node* A, Node* B);
+
 };

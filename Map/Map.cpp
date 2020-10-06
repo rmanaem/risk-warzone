@@ -63,6 +63,19 @@ void Graph::connectTwoNodes(Node* A, Node* B){
     B->addEdge(edgeName);
 }
 
+//-------------- Others --------------//
+bool Graph::areConnected(Node* A, Node* B){
+    string possibleEdge1 = A->getData().getTerritoryName() + B->getData().getTerritoryName(); //AB
+    string possibleEdge2 = B->getData().getTerritoryName() + A->getData().getTerritoryName(); //BA
+    
+    for(string edge : A->getE()){//loop through all of the edges of A
+        if(edge == possibleEdge1 || edge == possibleEdge2)
+            return true;
+         }
+
+    return false;
+}
+
 /*
 I'll create the following graph
 Germany --> France --> Spain
@@ -85,7 +98,12 @@ int main(){
             cout<<edge<<endl;
         }
     }
-    
+    cout<<"Are connected?"<<endl;
+    if(myGraph.areConnected(myGraph.getV()[0], myGraph.getV()[2]))
+        cout<<"Yes Connected!"<<endl;
+    else
+        cout<<"Not Connected!"<<endl;
+    //cout<<myGraph.areConnected(myGraph.getV()[1], myGraph.getV()[0])<<endl;
     // Continent* ptr = myGraph.getV()[0]->getData().getContinent();
     // cout<<ptr<<endl;
     //cout<<myGraph.getV()[2]->getE()[0];   To check the edges in a specific node
