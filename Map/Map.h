@@ -64,5 +64,6 @@ class Graph{
         
         //-------------- Others --------------//
         bool areConnected(Node* A, Node* B);
+        void validate();
 
 };

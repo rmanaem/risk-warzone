@@ -76,6 +76,18 @@ bool Graph::areConnected(Node* A, Node* B){
     return false;
 }
 
+void Graph::validate(){
+    //check if all nodes have at least one edge. Otherwise, the graph is unconnected
+    try{
+        for(Node* node : getV()){
+            if(node->getE().size() == 0){
+                throw std::logic_error("Unconnected Graph: "+ node->getData().getTerritoryName() + " has no edges.");
+            }
+        }
+    }catch(const std::exception& e){
+        std::cerr<<e.what()<<endl;
+    }
+}
 /*
 I'll create the following graph
 Germany --> France --> Spain
@@ -84,11 +96,13 @@ int main(){
     Graph myGraph;
     Continent* europe = new Continent("Europe");
     Territory spain("Spain", europe); 
+    Territory itali("Itali", europe); 
     myGraph.insertATerritory(spain); //Unconnected node
+    myGraph.insertATerritory(itali); //Unconnected node
     Territory france("France", europe);
     Territory germany("Germany", europe);
     myGraph.insertAndConnectTwoTerritories(france, germany);// Germany --> France
-    myGraph.connectTwoNodes(myGraph.getV()[0], myGraph.getV()[1]); //Spain --> France
+    myGraph.connectTwoNodes(myGraph.getV()[0], myGraph.getV()[2]); //Spain --> France
 
     for(Node* territory : myGraph.getV()){
         cout<<territory->getData().getTerritoryName() + " belongs to " + territory->getData().getContinent()->getContinentName()
@@ -103,6 +117,8 @@ int main(){
         cout<<"Yes Connected!"<<endl;
     else
         cout<<"Not Connected!"<<endl;
+
+    myGraph.validate();
     //cout<<myGraph.areConnected(myGraph.getV()[1], myGraph.getV()[0])<<endl;
     // Continent* ptr = myGraph.getV()[0]->getData().getContinent();
     // cout<<ptr<<endl;
