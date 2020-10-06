@@ -2,9 +2,73 @@
 using namespace std;
 #include <vector>
 #include "./Map.h"
-#include "./Territory.h"
 
-//-------------------------- Node class (nested in Graph) --------------------------//
+//--------------------------------Continent class----------------------------//
+//-------------- Constructors --------------//
+Continent::Continent(string continentName){
+    this->continentName = continentName;
+}
+
+//-------------- Getters --------------//
+string Continent::getContinentName(){
+    return continentName;
+}
+
+//-------------- Setters --------------//
+void Continent::setContinentName(string newContinentName){
+    continentName = newContinentName;
+}
+
+//--------------------------------Territory class----------------------------//
+//-------------- Constructors --------------//
+Territory::Territory(){}
+
+Territory::Territory(string territoryName, Continent* continent, int ownerId, int numberOfArmies){
+    this->territoryName = territoryName;
+    this->ownerId = ownerId;
+    this->numberOfArmies = numberOfArmies;
+    this->continent = continent;
+}
+
+Territory::Territory(string territoryName, Continent* continent){
+    this->territoryName = territoryName;
+    this->continent = continent;
+}
+
+//-------------- Getters --------------//
+string Territory::getTerritoryName(){
+    return territoryName;
+}
+
+int Territory::getOwnerId(){
+    return ownerId;
+}
+
+int Territory::getNumberOfArmies(){
+    return numberOfArmies;
+}
+
+Continent* Territory::getContinent(){
+    return continent;
+}
+
+//-------------- Setters --------------//
+void Territory::setTerritoryName(string newTerritoryName){
+    territoryName = newTerritoryName;
+}
+void Territory::setOwnerId(int newOwnerId){
+    ownerId = newOwnerId;
+}
+    
+void Territory::setNumberOfArmies(int newNumberOfArmies){
+    numberOfArmies = newNumberOfArmies;
+}
+
+void Territory::setContinent(Continent* newContinent){
+    this->continent = newContinent;
+}
+
+//-------------------------- Node class  --------------------------//
 Node::Node(){}
 
 Node::Node(Territory data){
@@ -40,6 +104,10 @@ void Node::addEdge(string edge){
 //-------------- Getters --------------//
 vector<Node*> Graph::getV(){
     return this->V;
+}
+
+vector<Continent*> Graph::getListOfContinents(){
+    return this->listOfContinents;
 }
 
 //-------------- Inserting and connecting territories --------------//
@@ -87,6 +155,24 @@ void Graph::validate(){
     }catch(const std::exception& e){
         std::cerr<<e.what()<<endl;
     }
+
+    //check if all nodes have at least one edge. Otherwise, the graph is unconnected
+    // try{
+    //     for(Node* node : getV()){
+    //         if(node->getE().size() == 0){
+    //             throw std::logic_error("Unconnected Graph: "+ node->getData().getTerritoryName() + " has no edges.");
+    //         }
+    //     }
+    // }catch(const std::exception& e){
+    //     std::cerr<<e.what()<<endl;
+    // }
+}
+
+Continent* Graph::createContinent(string name){
+    Continent* ptr = new Continent(name);
+    listOfContinents.push_back(ptr);
+    cout<<ptr<<endl;
+    return ptr;
 }
 /*
 I'll create the following graph
@@ -94,7 +180,8 @@ Germany --> France --> Spain
 */
 int main(){
     Graph myGraph;
-    Continent* europe = new Continent("Europe");
+    Continent* europe = myGraph.createContinent("Europe");
+    cout<<europe;
     Territory spain("Spain", europe); 
     Territory itali("Itali", europe); 
     myGraph.insertATerritory(spain); //Unconnected node
@@ -103,6 +190,7 @@ int main(){
     Territory germany("Germany", europe);
     myGraph.insertAndConnectTwoTerritories(france, germany);// Germany --> France
     myGraph.connectTwoNodes(myGraph.getV()[0], myGraph.getV()[2]); //Spain --> France
+    //myGraph.connectTwoNodes(myGraph.getV()[0], myGraph.getV()[1]); //Spain --> Itali
 
     for(Node* territory : myGraph.getV()){
         cout<<territory->getData().getTerritoryName() + " belongs to " + territory->getData().getContinent()->getContinentName()
@@ -119,6 +207,7 @@ int main(){
         cout<<"Not Connected!"<<endl;
 
     myGraph.validate();
+    cout<<myGraph.getListOfContinents()[0]->getContinentName()<<endl;
     //cout<<myGraph.areConnected(myGraph.getV()[1], myGraph.getV()[0])<<endl;
     // Continent* ptr = myGraph.getV()[0]->getData().getContinent();
     // cout<<ptr<<endl;
