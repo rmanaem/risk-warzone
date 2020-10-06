@@ -11,7 +11,7 @@ int main() {
     Deck deck;
     // Fill deck with 54 cards of random types
     srand(time(0));
-    for (int i = 0; i < 54; i++) {
+    for (int i = 0; i < 6; i++) {
         int randomNb = rand() % 6;
         switch (randomNb)
         {
@@ -32,15 +32,13 @@ int main() {
     }
     
     Card card2;
-    hand.addCToHand(&card2);
+    hand.addCardToHand(&card2);
     hand.print();
+    deck.print();
     cout<< "--------------------------"<<endl;
-    card2.play();
-       // deck.print();
+    card2.play(&deck, &hand);
     hand.print();
-    // //deck.draw(&hand);
-    // deck.print();
-    // hand.print();
+    deck.print();
 
     return(0);
-}
+} 
