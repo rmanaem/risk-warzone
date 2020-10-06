@@ -31,7 +31,7 @@ class Card {
         void setHand(Hand* newHand);
 
     //-------------- Others --------------// 
-        void play();
+        void play(Deck* deck, Hand* hand);
         int cardIndex();
 
     private:
@@ -82,9 +82,10 @@ class Deck {
         //-------------- Setters --------------//
 
         //-------------- Others --------------//
-        void addCToHand(Card* card);
+        void addCardToHand(Card* card);
         void removeCardFromHand(int index);
         //void draw();
         int countCards();
         void print();
+        int getCardIndex(Card* card);
 };
