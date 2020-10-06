@@ -145,6 +145,8 @@ bool Graph::areConnected(Node* A, Node* B){
 }
 
 void Graph::validate(){
+    bool isErrorThrown = false;
+
     //check if all nodes have at least one edge. Otherwise, the graph is unconnected
     try{
         for(Node* node : getV()){
@@ -153,25 +155,69 @@ void Graph::validate(){
             }
         }
     }catch(const std::exception& e){
+        isErrorThrown = true;
         std::cerr<<e.what()<<endl;
     }
 
-    //check if all nodes have at least one edge. Otherwise, the graph is unconnected
-    // try{
-    //     for(Node* node : getV()){
-    //         if(node->getE().size() == 0){
-    //             throw std::logic_error("Unconnected Graph: "+ node->getData().getTerritoryName() + " has no edges.");
-    //         }
-    //     }
-    // }catch(const std::exception& e){
-    //     std::cerr<<e.what()<<endl;
-    // }
+
+    //check if all continents are connected sub-graphs
+    try{
+        for(Continent* continent : getListOfContinents()){
+            vector<Node*> tempListOfTerritoriesInContinent;
+            //getting all territories with the same continent in a single vector
+            for(Node* node : getV()){
+                if(node->getData().getContinent() == continent)
+                    tempListOfTerritoriesInContinent.push_back(node);
+            }
+            
+            //cout<<"tempListOfTerritoriesInContinent size: "<<tempListOfTerritoriesInContinent.size()<<endl;
+            
+            for(Node* nodeInTemp : tempListOfTerritoriesInContinent){
+                bool isConnected = false; //connected continent sub-graph
+                for(Node* nodeToCompareInTemp : tempListOfTerritoriesInContinent){
+                    if(areConnected(nodeInTemp, nodeToCompareInTemp)){
+                        isConnected = true;
+                        break;
+                    }
+                }
+
+                if(!isConnected)
+                    throw std::logic_error("Unconnected Sub-Graph: "+ nodeInTemp->getData().getTerritoryName() + " is not connected with any node in the same continent.");
+            }
+            tempListOfTerritoriesInContinent.clear();//earse the vector contentss
+        }
+
+    }catch(const std::exception& e){
+        isErrorThrown = true;
+        std::cerr<<e.what()<<endl;
+    }
+
+
+    //check if each country belongs to one and only one continent
+    try{
+        for(Node* node : getV()){
+            int countNumOfMatches = 0; //count how many continents associate with each territory
+            for(Continent* Continent : getListOfContinents()){
+                if(node->getData().getContinent() == Continent)
+                    countNumOfMatches++;
+            }
+
+            if(countNumOfMatches != 1)
+                throw std::logic_error("No 1-1 associate between "+ node->getData().getTerritoryName() + " and the continents.");
+        }
+    }catch(const std::exception& e){
+        isErrorThrown = true;
+        std::cerr<<e.what()<<endl;
+    }
+
+    //will terminate the program if an error was thrown
+    if(isErrorThrown)
+        exit(0);
 }
 
 Continent* Graph::createContinent(string name){
     Continent* ptr = new Continent(name);
     listOfContinents.push_back(ptr);
-    cout<<ptr<<endl;
     return ptr;
 }
 /*
@@ -181,37 +227,50 @@ Germany --> France --> Spain
 int main(){
     Graph myGraph;
     Continent* europe = myGraph.createContinent("Europe");
-    cout<<europe;
+    Continent* xy = myGraph.createContinent("xy");
     Territory spain("Spain", europe); 
-    Territory itali("Itali", europe); 
+    Territory ran1("ran1", xy); 
+    Territory ran2("ran2", xy); 
+
     myGraph.insertATerritory(spain); //Unconnected node
-    myGraph.insertATerritory(itali); //Unconnected node
+
+    myGraph.insertATerritory(ran1); //Unconnected node
+    myGraph.insertATerritory(ran2); //Unconnected node
+    //myGraph.connectTwoNodes(myGraph.getV()[1], myGraph.getV()[2]); //ran1 --> ran2
+
     Territory france("France", europe);
     Territory germany("Germany", europe);
     myGraph.insertAndConnectTwoTerritories(france, germany);// Germany --> France
-    myGraph.connectTwoNodes(myGraph.getV()[0], myGraph.getV()[2]); //Spain --> France
+    myGraph.connectTwoNodes(myGraph.getV()[0], myGraph.getV()[3]); //Spain --> France
     //myGraph.connectTwoNodes(myGraph.getV()[0], myGraph.getV()[1]); //Spain --> Itali
 
-    for(Node* territory : myGraph.getV()){
-        cout<<territory->getData().getTerritoryName() + " belongs to " + territory->getData().getContinent()->getContinentName()
-            + " has the following edges:"<<endl;
-        cout<<"The continent address is "<<territory->getData().getContinent()<<endl;
-        for(string edge : territory->getE()){
-            cout<<edge<<endl;
-        }
-    }
+    // for(Node* territory : myGraph.getV()){
+    //     cout<<territory->getData().getTerritoryName() + " belongs to " + territory->getData().getContinent()->getContinentName()
+    //         + " has the following edges:"<<endl;
+    //     cout<<"The continent address is "<<territory->getData().getContinent()<<endl;
+    //     for(string edge : territory->getE()){
+    //         cout<<edge<<endl;
+    //     }
+    // }
+    myGraph.validate();
     cout<<"Are connected?"<<endl;
     if(myGraph.areConnected(myGraph.getV()[0], myGraph.getV()[2]))
         cout<<"Yes Connected!"<<endl;
     else
         cout<<"Not Connected!"<<endl;
-
-    myGraph.validate();
-    cout<<myGraph.getListOfContinents()[0]->getContinentName()<<endl;
+        
+    cout<<myGraph.getV()[1]->getE().size()<<endl;
+    
+    //check validate function:
+    
+    //cout<<myGraph.getListOfContinents()[0]->getContinentName()<<endl;
     //cout<<myGraph.areConnected(myGraph.getV()[1], myGraph.getV()[0])<<endl;
     // Continent* ptr = myGraph.getV()[0]->getData().getContinent();
     // cout<<ptr<<endl;
     //cout<<myGraph.getV()[2]->getE()[0];   To check the edges in a specific node
     //myGraph.connectTwoNodes(myGraph.getV()[0],myGraph.getV()[1]);
+    
+    
+
  return 0;
 }
