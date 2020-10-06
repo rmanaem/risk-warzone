@@ -153,11 +153,20 @@ void Card::setHand(Hand* newHand){
 }
 
 //-------------- Others --------------//
+
+// Temporary method so the code doesn't crash //
 void Card::play(Deck* deck, Hand* hand) {
-    // TODO: Create order
-    // OrdersList *ordersList = new OrdersList;
-    // TODO: Add order to that card's player's list of orders
-    // Add card from hand to deck
     deck->addCardToDeck(this);
     hand->removeCardFromHand(hand->getCardIndex(this));
 }
+
+// TODO: Once merged, use this instead //
+
+// void Card::play(Deck* deck, Hand* hand, Player* player) {
+//     // Create an Order object and put it in the player’s list of orders
+//     player->issueOrder();
+
+//     //Remove card from hand and place in deck
+//     deck->addCardToDeck(this);
+//     hand->removeCardFromHand(hand->getCardIndex(this));
+// }
