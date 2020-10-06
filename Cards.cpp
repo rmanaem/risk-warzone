@@ -1,3 +1,10 @@
+
+#include<iostream>
+#include<string>
+#include <vector>
+#include<cstdlib>
+#include <algorithm> 
+using namespace std;
 #include"Cards.h"
 #include<iostream>
 #include<string>
@@ -17,7 +24,7 @@ vector<Card*> Hand::getHandCards(){
 }
 
 //-------------- Others --------------//
-void Hand::addCToHand(Card* card){
+void Hand::addCardToHand(Card* card){
     cardsInHand.push_back(card);
 }
 void Hand::removeCardFromHand(int index){
@@ -33,6 +40,23 @@ void Hand::print() {
 
 int Hand::countCards(){
     return cardsInHand.size();
+}
+
+int Hand::getCardIndex(Card* card) {
+    auto it = find(getHandCards().begin(), 
+                   getHandCards().end(), card); 
+  
+    // If element was found 
+    if (it != getHandCards().end()) { 
+        // calculating the index 
+        // of K 
+        int index = distance(getHandCards().begin(), 
+                             it); 
+        return index; 
+    } 
+    else { 
+        return -1; 
+    } 
 }
 
 //--------------------------------Deck class----------------------------//
@@ -55,7 +79,7 @@ void Deck::removeCardFromDeck(int index){
 }
 
 void Deck::addCardToHand(Card* card, Hand* hand) {
-    hand->addCToHand(card);
+    hand->addCardToHand(card);
 }
 
 Card* Deck::getPtrRandomCardFromDeck() {
@@ -129,11 +153,11 @@ void Card::setHand(Hand* newHand){
 }
 
 //-------------- Others --------------//
-void Card::play() {
-    //TODO: Create order
-    //TODO: Add order to that card's player's list of orders
+void Card::play(Deck* deck, Hand* hand) {
+    // TODO: Create order
+    // OrdersList *ordersList = new OrdersList;
+    // TODO: Add order to that card's player's list of orders
+    // Add card from hand to deck
     deck->addCardToDeck(this);
-    // Remove card from hand
-
+    hand->removeCardFromHand(hand->getCardIndex(this));
 }
-
