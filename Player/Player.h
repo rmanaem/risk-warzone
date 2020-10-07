@@ -1,5 +1,8 @@
 #pragma once
 
+#include "Map.h"
+#include "Orders.h"
+#include "Cards.h"
 #include <iostream>
 #include <vector>
 
@@ -47,7 +50,7 @@ public:
 
     std::vector<Territory *> toDefend();
     std::vector<Territory *> toAttack();
-    void issueOrder(Order order);
+    void issueOrder(Order *issuedOrder);
 
     //-------------- Stream insertion Operator --------------//
 

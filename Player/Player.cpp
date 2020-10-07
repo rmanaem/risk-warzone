@@ -1,10 +1,13 @@
+#include "Map.h"
+#include "Orders.h"
+#include "Cards.h"
 #include "Player.h"
 #include <iostream>
 #include <list>
 
 //-------------- Constructors --------------//
 
-Player::Player() : playerId(0), territoriesOwned(std::vector<Territory *>), cards(new Hand), orders(new OrdersList)
+Player::Player() : playerId(0)
 {
 }
 
@@ -12,7 +15,7 @@ Player::Player(int playedId, std::vector<Territory *> territoriesOwned, Hand *ca
 {
 }
 
-Player::Player(const Player &e) : playerId(e.playerId), territoriesOwned(e.territoriesOwned), cards(new Hand(*(e.cards))), orders(new OrdesList(*(e.orders)))
+Player::Player(const Player &e) : playerId(e.playerId), territoriesOwned(e.territoriesOwned), cards(new Hand(*(e.cards))), orders(new OrdersList(*(e.orders)))
 {
 }
 
@@ -45,10 +48,16 @@ Player &Player::operator=(const Player &e)
 
 std::ostream &operator<<(std::ostream &out, const Player &e)
 {
-    out << "Player" << e.playerId << std::endl;
-    out << "Owns this collection of territories: " << e.territoriesOwned << std::endl;
-    out << "Has this hand of cards: " << *(e.cards) << std::endl;
-    out << "Has this list of orders: " << *(e.orders) << std::endl;
+    out << "Player" << e.playerId;
+    out << "Owns this collection of territories: {";
+    for (Territory *t : e.territoriesOwned)
+    {
+        out << *(t);
+    }
+    out << " }";
+    out << "Has this hand of cards: " << *(e.cards);
+    out << "Has this list of orders: " << *(e.orders);
+    return out;
 }
 
 //-------------- Accessor methods --------------//
@@ -117,8 +126,7 @@ std::vector<Territory *> Player::toAttack()
 
 //-------------- issueOrder method --------------//
 
-void Player::issueOrder()
+void Player::issueOrder(Order *issuedOrder)
 {
-    Order *issuedOrder = new Order;
-    OrdersList.push_front(issuedOrder);
+    (*orders).addOrder(issuedOrder);
 }
