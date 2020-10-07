@@ -292,6 +292,7 @@ bool Graph::DFS(vector<Node*> graphNodes, Node* startNode){
 I'll create the following graph
 Germany --> France --> Spain
 */
+/*
 int main(){
     Graph myGraph;
         Continent* southAmerica = myGraph.createContinent("South America");
@@ -300,7 +301,7 @@ int main(){
     Territory argentina("Argentina", southAmerica);
     Territory peru("Peru", southAmerica);    
     myGraph.insertATerritory(peru);
-    myGraph.insertATerritory(argentina);
+    //myGraph.insertATerritory(argentina);
     //myGraph.connectTwoNodes(myGraph.getV().end()[-1],myGraph.getV().end()[-2]);
     //myGraph.insertAndConnectTwoTerritories(venzuela, brazil);// venzuela --> brazil
     //myGraph.connectTwoNodes(myGraph.getV()[0], myGraph.getV().end()[-2]);// Peru --> Brazil
@@ -362,3 +363,4 @@ int main(){
 
  return 0;
 }
+*/
