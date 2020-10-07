@@ -1,91 +1,110 @@
 #include <iostream>
-using namespace std;
 #include <vector>
+using namespace std;
 
-#pragma once
-
+// Declare them empty because they are used before they are properly declared
 class Deck;
 class Hand;
 
-class Card {    
-    friend class Hand;
-    friend class Deck;
-    public:
-    enum CardType {SPY, BOMB, REINFORCEMENT, BLOCKADE, AIRLIFT, DIPLOMACY};
 
-    //-------------- Constructors --------------//
+//============================ Card Class ============================//
+/*  Represents a card that can be placed in a deck or hand
+    Attributes: cardType (enum), type of the card
+*/
+class Card {
+    public:
+        enum CardType {SPY, BOMB, REINFORCEMENT, BLOCKADE, AIRLIFT, DIPLOMACY};
+
+        //-------------- Constructors --------------//
         Card();
         Card(CardType cardType);
-        Card(Deck* deck);
-        Card(Hand* hand);
+        Card(int intCardType);
 
-    //-------------- Getters --------------//
+        Card(const Card& card);
+        Card& operator =(const Card& card);
+  
+        friend std::ostream& operator <<(std::ostream& stream, const Card& card);
 
-        int getCardType();
-        Deck* getDeck();
-        Hand* getHand();
+        //-------------- Getters --------------//
+        CardType getCardType();
+        string getCardTypeString();
 
-    //-------------- Setters --------------//
-        void setCardType(CardType newCardType);
-        void setDeck(Deck* newDeck);
-        void setHand(Hand* newHand);
+        //-------------- Setters --------------//
+        void setCardType(CardType cardType);
 
-    //-------------- Others --------------// 
+        //-------------- Others --------------// 
         void play(Deck* deck, Hand* hand);
-        int cardIndex();
+
+        // TODO: Once merged use this instead
+        //Card::play(Deck* deck, Hand* hand, Player* player)
 
     private:
         CardType cardType;
-        Deck* deck;
-        Hand* hand;
 };
 
+
+//============================ Deck Class ============================//
+/*  Represents a deck of cards
+    Attributes: cardsInDeck (vector<Card*>), all cards in the deck
+*/
 class Deck {
-    friend class Hand;
-    friend class Card;
     private:
-        vector<Card*> cardsInDeck;//ptr of cards that belong to a specific deck
+        //ptr of cards that belong to a specific deck
+        vector<Card*> cardsInDeck;
     public:
         //-------------- Constructors --------------//
         Deck();
+        Deck(vector<Card*> cardsInDeck);
 
+        Deck(const Deck& deck);
+        Deck& operator =(const Deck& deck);
+  
+        friend std::ostream& operator <<(std::ostream& stream, const Deck& deck);
+        
         //-------------- Getters --------------//
         vector<Card*> getDeckCards();
 
         //-------------- Setters --------------//
+        void setDeckCards(vector<Card*> cardsInDeck);
 
         //-------------- Others --------------//
         void addCardToDeck(Card* card);
-        void draw(Hand* hand);
         void removeCardFromDeck(int index);
-        Card* getPtrRandomCardFromDeck();
-        void addCardToHand(Card* card, Hand* hand);
-        int countCards();
+        void draw(Hand* hand);
+        int nbCards();
         void print();
-        void fillDeck();
 };
 
 
+//============================ Hand Class ============================//
+/*  Represents a hand of cards
+    Attributes: cardsInHand (vector<Card*>), all cards in the hand
+*/
  class Hand {
-    friend class Deck;
-    friend class Card;
     private:
-        vector<Card*> cardsInHand;//ptr of cards that belong to a specific hand
+        //ptr of cards that belong to a specific hand
+        vector<Card*> cardsInHand;
 
     public:
         //-------------- Constructors --------------//
         Hand();
+        Hand(vector<Card*> cardsInHand);
+
+        Hand(const Hand& hand);
+        Hand& operator =(const Hand& hand);
+  
+        friend std::ostream& operator <<(std::ostream& stream, const Hand& hand);
 
         //-------------- Getters --------------//
         vector<Card*> getHandCards();
 
         //-------------- Setters --------------//
+        void setHandCards(vector<Card*> cardsInHand);
 
         //-------------- Others --------------//
         void addCardToHand(Card* card);
         void removeCardFromHand(int index);
-        //void draw();
-        int countCards();
-        void print();
         int getCardIndex(Card* card);
+        int nbCards();
+        void print();
 };
