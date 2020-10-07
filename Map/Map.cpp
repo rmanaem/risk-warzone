@@ -72,7 +72,8 @@ void Territory::setContinent(Continent* newContinent){
 Node::Node(){}
 
 Node::Node(Territory data){
-    this->data = data;
+    Territory* temp = new Territory(data.getTerritoryName(), data.getContinent());
+    this->data = temp;
 }
 
 // Graph::Node::Node(Territory dataA, Territory dataB){
@@ -81,6 +82,10 @@ Node::Node(Territory data){
 
 //-------------- Getters --------------//
 Territory Node::getData(){
+    return *data;
+}
+
+Territory* Node::getDataPtr(){
     return data;
 }
 
@@ -89,7 +94,7 @@ vector<string> Node::getE(){
 }
 
 //-------------- Setters --------------//
-void Node::setData(Territory data){
+void Node::setData(Territory* data){
     this->data = data;
 }
 
@@ -236,7 +241,7 @@ int main(){
 
     myGraph.insertATerritory(ran1); //Unconnected node
     myGraph.insertATerritory(ran2); //Unconnected node
-    //myGraph.connectTwoNodes(myGraph.getV()[1], myGraph.getV()[2]); //ran1 --> ran2
+    myGraph.connectTwoNodes(myGraph.getV()[1], myGraph.getV()[2]); //ran1 --> ran2
 
     Territory france("France", europe);
     Territory germany("Germany", europe);
@@ -252,6 +257,7 @@ int main(){
     //         cout<<edge<<endl;
     //     }
     // }
+
     myGraph.validate();
     cout<<"Are connected?"<<endl;
     if(myGraph.areConnected(myGraph.getV()[0], myGraph.getV()[2]))
@@ -270,7 +276,9 @@ int main(){
     //cout<<myGraph.getV()[2]->getE()[0];   To check the edges in a specific node
     //myGraph.connectTwoNodes(myGraph.getV()[0],myGraph.getV()[1]);
     
-    
+    // cout<<"B4 "<<myGraph.getV()[0]->getDataPtr()->getOwnerId()<<endl;
+    // myGraph.getV()[0]->getDataPtr()->setOwnerId(19);
+    // cout<<"After "<<myGraph.getV()[0]->getDataPtr()->getOwnerId()<<endl;
 
  return 0;
 }

@@ -70,7 +70,7 @@ class Territory {
 };
 
 class Node{
-    Territory data; //A territory object
+    Territory* data; //A territory object
     vector<string> E; //A vector of edges
     
     //-------------- Constructors --------------//
@@ -81,10 +81,11 @@ class Node{
 
     //-------------- Getters --------------//
         Territory getData();
+        Territory* getDataPtr(); //get territory pointer
         vector<string> getE(); //Get edges
 
     //-------------- Setters --------------//
-        void setData(Territory data);
+        void setData(Territory* data);
 
     //-------------- Other functions --------------//
         void addEdge(string edge);//Add edge to E vector
