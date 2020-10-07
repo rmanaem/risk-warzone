@@ -61,6 +61,9 @@ class Deck {
   
         friend std::ostream& operator <<(std::ostream& stream, const Deck& deck);
         
+        //-------------- Destructors --------------//
+         ~Deck();
+
         //-------------- Getters --------------//
         vector<Card*> getDeckCards();
 
@@ -94,6 +97,9 @@ class Deck {
         Hand& operator =(const Hand& hand);
   
         friend std::ostream& operator <<(std::ostream& stream, const Hand& hand);
+
+        //-------------- Destructors --------------//
+         ~Hand();
 
         //-------------- Getters --------------//
         vector<Card*> getHandCards();
