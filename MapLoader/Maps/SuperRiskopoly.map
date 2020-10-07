@@ -1,0 +1,154 @@
+; map: SuperRiskopoly.map
+; map made with the map maker
+; yura.net Risk 1.0.9.5
+
+[files]
+pic SuperRiskopoly_pic.png
+map SuperRiskopoly_map.gif
+crd SuperRiskopoly.cards
+
+[continents]
+South_East 1 #003366
+South_West 2 #00cccc
+West_South 2 #990033
+West_North 3 #ff6600
+North_West 3 #cc0033
+North_East 4 yellow
+East_North 4 #339900
+East_South 5 #000066
+Community_Chest 0 #6666ff
+Chance 0 #ff9999
+Railroad 5 #330033
+Water_and_Power 3 #ff66ff
+Jail_and_Police 0 #3399ff
+Go 1 white
+Free_Parking 1 #006666
+Tax 0 #ccffcc
+Chance_stack 0 #ff3366
+Community_chest_stack 0 #66ccff
+Left_Money_Pot_of_50.000_Bugs 5 #99cc00
+Right_Money_Pot_of_50.000_Bugs 5 #99cc00
+
+[countries]
+1 Mediterranean_Avenue 1 458 371
+2 Baltic_Avenue 1 389 372
+3 Oriental_Avenue 2 288 371
+4 Vermont_Avenue 2 217 371
+5 Connecticut_Avenue 2 180 372
+6 St._Charles_Place 3 158 349
+7 States_Avenue 3 158 280
+8 Virginia_Avenue 3 159 243
+9 St._James_Place 4 160 178
+10 Tennessee_Avenue 4 159 110
+11 New_York_Avenue 4 159 75
+12 Kentucky_Avenue 5 181 52
+13 Indiana_Avenue 5 251 52
+14 Illinois_Avenue 5 288 52
+15 Atlantic_Avenue 6 353 51
+16 Ventnor_Avenue 6 391 53
+17 Marvin_Gardens 6 460 49
+18 Pacific_Avenue 7 483 74
+19 North_Carolina_Avenue 7 483 107
+20 Pennsylvania_Avenue 7 482 177
+21 Park_Place 8 480 280
+22 Boardwalk 8 482 348
+23 Community_Chest_South 9 421 397
+24 Community_Chest_West 9 137 143
+25 Community_Chest_East 9 505 144
+26 Chance_South 10 252 385
+27 Chance_North 10 218 38
+28 Chance_East 10 496 243
+29 Reading_Railroad_South 11 318 408
+30 Pennsylvania_Railroad_West 11 127 210
+31 B&O_Railroad_North 11 320 20
+32 Short_Line_East 11 511 210
+33 Electric_Company 12 136 313
+34 Water_Works 12 423 23
+35 Jail 13 146 384
+36 Police 13 507 33
+37 Go 14 507 395
+38 Free_Parking 15 141 33
+39 Income_Tax 16 351 399
+40 Luxury_Tax 16 509 313
+41 Chance_stack 17 244 145
+42 Community_chest_stack 18 419 327
+43 2000_Bugs 19 291 318
+44 400_Bugs 19 255 352
+45 1000_Bugs 19 219 338
+46 10_Bugs_are_10_Bugs. 19 189 302
+47 100_Bugs 19 186 252
+48 I_want_these_10.000_Bugs! 19 217 229
+49 20_Bugs 19 252 244
+50 200_Bugs 19 277 257
+51 100_Bugs 19 238 296
+52 2000_Bugs 20 370 160
+53 100_Bugs 20 341 129
+54 200_Bugs 20 384 82
+55 20_Bugs 20 425 72
+56 I_want_these_10.000_Bugs! 20 459 93
+57 20_Bugs 20 462 140
+58 400_Bugs 20 429 171
+59 400_Bugs 20 380 112
+60 10_Bugs_are_10_Bugs. 20 416 135
+
+[borders]
+1 23 2 50
+2 39 1 50
+3 26 4 5 44
+4 5 3 44
+5 35 4 3 44
+6 33 7 8 46
+7 8 6 46
+8 30 7 6 46
+9 24 10 11 48
+10 11 9 48
+11 38 10 9 48
+12 27 13 14 53
+13 14 12 53
+14 31 13 12 53
+15 16 17 54
+16 34 15 17 54
+17 36 16 15 54
+18 19 20 56
+19 25 20 18 56
+20 32 19 18 56
+21 40 22 58
+22 37 21 58
+23 2 42
+24 10 42
+25 20 42
+26 4 41
+27 13 41
+28 21 41
+29 3 32
+30 9 29
+31 15 30
+32 28 31
+33 7
+34 17
+35 6
+36 18 35
+37 1
+38 12
+39 29
+40 22
+41 27 26 28
+42 23 25 24
+43 50 45 44
+44 43 45 3 4 5
+45 51 43 44 46
+46 51 45 47 49 6 7 8
+47 46 48 49
+48 47 49 9 10 11
+49 51 46 48 47 50
+50 51 43 49 2 1
+51 49 50 46 45
+52 60 59 54 53
+53 14 13 12 52
+54 52 59 55 15 16 17
+55 60 54 56 59
+56 60 55 57 18 19 20
+57 60 56
+58 60 21 22
+59 60 52 54 55
+60 58 57 56 59 55 52

@@ -1,0 +1,103 @@
+; map: Catalunya.map
+; map made with the map maker
+; yura.net Risk 1.0.9.6
+
+[files]
+pic Catalunya_pic.png
+map Catalunya_map.gif
+crd Catalunya.cards
+
+[continents]
+Comarques_Gironines 5 #ff80c8
+Àmbit_de_Ponent 5 #de80ff
+Comarques_Centrals 4 #ffc980
+Alt_Pirineu_i_Aran 4 #bcff80
+Camp_de_Tarragona 6 #ffe480
+Àmbit_Metropolità 7 #80fffb
+Terres_de_l'Ebre 2 #87ff80
+
+[countries]
+1 Ripollès 1 442 107
+2 Garrotxa 1 502 126
+3 Alt_Empordà 1 583 108
+4 Baix_Empordà 1 619 174
+5 gironès 1 569 165
+6 Pla_de_l'Estany 1 560 139
+7 Selva 1 529 191
+8 Noguera 2 167 178
+9 Segrià 2 91 238
+10 Pla_d'Urgell 2 157 222
+11 Garrigues 2 135 260
+12 Urgell 2 207 228
+13 Segarra 2 255 206
+14 Solsonès 3 284 160
+15 Berguedà 3 369 138
+16 Bages 3 348 197
+17 Osona 3 440 166
+18 Anoia 3 306 230
+19 Val_d'Aran 4 156 27
+20 Alta_Ribagorça 4 148 69
+21 Pallars_Jussà 4 147 130
+22 Pallars_Sobirà 4 225 57
+23 Alt_Urgell 4 264 110
+24 Cerdanya 4 353 91
+25 Priorat 5 141 294
+26 Baix_Camp 5 178 317
+27 Conca_de_Barberà 5 230 256
+28 Alt_Camp 5 245 281
+29 Tarragonès 5 240 313
+30 Baix_Penedès 5 298 298
+31 Alt_Penedès 6 322 269
+32 Garraf 6 350 296
+33 Baix_Llobregat 6 396 280
+34 Barcelonès 6 437 269
+35 V.Occidental 6 408 240
+36 V.Oreintal 6 454 222
+37 Maresme 6 495 241
+38 Terra_Alta 7 53 319
+39 Ribera_d'Ebre 7 106 325
+40 Baix_Ebre 7 73 363
+41 Montsià 7 69 396
+
+[borders]
+1 2 17 15 24
+2 7 5 6 3 17 1
+3 4 5 6 2
+4 7 5 3
+5 7 4 2 6 3
+6 5 3 2
+7 36 37 17 5 2 4
+8 14 23 21 9 10 12 13
+9 8 10 39 11
+10 8 12 9 11
+11 12 10 9 25 39 27
+12 8 13 10 11 27
+13 18 14 8 12 27
+14 15 16 18 13 8 23
+15 1 17 24 23 14 16
+16 35 36 17 15 18 14 33
+17 36 7 2 1 16 15
+18 31 16 33 28 27 13 14
+19 22 20
+20 22 19 21
+21 23 22 20 8
+22 23 19 20 21
+23 15 14 24 22 21 8
+24 1 15 23
+25 11 27 26 39
+26 27 28 29 25 39 40
+27 18 13 12 11 28 25 26
+28 31 18 27 29 30 26
+29 28 30 26
+30 32 31 28 29
+31 32 30 28 18 33
+32 30 31 33
+33 35 34 32 31 18 16
+34 35 33 36 37
+35 16 33 34 36
+36 35 34 37 16 17 7
+37 34 36 7
+38 39 40
+39 9 11 26 25 38 40
+40 26 39 38 41
+41 40

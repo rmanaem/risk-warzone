@@ -1,0 +1,93 @@
+; map: Chrono_Trigger.map
+; map made with the map maker
+; yura.net Risk 1.0.9.3
+
+[files]
+pic Chrono_Trigger_pic.png
+map Chrono_Trigger_map.gif
+crd Chrono_Trigger.cards
+
+[continents]
+Guardia 3 green
+Truce 5 yellow
+Unclaimed_Land 0 red
+Porre 4 cyan
+Medina 5 blue
+Sun_Keep 1 magenta
+Choras 2 white
+
+[countries]
+1 Castle 1 102 53
+2 Forrest 1 99 93
+3 Millenial_Fair 1 173 64
+4 Chrono's_House 2 178 94
+5 Lucca's_House 2 136 168
+6 Town_Square 2 155 112
+7 Market 2 136 103
+8 Docks 2 211 126
+9 Mayor's_House 2 162 131
+10 Path 3 87 134
+11 Zenan_Bridge 3 87 197
+12 Barren_Land 3 141 273
+13 Mountains 3 133 224
+14 Mountains 3 89 281
+15 Magic_Cave 3 232 274
+16 Docks 4 162 409
+17 Mayor's_House 4 127 362
+18 Inn 4 190 376
+19 Snail_Stop 4 173 346
+20 Vortex 5 183 159
+21 Melchior's_Hut 5 312 205
+22 Mountain 5 306 171
+23 Town_Square 5 442 148
+24 Shop 5 461 159
+25 Residence 5 422 139
+26 Sealed_Pyramid 5 463 91
+27 Sun_Keep 6 593 39
+28 Toma's_Grave 7 484 311
+29 Ruins 7 585 282
+30 Cafe 7 553 365
+31 Town_Square 7 542 351
+32 Mayor's_House 7 555 337
+33 Harbor 7 557 386
+34 Shipping_Lane 3 343 335
+35 Landing 3 594 78
+36 Harbor 5 434 176
+
+[borders]
+1 2
+2 1 10
+3 6
+4 6
+5 6 20
+6 7 4 3 9 8 5 10
+7 6
+8 6 34
+9 6
+10 6 2 11
+11 10 12
+12 11 13 14 15 17 19 18 16
+13 12
+14 12
+15 12
+16 12 17 19 18 34
+17 12 19 18 16
+18 12 17 16 19
+19 12 17 16 18
+20 5 22
+21 23 22
+22 23 20 21
+23 36 21 22 25 24 26
+24 23
+25 23
+26 23
+27 35
+28 31
+29 31
+30 31
+31 33 30 32 28 29
+32 31
+33 34 31
+34 16 33 35 8 36
+35 34 27
+36 34 23

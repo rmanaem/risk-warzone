@@ -1,0 +1,90 @@
+; Constantin
+; Risk Map
+; based on the work of Yura Mamyrin
+; Risk board Game Map
+; Dimensions: 677 x 425 Pixels
+
+[files]
+pic rub_pic.jpg
+map rub_map.gif
+crd rub.cards
+
+[continents]
+Medizin 2 red
+Ingenieurwissenschaften 4 blue
+Gesellschaftswissenschaften 3 yellow
+Naturwissenschaften 5 green
+Verwaltung 7 orange
+
+[countries]
+1 HMA 1 188 122
+2 MA 1 221 101
+3 IAN 2 404 36
+4 IA 2 439 122
+5 HIA 2 475 162
+6 IBN 2 479 32
+7 IB 2 510 122
+8 HIB 2 539 157
+9 ICN 2 549 48
+10 IC 2 583 122
+11 HIC 2 612 162
+12 GC 3 53 276
+13 HGC 3 87 230
+14 GB 3 120 276
+15 HGB 3 156 230
+16 GA 3 190 276
+17 HGA 3 227 230
+18 RZ 4 378 266
+19 NA 4 408 303
+20 HNA 4 442 266
+21 NB 4 475 303
+22 HNB 4 516 266
+23 NC 4 550 303
+24 HNC 4 578 266
+25 ND 4 616 303
+26 Isolab 4 530 390
+27 MZ 5 303 40
+28 Studentenhaus 5 288 90
+29 Verwaltung 5 351 95
+30 Bibliothek 5 308 146
+31 FNO 5 387 159
+32 HZO 5 385 215
+33 Audimax 5 316 273
+34 Mensa 5 313 341
+
+
+[borders]
+1 2
+2 1 14 16 28 30
+3 4 6 29
+4 3 5 7 29 31
+5 4 20 22
+6 3 7 9
+7 4 6 8 10
+8 7 10 22
+9 6 10
+10 7 9 11
+11 10 24
+12 13 14
+13 12 14
+14 2 12 13 15 16
+15 14 16
+16 2 14 15 17 33
+17 16 33
+18 19 32 33
+19 18 20 24
+20 5 19 21
+21 20 22 26
+22 5 8 21 23
+23 22 24 26
+24 11 23 25
+25 24 26
+26 21 23 25
+27 28
+28 2 27 29
+29 3 4 28 30
+30 2 31 33
+31 4 5 30 32
+32 18 31
+33 16 17 18 34
+34 19 33

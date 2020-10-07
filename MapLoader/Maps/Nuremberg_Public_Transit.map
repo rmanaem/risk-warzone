@@ -1,0 +1,305 @@
+; map: Nuremberg_Public_Transit.map
+; map made with the map maker
+; yura.net Risk 1.0.9.7
+
+[files]
+pic Nuremberg_Public_Transit_pic.png
+map Nuremberg_Public_Transit_map.gif
+crd Nuremberg_Public_Transit.cards
+
+[continents]
+Fürth 2 #00cc00
+Altstadt 4 #ff0033
+Nürnberg_Hauptbahnhof 2 #660000
+Plärrer 1 #ff3300
+Nordstadt 2 #ffcc00
+Knoblauchsland 1 #ffff99
+Thon 1 #ccff66
+Weststadt 2 #99ff33
+Schweinau 1 #999900
+Gibitzenhof 4 #cc0033
+Reichelsdorf 1 #663300
+Gartenstadt 1 magenta
+Südstadt 4 #990099
+Langwasser 1 #cc66ff
+Dutzendteich 2 #9966ff
+Dürrenhof 2 #990033
+Mögeldorf 1 #9999ff
+Weigelshof 1 #ffcc99
+Erlenstegen 1 #ccff99
+
+[countries]
+1 Fürth_Hauptbahnhof 1 130 162
+2 Rathaus 1 114 130
+3 Stadthalle 1 93 116
+4 Klinikum 1 74 107
+5 Hardhöhe 1 49 106
+6 Unterfarrnbach 1 67 100
+7 Vach 1 67 78
+8 Unterfürberg 1 57 168
+9 Burgfarrnbach 1 34 168
+10 Westvorstadt 1 68 183
+11 Dambach 1 68 196
+12 Alte_Veste 1 68 209
+13 Jakobinenstraße 1 152 156
+14 Lorenzkirche 2 348 198
+15 Weißer_Turm 2 326 198
+16 Opernhaus 2 337 222
+17 Marientor 2 397 195
+18 Obere_Turnstraße 2 286 191
+19 Hallertor 2 286 175
+20 Tiergärtnertor 2 284 160
+21 Nürnberg_Hauptbahnhof 3 379 238
+22 Plärrer 4 285 217
+23 Friedrich-Ebert-Platz 5 285 142
+24 Krelingstraße 5 310 142
+25 Maxfeldstraße 5 333 142
+26 Wurzelbauerstraße 5 356 142
+27 Maxfeld 5 362 124
+28 Schoppershof 5 383 113
+29 Nordostbahnhof 5 385 95
+30 Rennweg 5 382 142
+31 Rathenauplatz 5 384 160
+32 Stresemannplatz 5 428 160
+33 Flughafen 6 350 50
+34 Ziegelstein 6 372 60
+35 Herrnhütte 6 384 77
+36 Thon 7 285 89
+37 Bucher_Straße/Nordring 7 286 107
+38 Juvenellstraße 7 286 124
+39 Westfriedhof 8 228 137
+40 Julienstraße 8 243 144
+41 Brückenstraße 8 260 154
+42 Hallerstraße 8 274 164
+43 Stadtgrenze 8 172 157
+44 Muggenhof 8 190 164
+45 Eberhardshof 8 208 172
+46 Maximilianstraße 8 223 181
+47 Bärenschanze 8 238 191
+48 Gostenhof 8 255 200
+49 Rothenburger_Straße 9 253 235
+50 Sündersbühl 9 216 240
+51 Gustav-Adolf-Straße 9 198 240
+52 Sankt_Leonhard 9 246 247
+53 Schweinau 9 245 261
+54 Stein 9 218 276
+55 Unterasbach 9 196 289
+56 Hohe_Marter 9 245 279
+57 Röthenbach 9 229 306
+58 Kohlenhof 10 286 236
+59 Steinbühl 10 286 248
+60 Landgrabenstraße 10 286 281
+61 Brehmstraße 10 283 295
+62 Alemannenstraße 10 283 307
+63 Dianaplatz 10 283 318
+64 Gibitzenhof 10 283 330
+65 Heinestraße 10 309 281
+66 Christuskirche 10 327 283
+67 Humboldtstraße 10 327 296
+68 Schuckertstraße 10 327 306
+69 Siemensstraße 10 327 315
+70 Lothringer_Straße 10 327 325
+71 Sandreuth 11 262 322
+72 Eibach 11 262 337
+73 Reichelsdorf 11 262 353
+74 Reichelsorfer_Keller 11 262 369
+75 Katzwang 11 262 384
+76 Trafowerk 12 356 338
+77 Am_Rangierbahnhof 12 356 350
+78 Finkenbrunn 12 357 362
+79 Südfriedhof 12 357 373
+80 Saarbrückener_Straße 12 357 385
+81 Worzeldorfer_Straße 12 371 385
+82 Aufsessplatz 13 366 283
+83 Maffeiplatz 13 366 306
+84 Frankenstraße 13 366 324
+85 Hasenbuck 13 383 339
+86 Bauernfeindtraße 13 398 348
+87 Messe 13 415 357
+88 Hummelsteiner_Weg 13 393 284
+89 Schweiggerstraße 13 431 285
+90 Harsdörfferplatz 13 453 282
+91 Peterskirche 13 470 282
+92 Wodanstraße 13 432 312
+93 Holzgartenstraße 13 461 312
+94 Tristanstraße 13 443 323
+95 Bayernstraße 13 458 334
+96 Langwasser_Nord 14 429 367
+97 Scharfreiterring 14 446 377
+98 Langwasser_Mitte 14 463 387
+99 Gemeinschaftshaus 14 478 396
+100 Langwasser_Süd 14 494 406
+101 Gleißhammer 15 530 258
+102 Am_Dutzendteich 15 550 270
+103 Frankenstadion 15 568 285
+104 Fischbach 15 591 293
+105 Scharrerstraße 15 485 282
+106 Immelmannstraße 15 505 282
+107 Fliegerstraße/EWF 15 521 282
+108 Dutzendteich 15 537 282
+109 Dokumentationszentrum 15 539 298
+110 Luitpoldhain 15 537 312
+111 Meistersingerhalle 15 512 312
+112 Platz_der_Opfer_des_Faschismus 15 487 312
+113 Widhalmstraße 16 429 263
+114 Scheurlstraße 16 437 254
+115 Marientunnel 16 428 231
+116 Dürrenhof 16 448 234
+117 Norikerstraße 16 461 234
+118 Arminiusstraße 16 483 231
+119 Marthastraße 17 513 215
+120 Erhardstraße 17 534 205
+121 Lechnerstraße 17 555 195
+122 Mögeldorf 17 570 198
+123 Balthasar-Neumann-Straße 17 570 216
+124 Siedlerstraße 17 570 229
+125 Tiergarten 17 571 243
+126 Ostring 17 538 217
+127 Rehhof 17 587 196
+128 Laufamholz 17 605 198
+129 Deichslerstraße 18 456 159
+130 Tauroggenstraße 18 487 159
+131 Tafelwerk 18 517 159
+132 Ostbahnhof 19 540 161
+133 Thumenberger_Weg 19 556 146
+134 Platnersberg 19 576 136
+135 Erlenstegen 19 597 136
+136 Wörder_Wiese 2 384 177
+
+[borders]
+1 8 10 6 2 13 49
+2 1 3
+3 2 4
+4 3 5
+5 4
+6 1 7
+7 6
+8 1 9
+9 8
+10 1 11
+11 10 12
+12 11
+13 1 43
+14 21 15
+15 14 22
+16 21 22
+17 136 21
+18 19 22
+19 20 42 18
+20 23 19
+21 49 53 59 82 113 115 116 103 122 132 17 16 14
+22 48 49 58 16 15 18
+23 24 38 20
+24 25 23
+25 26 24
+26 30 25
+27 31
+28 30 29
+29 28 35
+30 31 28 26
+31 32 136 30 27
+32 129 31
+33 34
+34 35 33
+35 29 34
+36 37
+37 38 36
+38 23 37
+39 40
+40 41 39
+41 42 40
+42 19 41
+43 13 44
+44 43 45
+45 44 46
+46 45 47
+47 46 48
+48 47 22
+49 1 21 22 50 52
+50 51 49
+51 50
+52 49 53
+53 52 56 54 21
+54 53 55
+55 54
+56 53 57
+57 56
+58 22 59
+59 58 60 71 21
+60 59 61 65
+61 60 62
+62 61 63
+63 62 64
+64 63
+65 60 66
+66 65 82 67
+67 66 68
+68 67 69
+69 68 70
+70 69 84
+71 59 72
+72 71 73
+73 72 74
+74 73 75
+75 74
+76 84 77
+77 76 78
+78 77 79
+79 78 80
+80 79 81
+81 80
+82 66 21 83 88
+83 82 84
+84 70 83 76 85
+85 84 86
+86 85 87
+87 86 96
+88 82 89
+89 88 113 114 90 92
+90 89 91
+91 90 105
+92 89 93 94
+93 112 92
+94 92 95
+95 94
+96 87 97
+97 96 98
+98 97 99
+99 98 100
+100 99
+101 116 102
+102 101 103
+103 21 102 104
+104 103
+105 91 106
+106 105 107
+107 106 108
+108 107 109
+109 108 110
+110 109 111
+111 110 112
+112 111 93
+113 89 21
+114 89 115
+115 114 21 116
+116 115 21 117 126 101
+117 116 118
+118 117 119
+119 118 120
+120 119 121
+121 120 122
+122 121 126 127 128 123 21
+123 122 124
+124 123 125
+125 124
+126 116 122
+127 122 128
+128 122 127
+129 130 32
+130 131 129
+131 132 130
+132 21 135 133 131
+133 132 134
+134 133 135
+135 132 134
+136 31 17

@@ -1,0 +1,94 @@
+; Matthias Scheiba
+; Wuppertal Map
+
+; Dimensions: 677 x 425 Pixels
+
+[files]
+pic wuppertal_pic.png
+map wuppertal_map.png
+crd wuppertal.cards
+
+[continents]
+Vohwinkel 3 orange
+Uellendahl-Katernberg 4 blue
+Elberfeld 7 cyan
+Cronenberg 2 red
+Barmen 5 puple
+Oberbarmen-Heckinghausen 4 lightblue
+Ronsdorf 3 green
+Langerfeld-Beyenburg 4 yellow
+
+[countries]
+1 Schöller-Dornap 1 46 169
+2 Vohwinkel-City 1 83 188
+3 Vohwinkel-Süd 1 78 225
+4 Eckbusch 2 113 103
+5 Siebeneick 2 140 53
+6 Dönberg 2 193 43
+7 Katernberg-Süd 2 154 110
+8 Uellendahl 2 198 86
+9 Sonnborn-Varresbeck 3 114 141
+10 Elberfeld-Ghetto 3 151 149
+11 Elberfeld-City 3 189 134
+12 Zoo 3 140 181
+13 Friedrichsberg 3 170 180
+14 Grifflenberg 3 204 183
+15 Küllenhahn 4 154 216
+16 Hahnerberg 4 203 220
+17 Cronenfeld 4 200 249
+18 Cronenberg-Mitte 4 166 259
+19 Sudberg 4 175 316
+20 Barmen-Nord 5 249 74
+21 Barmen-Ghetto 5 228 108
+22 Friedrich-Engels-Allee 5 261 106
+23 Kothen 5 238 140
+24 Lichtenplatz 5 253 164
+25 Nächstebreck-West 6 289 48
+26 Nächstebreck-Ost 6 330 30
+27 Wichlinghausen-Schwarzbach 6 290 85
+28 Heckinghausen 6 285 128
+29 Ronsdorf-City-/-Blutfinke 7 241 209
+30 Erbschlö 7 289 173
+31 Ronsdorf-Ghetto 7 288 204
+32 Langerfeld 8 329 85
+33 Ehrenberg 8 343 123
+34 Herbringhausen 8 369 201
+35 Beyenburg-Mitte 8 378 154
+
+
+[borders]
+1 2 4 9
+2 1 3 9 12
+3 2 9 12 15
+4 1 5 7 9
+5 4 6 7 8
+6 5 8 20
+7 4 5 8 9 10 11
+8 5 6 7 11 20 21
+9 1 2 3 4 7 10 12
+10 7 9 11 12 13
+11 7 8 10 13 14 21 22 23
+12 2 3 9 10 13 15
+13 10 11 12 14 15
+14 11 13 15 16 23 24 29
+15 3 12 13 14 16 17 18
+16 14 15 17 29
+17 15 16 18 29
+18 15 17 19
+19 18
+20 6 8 21 22 25 27
+21 8 11 20 22
+22 11 20 21 23 27 28
+23 11 14 22 24 28
+24 14 23 28 29 30
+25 20 26 27
+26 25 27 32
+27 20 22 25 26 28 32
+28 22 23 24 27 30 32 33 34
+29 14 16 17 24 30 31
+30 24 28 29 31 34
+31 29 30
+32 26 27 28 33 34
+33 28 32 34 35
+34 28 30 32 33 35
+35 33 34
