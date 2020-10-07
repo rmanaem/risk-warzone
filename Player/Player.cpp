@@ -4,11 +4,11 @@
 
 //-------------- Constructors --------------//
 
-Player::Player() : playerId(0), territoriesOwned(std::list<Territory *>), cards(new Hand), orders(new OrdersList)
+Player::Player() : playerId(0), territoriesOwned(std::vector<Territory *>), cards(new Hand), orders(new OrdersList)
 {
 }
 
-Player::Player(int playedId, std::list<Territory *> territoriesOwned, Hand *cards, OrdersList *orders) : playerId(playerId), territoriesOwned(territoriesOwned), cards(cards), orders(orders)
+Player::Player(int playedId, std::vector<Territory *> territoriesOwned, Hand *cards, OrdersList *orders) : playerId(playerId), territoriesOwned(territoriesOwned), cards(cards), orders(orders)
 {
 }
 
@@ -20,19 +20,26 @@ Player::Player(const Player &e) : playerId(e.playerId), territoriesOwned(e.terri
 
 Player::~Player()
 {
+    for (Territory *t : territoriesOwned)
+    {
+        delete t;
+        t = nullptr;
+    }
     delete cards;
+    cards = nullptr;
     delete orders;
+    orders = nullptr;
 }
 
 //-------------- Assignment operator --------------//
 
-// Player &Player::operator=(const Player &e)
-// {
-//     this->playerId = e.playerId;
-//     this->territoriesOwned = std::list<Territory *>(e.territoriesOwned);
-//     this->cards = new Hand(*(e.cards));
-//     this->orders = new OrdersList(*(e.orders));
-// }
+Player &Player::operator=(const Player &e)
+{
+    this->playerId = e.playerId;
+    this->territoriesOwned = std::vector<Territory *>(e.territoriesOwned);
+    this->cards = new Hand(*(e.cards));
+    this->orders = new OrdersList(*(e.orders));
+}
 
 //-------------- Stream insertion operator --------------//
 
@@ -51,7 +58,7 @@ int Player::getPlayerId()
     return playerId;
 }
 
-std::list<Territory *> Player::getTerritoriesOwned()
+std::vector<Territory *> Player::getTerritoriesOwned()
 {
     return territoriesOwned;
 }
@@ -73,7 +80,7 @@ void Player::setPlayerId(int playerId)
     this->playerId = playerId;
 }
 
-void Player::setTerritoriesOwned(std::list<Territory *> territoriesOwned)
+void Player::setTerritoriesOwned(std::vector<Territory *> territoriesOwned)
 {
     this->territoriesOwned = territoriesOwned;
 }
@@ -90,16 +97,22 @@ void Player::setOrders(OrdersList *orders)
 
 //-------------- toDefent method --------------//
 
-std::list<Territory *> Player::toDefend()
+std::vector<Territory *> Player::toDefend()
 {
     return territoriesOwned;
 }
 
 //-------------- toAttack method --------------//
 
-std::list<Territory *> Player::toAttack()
+std::vector<Territory *> Player::toAttack()
 {
-    // retrun all territories - territoriesOwned
+    Territory *tTA1;
+    Territory *tTA2;
+    Territory *tTA3;
+    std::vector<Territory *> territoriesToAttack;
+    territoriesToAttack.push_back(tTA1);
+    territoriesToAttack.push_back(tTA2);
+    territoriesToAttack.push_back(tTA3);
 }
 
 //-------------- issueOrder method --------------//
