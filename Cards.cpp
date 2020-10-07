@@ -4,6 +4,8 @@
 #include <vector>
 #include<cstdlib>
 #include <algorithm> 
+#include <random>
+#include <chrono>
 using namespace std;
 
 
@@ -73,8 +75,10 @@ void Card::setCardType(CardType cardType){
 
 // Temporary method so the code doesn't crash //
 void Card::play(Deck* deck, Hand* hand) {
+    // Remove card from hand and place it in deck
     deck->addCardToDeck(this);
     hand->removeCardFromHand(hand->getCardIndex(this));
+
 }
 
 // TODO: Once merged, use this instead //
@@ -113,6 +117,14 @@ std::ostream& operator<<(std::ostream& stream, const Deck& deck){
     return stream << "Deck details: there are cards in the deck "<< endl;
 }
 
+//-------------- Destructors --------------//
+Deck::~Deck(){
+    for (int i = 0; i < getDeckCards().size(); i++) {
+        delete[] getDeckCards()[i];        
+    }
+    cout<< "Deleted card elements in deck"<<endl;
+}
+
 //-------------- Getters --------------//
 vector<Card*> Deck::getDeckCards(){
     return cardsInDeck;
@@ -134,12 +146,11 @@ void Deck::removeCardFromDeck(int index){
 
 void Deck::draw(Hand* hand) {
     // Generate random card index number
-    srand(time(0));
-    int RandIndex = rand() % nbCards();
+    int randIndex = rand() % nbCards();
     // Add selected card to hand
-    hand->addCardToHand(cardsInDeck[RandIndex]);
+    hand->addCardToHand(cardsInDeck[randIndex]);
     // Remove selected card from deck
-    removeCardFromDeck(RandIndex);
+    removeCardFromDeck(randIndex);
 }
 
 int Deck::nbCards(){
@@ -176,6 +187,14 @@ Hand& Hand::operator=(const Hand& hand){
 
 std::ostream& operator<<(std::ostream& stream, const Hand& hand){
     return stream << "Hand details: there are cards in the hand"<< endl;
+}
+
+//-------------- Destructors --------------//
+Hand::~Hand(){
+    for (int i = 0; i < getHandCards().size(); i++) {
+        delete[] getHandCards()[i];        
+    }
+    cout<< "Deleted card elements in hand"<<endl;
 }
 
 //-------------- Getters --------------//
