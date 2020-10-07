@@ -9,15 +9,21 @@ Continent::Continent(string continentName){
     this->continentName = continentName;
 }
 
+Continent::Continent(const Continent& original){ //copy constructor
+    continentName = original.continentName;
+}
+
 //-------------- Getters --------------//
 string Continent::getContinentName(){
     return continentName;
 }
 
+
 //-------------- Setters --------------//
 void Continent::setContinentName(string newContinentName){
     continentName = newContinentName;
 }
+
 
 //--------------------------------Territory class----------------------------//
 //-------------- Constructors --------------//
@@ -34,6 +40,13 @@ Territory::Territory(string territoryName, Continent* continent){
     this->territoryName = territoryName;
     this->continent = continent;
 }
+
+Territory::Territory(const Territory& original){//copy constructor
+    territoryName = original.territoryName;
+    ownerId = original.ownerId;
+    numberOfArmies = original.numberOfArmies;
+    continent = original.continent;//we want shallow copy
+} 
 
 //-------------- Getters --------------//
 string Territory::getTerritoryName(){
@@ -76,6 +89,10 @@ Node::Node(Territory data){
     this->data = temp;
 }
 
+Node::Node(const Node& original){ //Copy construcotr
+    data = new Territory(*data);
+    E = original.E;
+}
 // Graph::Node::Node(Territory dataA, Territory dataB){
 
 // }
@@ -105,7 +122,13 @@ void Node::addEdge(string edge){
 
 
 //-------------------------- Graph class --------------------------//
+//-------------- Constructor --------------//
+Graph::Graph(){}
 
+Graph::Graph(const Graph& original){//Copy constructor
+    V = original.V;
+    listOfContinents = original.listOfContinents;
+}
 //-------------- Getters --------------//
 vector<Node*> Graph::getV(){
     return this->V;
