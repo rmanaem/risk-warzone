@@ -116,5 +116,6 @@ class Graph{
         bool areConnected(Node* A, Node* B);
         void validate();
         Continent* createContinent(string continentName);
+        bool DFS(vector<Node*> graphNodes, Node* startNode);
 
 };
