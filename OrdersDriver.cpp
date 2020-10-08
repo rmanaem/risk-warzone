@@ -6,61 +6,60 @@ using namespace std;
 
 int main()
 {
-    //Create an instance of each type of order
+    //Create instances of each type of order
     Deploy deployOrder;
     Advance advanceOrder;
     Bomb bombOrder;
     Blockade blockadeOrder;
     Airlift airliftOrder;
     Negotiate negotiateOrder;
+    Deploy deployOrder2 = deployOrder;
 
     //Test the validate() and execute() methods for each type of order
-    cout << "Deploy is a valid Order: " << deployOrder.validate() << endl;
+    cout << "\nDeploy is a valid Order: " << deployOrder.validate() << endl;
     deployOrder.execute();
 
-    cout << "Advance is a valid Order: " << advanceOrder.validate() << endl;
+    cout << "\nAdvance is a valid Order: " << advanceOrder.validate() << endl;
     advanceOrder.execute();
 
-    cout << "Bomb is a valid Order: " << bombOrder.validate() << endl;
+    cout << "\nBomb is a valid Order: " << bombOrder.validate() << endl;
     bombOrder.execute();
 
-    cout << "Blockade is a valid Order: " << blockadeOrder.validate() << endl;
+    cout << "\nBlockade is a valid Order: " << blockadeOrder.validate() << endl;
     blockadeOrder.execute();
 
-    cout << "Airlift is a valid Order: " << airliftOrder.validate() << endl;
+    cout << "\nAirlift is a valid Order: " << airliftOrder.validate() << endl;
     airliftOrder.execute();
 
-    cout << "Negotiate is a valid Order: " << negotiateOrder.validate() << endl;
+    cout << "\nNegotiate is a valid Order: " << negotiateOrder.validate() << endl;
     negotiateOrder.execute();
 
-
+    //Create an OrdersList
     OrdersList list1;
+    
+    //Fill the OrdersList
     list1.addOrder(&deployOrder);
     list1.addOrder(&advanceOrder);
     list1.addOrder(&bombOrder);
     list1.addOrder(&blockadeOrder);
     list1.addOrder(&airliftOrder);
     list1.addOrder(&negotiateOrder);
+    list1.addOrder(&deployOrder2);
 
-    cout << list1 << endl;
+    //Show the contents of the OrdersList
+    cout << "\nContents of list: \n" << list1 << endl;
 
-
+    //Delete an order at index 1
     list1.deleteOrder(1);
-    list1.print();
 
-    // cout << deployOrder.getOrderType() << endl;
-    // cout << deployOrder << endl;
-    
-    // cout << list1 << endl;
-    // list1.move(2,4);
-    
-    
+    //Show the order at index 1 is delete
+    cout << "Contents of list after deletion: \n" << list1 << endl;
 
-    // string s = typeid(&deployOrder).name();
-    // cout << s << endl;
+    //move order at index 1 to index 4
+    list1.move(1,4);
 
-    // cout << list1 << endl;
-    // list1.print();
-   
+    //Show the order was moved
+    cout << "Contents of list after move: \n" << list1 << endl;
+
     return 0;
 }

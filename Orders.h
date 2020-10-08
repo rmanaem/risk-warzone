@@ -4,6 +4,7 @@
 using namespace std; 
 
 
+//----------------------------Order Class----------------------------//
 class Order {
 
     private:
@@ -13,34 +14,42 @@ class Order {
     public:
         //-------------- Constructors --------------//
         Order();
+        Order(const Order &order);
 
         //-------------- Destructors --------------//
-        ~Order() {}
+        ~Order(){}
 
         //-------------- Getters --------------//
-        string getOrderType();
+        //Make this getter 'virtual' to allow for polymorphism
+        virtual string getOrderType();
 
+        //-------------- Other Methods --------------//
+        //Stream insertion operator
+        friend ostream& operator <<(ostream &strm, Order &order);
+
+        //Assignment operator
+        Order& operator =(const Order &order);
 };
 
 
+//----------------------------OrdersList Class----------------------------//
 class OrdersList {
 
     private:
         //A list of pointers to Order objects
         vector<Order*> oList;
-        int listSize;
        
-
     public:
         //-------------- Constructors --------------//
         OrdersList();
+        OrdersList(vector<Order*> ordList);
+        OrdersList(const OrdersList &ordList);
 
         //-------------- Destructors --------------//
-        ~OrdersList() {}
+        ~OrdersList(){}
 
         //-------------- Getters --------------//
         vector<Order*> getOrdersList();
-        int getSize();
 
         //-------------- Other Methods --------------//
         //Method to add an Order to the players list of orders
@@ -52,177 +61,218 @@ class OrdersList {
         //Method to move an order from one index to another
         void move(int currentOrderPos, int newOrderPos);
 
+        //Stream insertion operator
+        friend ostream& operator <<(ostream &strm, OrdersList &ordList);
 
-        void print();
-
-        friend ostream& operator <<(ostream &strm, OrdersList &ordersList);
+        //Assignment operator
+        OrdersList& operator =(const OrdersList &ordList);
 
 };
 
 
-    class Deploy : public Order {
+//----------------------------Deploy Class----------------------------//
+class Deploy : public Order {
 
-        private:
-            //String describing the order type
-            string orderType;
+    private:
+        //String describing the order type
+        string orderType;
 
-        public:
-            //-------------- Constructors --------------//
-            Deploy();
+    public:
+        //-------------- Constructors --------------//
+        Deploy();
+        Deploy(const Deploy &dep);
 
-            //-------------- Destructors --------------//
-            ~Deploy() {}
+        //-------------- Destructors --------------//
+        ~Deploy(){}
 
-            //-------------- Getters --------------//
-            string getOrderType();
+        //-------------- Getters --------------//
+        string getOrderType();
 
-            //-------------- Other Methods --------------//
-            //method to validate if an order is valid
-            bool validate();
+        //-------------- Other Methods --------------//
+        //Method to validate if an order is valid
+        bool validate();
 
-            //method to execute the order
-            void execute();
+        //Method to execute the order
+        void execute();
 
-            friend ostream& operator <<(ostream &strm, Deploy &dep1);
-            
-    };
+        //Stream insertion operator 
+        friend ostream& operator <<(ostream &strm, Deploy &dep);
 
-    class Advance : public Order {
+        //Assignment operator
+        Deploy& operator =(const Deploy &dep);
+        
+};
 
-        private:    
-            //String describing the order type
-            string orderType;
 
-        public:
-            //-------------- Constructors --------------//
-            Advance();
+//----------------------------Advance Class----------------------------//
+class Advance : public Order {
 
-            //-------------- Destructors --------------//
-            ~Advance() {}
+    private:    
+        //String describing the order type
+        string orderType;
 
-            //-------------- Getters --------------//
-            string getOrderType();
+    public:
+        //-------------- Constructors --------------//
+        Advance();
+        Advance(const Advance &adv);
 
-            //-------------- Other Methods --------------//
-             //method to validate if an order is valid
-            bool validate();
+        //-------------- Destructors --------------//
+        ~Advance(){}
 
-            //method to execute the order
-            void execute();
+        //-------------- Getters --------------//
+        string getOrderType();
 
-            friend ostream& operator <<(ostream &strm, Advance &adv1);
-           
-    };
+        //-------------- Other Methods --------------//
+        //Method to validate if an order is valid
+        bool validate();
 
-    class Bomb : public Order {
+        //Method to execute the order
+        void execute();
 
-        private:
-            //String describing the order type
-            string orderType;
+        //Stream insertion operator
+        friend ostream& operator <<(ostream &strm, Advance &adv);
 
-        public: 
-            //-------------- Constructors --------------//
-            Bomb();
+        //Assignment operator
+        Advance& operator =(const Advance &adv);
+};
 
-            //-------------- Destructors --------------//
-            ~Bomb() {}
 
-            //-------------- Getters --------------//
-            string getOrderType();
+//----------------------------Bomb Class----------------------------//
+class Bomb : public Order {
 
-            //-------------- Other methods --------------//
-            //method to validate if an order is valid
-            bool validate();
+    private:
+        //String describing the order type
+        string orderType;
 
-            //method to execute the order
-            void execute();
+    public: 
+        //-------------- Constructors --------------//
+        Bomb();
+        Bomb(const Bomb &bomb);
 
-            friend ostream& operator <<(ostream &strm, Bomb &bomb1);
-            
-    };
+        //-------------- Destructors --------------//
+        ~Bomb(){}
 
-    class Blockade : public Order {
+        //-------------- Getters --------------//
+        string getOrderType();
 
-        private:
-            //String describing the order type
-            string orderType;
+        //-------------- Other methods --------------//
+        //Method to validate if an order is valid
+        bool validate();
 
-        public: 
-            //-------------- Constructors --------------//
-            Blockade();
+        //Method to execute the order
+        void execute();
 
-            //-------------- Destructors --------------//
-            ~Blockade() {}
+        //Stream insertion operator
+        friend ostream& operator <<(ostream &strm, Bomb &bomb);
 
-            //-------------- Getters --------------//
-            string getOrderType();
+        //Assignment operator
+        Bomb& operator =(const Bomb &bomb);
+        
+};
 
-            //-------------- Other Methods --------------//
-            //method to validate if an order is valid
-            bool validate();
 
-            //method to execute the order
-            void execute();
+//----------------------------Blockade Class----------------------------//
+class Blockade : public Order {
 
-            friend ostream& operator <<(ostream &strm, Blockade &block1);
-            
-    };
+    private:
+        //String describing the order type
+        string orderType;
 
-    class Airlift : public Order {
+    public: 
+        //-------------- Constructors --------------//
+        Blockade();
+        Blockade(const Blockade &block);
 
-        private: 
-            //String describing the order type
-            string orderType;
+        //-------------- Destructors --------------//
+        ~Blockade(){}
 
-        public:
-            //-------------- Constructors --------------//
-            Airlift();
+        //-------------- Getters --------------//
+        string getOrderType();
 
-            //-------------- Destructors --------------//
-            ~Airlift() {}
+        //-------------- Other Methods --------------//
+        //Method to validate if an order is valid
+        bool validate();
 
-            //-------------- Getters --------------//
-            string getOrderType();
+        //Method to execute the order
+        void execute();
 
-            //-------------- Other Methods --------------//
-            //method to validate if an order is valid
-            bool validate();
+        //Stream insertion operator
+        friend ostream& operator <<(ostream &strm, Blockade &block);
 
-            //method to execute the order
-            void execute();
+        //Assignment operator
+        Blockade& operator =(const Blockade &block);
+        
+};
 
-            friend ostream& operator <<(ostream &strm, Airlift &air1);
-            
-    };
 
-    class Negotiate : public Order {
+//----------------------------Airlift Class----------------------------//
+class Airlift : public Order {
 
-        private:
-            //String describing the order type
-            string orderType;
+    private: 
+        //String describing the order type
+        string orderType;
 
-        public: 
-            //-------------- Constructors --------------//
-            Negotiate();
+    public:
+        //-------------- Constructors --------------//
+        Airlift();
+        Airlift(const Airlift &air);
 
-            //-------------- Destructors --------------//
-            ~Negotiate() {}
+        //-------------- Destructors --------------//
+        ~Airlift(){}
 
-            //-------------- Getters --------------//
-            string getOrderType();
+        //-------------- Getters --------------//
+        string getOrderType();
 
-            //-------------- Other Methods --------------//
-            //method to validate if an order is valid
-            bool validate();
+        //-------------- Other Methods --------------//
+        //Method to validate if an order is valid
+        bool validate();
 
-            //method to execute the order
-            void execute();
+        //Method to execute the order
+        void execute();
 
-            friend ostream& operator <<(ostream &strm, Negotiate &neg1);
-            
-    };
-    
-    
+        //Stream insertion operator
+        friend ostream& operator <<(ostream &strm, Airlift &air);
+
+        //Assignment operator
+        Airlift& operator =(const Airlift &air);
+        
+};
+
+
+//----------------------------Negotiate Class----------------------------//
+class Negotiate : public Order {
+
+    private:
+        //String describing the order type
+        string orderType;
+
+    public: 
+        //-------------- Constructors --------------//
+        Negotiate();
+        Negotiate(const Negotiate &neg);
+
+        //-------------- Destructors --------------//
+        ~Negotiate(){}
+
+        //-------------- Getters --------------//
+        string getOrderType();
+
+        //-------------- Other Methods --------------//
+        //Method to validate if an order is valid
+        bool validate();
+
+        //Method to execute the order
+        void execute();
+
+        //Stream insertion operator
+        friend ostream& operator <<(ostream &strm, Negotiate &neg);
+
+        //Assignment operator
+        Negotiate& operator =(const Negotiate &neg);
+
+};
+
+
 
 
 

@@ -4,10 +4,16 @@
 #include <type_traits>
 using namespace std; 
 
+
 //----------------------------Order Class----------------------------//
 //-------------- Constructors --------------//
 Order::Order(){
     this->orderType = "ORDER";
+}
+
+Order::Order(const Order &order){
+    this->orderType = order.orderType;
+    cout << "Copy constructor for Order class has been called" << endl;
 }
 
 //-------------- Getters --------------//
@@ -15,15 +21,31 @@ string Order::getOrderType(){
     return orderType;
 }
 
-ostream& operator <<(ostream &strm, Order &ord1){
-    return strm << "Order Type: " << ord1.getOrderType();
+//-------------- Other Methods --------------//
+//Stream insertion operator overload
+ostream& operator <<(ostream &strm, Order &ord){
+    return strm << "Order Type: " << ord.getOrderType();
 }
+
+//Assignment operator overload
+Order& Order::operator =(const Order &order){
+    this->orderType = order.orderType;
+    return *this;
+}
+
 
 
 //----------------------------OrdersList Class----------------------------//
 //-------------- Constructors --------------//
-OrdersList::OrdersList(){
-    this->listSize = oList.size();
+OrdersList::OrdersList(){}
+
+OrdersList::OrdersList(vector<Order*> ordList){
+    this->oList = ordList;
+}
+
+OrdersList::OrdersList(const OrdersList &ordList){
+    this->oList = ordList.oList;
+    cout << "Copy constructor for OrdersList class has been called" << endl;
 }
 
 //-------------- Getters --------------//
@@ -31,40 +53,16 @@ vector<Order*> OrdersList::getOrdersList(){
     return oList;
 }
 
-int OrdersList::getSize(){
-    return listSize;
-}
-
 //-------------- Other Methods --------------//
 //Add an order to the players list of orders
 void OrdersList::addOrder(Order* order){
-    // string x = typeid(order).name();
-    // if(x.find("Deploy") != string::npos){
-    //     oList.push_back(new Deploy());
-    // }
-    // else if (x.find("Advance") != string::npos){
-    //     oList.push_back(new Advance());
-    // }
-    // else if (x.find("Bomb") != string::npos){
-    //     oList.push_back(new Bomb());
-    // }
-    // else if (x.find("Blockade") != string::npos){
-    //     oList.push_back(new Blockade());
-    // }
-    // else if (x.find("Airlift") != string::npos){
-    //     oList.push_back(new Airlift());
-    // }
-    // else if (x.find("Negotiate") != string::npos){
-    //     oList.push_back(new Negotiate());
-    // }
+
     oList.push_back(order);
-    listSize++;
 }
 
 //Delete an order  from the players list of orders
 void OrdersList::deleteOrder(int index){
     oList.erase(oList.begin() + index);
-    listSize--;
 }
 
 //Move an object in the players list of orders from one index to another
@@ -74,22 +72,20 @@ void OrdersList::move(int currentOrderPos, int newOrderPos){
     oList.insert(oList.begin() + newOrderPos, temp);
 }
 
-void OrdersList::print(){
-    for(int i = 0; i < oList.size(); i++){
-        cout << "Order " + to_string(i) + " is : " + (getOrdersList()[i]->getOrderType())<< endl;
-    }
-}
-
-ostream& operator <<(ostream &strm, OrdersList &oList){
-    for(int i = 0; i < oList.getSize(); i++){
+//Stream insertion operator overload
+ostream& operator <<(ostream &strm, OrdersList &ordList){
+    for(int i = 0; i < ordList.oList.size(); i++){
         
-        
-        //strm << "Order Type: " << dynamic_cast<Order*>oList.getOrdersList()[i] << endl;
+        strm << "Order at index " + to_string(i) << " is of type : " << ordList.getOrdersList()[i]->getOrderType() << endl;
     }
     return strm;
-
 }
 
+//Assignment operator overload
+OrdersList& OrdersList::operator =(const OrdersList &ordList){
+    this->oList = ordList.oList;
+    return *this;
+}
 
 
 
@@ -99,13 +95,18 @@ Deploy::Deploy(){
     this->orderType = "DEPLOY";
 }
 
+Deploy::Deploy(const Deploy &dep) : Order(dep) {
+    this->orderType = dep.orderType;
+    cout << "Copy constructor for Deploy class has been called" << endl;
+}
+
 //-------------- Getters --------------//
 string Deploy::getOrderType(){
     return orderType;
 }
 
 //-------------- Other Methods --------------//
-//validate if Deploy is a valid order
+//Validate if Deploy is a valid order
 bool Deploy::validate(){
 
     //Check if Deploy is a subclass of Order
@@ -116,7 +117,7 @@ bool Deploy::validate(){
         return false;
 }
 
-//execute the order
+//Execute the order
 void Deploy::execute(){
      if(validate() == true){
          cout << "Deploy executed" << endl;
@@ -127,9 +128,18 @@ void Deploy::execute(){
     
 }
 
-ostream& operator <<(ostream &strm, Deploy &dep1){
-    return strm << "Order Type: " << dep1.getOrderType();
+//Stream insertion operator overload
+ostream& operator <<(ostream &strm, Deploy &dep){
+    return strm << "Order Type: " << dep.getOrderType();
 }
+
+//Assignment operator overload
+Deploy& Deploy::operator =(const Deploy &dep){
+    Order::operator =(dep);
+    this->orderType = dep.orderType;
+    return *this;
+}
+
 
 
 //----------------------------Advance Class----------------------------//
@@ -138,13 +148,18 @@ Advance::Advance(){
     this->orderType = "ADVANCE";
 }
 
+Advance::Advance(const Advance &adv) : Order(adv) {
+    this->orderType = adv.orderType;
+    cout << "Copy constructor for Advance class has been called" << endl;
+}
+
 //-------------- Getters --------------//
 string Advance::getOrderType(){
     return orderType;
 }
 
 //-------------- Other Methods --------------//
-//validate if Advance is a valid order
+//Validate if Advance is a valid order
 bool Advance::validate(){
 
     //Check if Advance is a subclass of Order
@@ -155,7 +170,7 @@ bool Advance::validate(){
         return false;
 }
 
-//execute the order
+//Execute the order
 void Advance::execute(){
      if(validate() == true){
          cout << "Advance executed" << endl;
@@ -166,9 +181,18 @@ void Advance::execute(){
     
 }
 
-ostream& operator <<(ostream &strm, Advance &adv1){
-    return strm << "Order Type: " << adv1.getOrderType();
+//Stream insertion operator overload
+ostream& operator <<(ostream &strm, Advance &adv){
+    return strm << "Order Type: " << adv.getOrderType();
 }
+
+//Assignment operator overload
+Advance& Advance::operator =(const Advance &adv){
+    Order::operator =(adv);
+    this->orderType = adv.orderType;
+    return *this;
+}
+
 
 
 //----------------------------Bomb Class----------------------------//
@@ -177,13 +201,18 @@ Bomb::Bomb(){
     this->orderType = "BOMB";
 }
 
+Bomb::Bomb(const Bomb &bomb) : Order(bomb) {
+    this->orderType = bomb.orderType;
+    cout << "Copy constructor for Bomb class has been called" << endl;
+}
+
 //-------------- Getters --------------//
 string Bomb::getOrderType(){
     return orderType;
 }
 
 //-------------- Other Methods --------------//
-//validate if Bomb is a valid order
+//Validate if Bomb is a valid order
 bool Bomb::validate(){
 
     //Check if Bomb is a subclass of Order
@@ -194,7 +223,7 @@ bool Bomb::validate(){
         return false;
 }
 
-//execute the order
+//Execute the order
 void Bomb::execute(){
      if(validate() == true){
          cout << "Bomb executed" << endl;
@@ -205,9 +234,18 @@ void Bomb::execute(){
     
 }
 
-ostream& operator <<(ostream &strm, Bomb &bomb1){
-    return strm << "Order Type: " << bomb1.getOrderType();
+//Stream insertion operator overload
+ostream& operator <<(ostream &strm, Bomb &bomb){
+    return strm << "Order Type: " << bomb.getOrderType();
 }
+
+//Assignment operator overload
+Bomb& Bomb::operator =(const Bomb &bomb){
+    Order::operator =(bomb);
+    this->orderType = bomb.orderType;
+    return *this;
+}
+
 
 
 //----------------------------Blockade Class----------------------------//
@@ -216,13 +254,18 @@ Blockade::Blockade(){
     this->orderType = "BLOCKADE";
 }
 
+Blockade::Blockade(const Blockade &block) : Order(block) {
+    this->orderType = block.orderType;
+    cout << "Copy constructor for Blockade class has been called" << endl;
+}
+
 //-------------- Getters --------------//
 string Blockade::getOrderType(){
     return orderType;
 }
 
 //-------------- Other Methods --------------//
-//validate if Blockade is a valid order
+//Validate if Blockade is a valid order
 bool Blockade::validate(){
 
     //Check if Blockade is a subclass of Order
@@ -233,7 +276,7 @@ bool Blockade::validate(){
         return false;
 }
 
-//execute the order
+//Execute the order
 void Blockade::execute(){
      if(validate() == true){
          cout << "Blockade executed" << endl;
@@ -244,9 +287,18 @@ void Blockade::execute(){
     
 }
 
-ostream& operator <<(ostream &strm, Blockade &block1){
-    return strm << "Order Type: " << block1.getOrderType();
+//Stream insertion operator overload
+ostream& operator <<(ostream &strm, Blockade &block){
+    return strm << "Order Type: " << block.getOrderType();
 }
+
+//Assignment operator overload
+Blockade& Blockade::operator =(const Blockade &block){
+    Order::operator =(block);
+    this->orderType = block.orderType;
+    return *this;
+}
+
 
 
 //----------------------------Airlift Class----------------------------//
@@ -255,13 +307,18 @@ Airlift::Airlift(){
     this->orderType = "AIRLIFT";
 }
 
+Airlift::Airlift(const Airlift &air) : Order(air) {
+    this->orderType = air.orderType;
+    cout << "Copy constructor for Airlift class has been called" << endl;
+}
+
 //-------------- Getters --------------//
 string Airlift::getOrderType(){
     return orderType;
 }
 
 //-------------- Other Methods --------------//
-//validate if Airlift is a valid order
+//Validate if Airlift is a valid order
 bool Airlift::validate(){
 
     //Check if Airlift is a subclass of Order
@@ -272,7 +329,7 @@ bool Airlift::validate(){
         return false;
 }
 
-//execute the order
+//Execute the order
 void Airlift::execute(){
      if(validate() == true){
          cout << "Airlift executed" << endl;
@@ -283,9 +340,18 @@ void Airlift::execute(){
      
 }
 
-ostream& operator <<(ostream &strm, Airlift &air1){
-    return strm << "Order Type: " << air1.getOrderType();
+//Stream insertion operator overload
+ostream& operator <<(ostream &strm, Airlift &air){
+    return strm << "Order Type: " << air.getOrderType();
 }
+
+//Assignment operator overload
+Airlift& Airlift::operator =(const Airlift &air){
+    Order::operator =(air);
+    this->orderType = air.orderType;
+    return *this;
+}
+
 
 
 //----------------------------Negotiate Class----------------------------//
@@ -294,13 +360,18 @@ Negotiate::Negotiate(){
     this->orderType = "NEGOTIATE";
 }
 
+Negotiate::Negotiate(const Negotiate &neg) : Order(neg) {
+    this->orderType = neg.orderType;
+    cout << "Copy constructor for Negotiate class has been called" << endl;
+}
+
 //-------------- Getters --------------//
 string Negotiate::getOrderType(){
     return orderType;
 }
 
 //-------------- Other Methods --------------//
-//validate if Negotiate is a valid order
+//Validate if Negotiate is a valid order
 bool Negotiate::validate(){
 
     //Check if Negotiate is a subclass of Order
@@ -311,7 +382,7 @@ bool Negotiate::validate(){
         return false;
 }
 
-//execute the order
+//Execute the order
 void Negotiate::execute(){
      if(validate() == true){
          cout << "Negotiate executed" << endl;
@@ -322,10 +393,16 @@ void Negotiate::execute(){
     
 }
 
-ostream& operator <<(ostream &strm, Negotiate &neg1){
-    return strm << "Order Type: " << neg1.getOrderType();
+//Stream insertion operator overload
+ostream& operator <<(ostream &strm, Negotiate &neg){
+    return strm << "Order Type: " << neg.getOrderType();
 }
 
-
+//Assignment operator overload
+Negotiate& Negotiate::operator =(const Negotiate &neg){
+    Order::operator =(neg);
+    this->orderType = neg.orderType;
+    return *this;
+}
 
 
