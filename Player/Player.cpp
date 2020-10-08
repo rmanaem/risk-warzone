@@ -15,8 +15,12 @@ Player::Player(int playedId, std::vector<Territory *> territoriesOwned, Hand *ca
 {
 }
 
-Player::Player(const Player &e) : playerId(e.playerId), territoriesOwned(e.territoriesOwned), cards(new Hand(*(e.cards))), orders(new OrdersList(*(e.orders)))
+Player::Player(const Player &e) : playerId(e.playerId), cards(new Hand(*(e.cards))), orders(new OrdersList(*(e.orders)))
 {
+    for (int i = 0; i < e.territoriesOwned.size(); i++)
+    {
+        this->territoriesOwned.push_back(new Territory(*(e.territoriesOwned[i])));
+    };
 }
 
 //-------------- Destructor --------------//
@@ -39,9 +43,13 @@ Player::~Player()
 Player &Player::operator=(const Player &e)
 {
     this->playerId = e.playerId;
-    this->territoriesOwned = std::vector<Territory *>(e.territoriesOwned);
+    for (int i = 0; i < e.territoriesOwned.size(); i++)
+    {
+        this->territoriesOwned.push_back(new Territory(*(e.territoriesOwned[i])));
+    };
     this->cards = new Hand(*(e.cards));
     this->orders = new OrdersList(*(e.orders));
+    return *this;
 }
 
 //-------------- Stream insertion operator --------------//
