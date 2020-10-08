@@ -2,29 +2,6 @@
 using namespace std;
 #include <vector>
 
-// class Node{
-//     private:
-//         Territory data; //A territory object
-//         vector<string> E; //A vector of edges
-//     public:
-//         //-------------- Constructors --------------//
-//         Node();
-//         Node(Territory data);//Create a node without connecting it
-//         Node(Territory dataA, Territory dataB);//Creates and connects two nodes
-
-//         //-------------- Getters --------------//
-//         Territory getData();
-//         vector<string> getE(); //Get edges
-
-//         //-------------- Setters --------------//
-//         void setData(Territory data);
-
-//         //-------------- Other functions --------------//
-//         static void connectTwoNodes(Node A, Node B); //Invokes addEdge function for A and B nodes
-    
-//     private:
-//         void addEdge(string edge);//Add edge to E vector
-// };
 #pragma once
 
 class Continent{
@@ -35,6 +12,10 @@ class Continent{
     //-------------- Constructors --------------//
         Continent(string continentName);
         Continent(const Continent& original); //copy constructor
+
+    //-------------- Overloads --------------//
+    Continent& operator=(const Continent& rhs); //overload assignment operator
+    friend ostream& operator<<(ostream& output, Continent& obj); //overload stream insertion operator
 
     //-------------- Getters --------------//
         string getContinentName();
@@ -56,6 +37,10 @@ class Territory {
         Territory(string territoryName, Continent* continent,int ownerId, int numberOfArmies);
         Territory(string territoryName, Continent* continent);
         Territory(const Territory& original); //copy constructor
+
+    //-------------- Overloads --------------//
+        Territory& operator=(const Territory& rhs); //overload assignment operator
+        friend ostream& operator<<(ostream& output, Territory& obj); //overload stream insertion operator
 
     //-------------- Getters --------------//
         string getTerritoryName();
@@ -80,7 +65,10 @@ class Node{
         Node();
         Node(Territory data);//Create a node without connecting it
         Node(const Node& original); //Copy constructor
-    // Node(Territory dataA, Territory dataB);//Creates and connects two nodes
+
+    //-------------- Overloads --------------//
+        Node& operator=(const Node& rhs); //overload copy constructor
+        friend ostream& operator<<(ostream& output, Node& obj); //overload stream insertion operator
 
     //-------------- Getters --------------//
         Territory getData();
@@ -103,9 +91,13 @@ class Graph{
         Graph();
         Graph(const Graph& original);//Copy constructor
 
+        //-------------- Overloads --------------//
+        Graph& operator=(const Graph& rhs); //overload assignment operator
+        friend ostream& operator<<(ostream& output, Graph& obj); //overload stream insertion operator
+
         //-------------- Getters --------------//
-        vector<Node*> getV(); //get vertices
-        vector<Continent*> getListOfContinents();
+        vector<Node*> getV() const; //get vertices
+        vector<Continent*> getListOfContinents() const;
 
         //-------------- Inserting and connecting territories --------------//
         void insertATerritory(Territory data);
@@ -119,3 +111,9 @@ class Graph{
         bool DFS(vector<Node*> graphNodes, Node* startNode);
 
 };
+
+//overload stream insertion operator
+ostream& operator<<(ostream& output, Continent& obj);
+ostream& operator<<(ostream& output, Territory& obj);
+ostream& operator<<(ostream& output, Node& obj);
+ostream& operator<<(ostream& output, Graph& obj);

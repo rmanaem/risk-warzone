@@ -4,6 +4,26 @@ using namespace std;
 #include "./Map.h"
 #include <stack>
 
+//Overload insertion stream operator
+ostream& operator<<(ostream& output, Continent& obj){
+    output << obj.getContinentName() <<endl;
+    return output;
+}
+ostream& operator<<(ostream& output, Node& obj){
+    output <<"The Node contains the following territory: "<<obj.getData().getTerritoryName() 
+            <<" and has "<<obj.getE().size()<<" edges."<<endl;
+    return output;
+}
+ostream& operator<<(ostream& output, Territory& obj){
+    output << obj.getTerritoryName() <<" which belongs to" <<obj.getContinent()->getContinentName() <<endl;
+    return output;
+}
+ostream& operator<<(ostream& output, Graph& obj){
+    output <<"The graph has "<< obj.getV().size()<< " vertices and contains "
+            <<obj.getListOfContinents().size()<<" continents."<<endl;
+    return output;
+}
+
 //--------------------------------Continent class----------------------------//
 //-------------- Constructors --------------//
 Continent::Continent(string continentName){
@@ -12,6 +32,15 @@ Continent::Continent(string continentName){
 
 Continent::Continent(const Continent& original){ //copy constructor
     continentName = original.continentName;
+}
+
+//-------------- Overloads --------------//
+//overload assignment operator
+Continent& Continent::operator=(const Continent& rhs){
+    if(this != &rhs){
+        continentName = rhs.continentName;
+    }
+    return *this;
 }
 
 //-------------- Getters --------------//
@@ -48,6 +77,18 @@ Territory::Territory(const Territory& original){//copy constructor
     numberOfArmies = original.numberOfArmies;
     continent = original.continent;//we want shallow copy
 } 
+
+//-------------- Overloads --------------//
+//overload assignment operator
+Territory& Territory::operator=(const Territory& rhs){
+        if(this != &rhs){
+            territoryName = rhs.territoryName;
+            ownerId = rhs.ownerId;
+            numberOfArmies = rhs.numberOfArmies;
+            continent = rhs.continent; //shallow is wanted
+    }
+    return *this;
+}
 
 //-------------- Getters --------------//
 string Territory::getTerritoryName(){
@@ -91,12 +132,20 @@ Node::Node(Territory data){
 }
 
 Node::Node(const Node& original){ //Copy construcotr
-    data = new Territory(*data);
+    data = new Territory(*original.data);
     E = original.E;
 }
-// Graph::Node::Node(Territory dataA, Territory dataB){
 
-// }
+//-------------- Overloads --------------//
+//overload assignment operator
+Node& Node::operator=(const Node& rhs){
+    if(this != &rhs){
+        *data = *rhs.data;
+        E = rhs.E;
+    }
+
+    return *this;
+}
 
 //-------------- Getters --------------//
 Territory Node::getData(){
@@ -127,15 +176,40 @@ void Node::addEdge(string edge){
 Graph::Graph(){}
 
 Graph::Graph(const Graph& original){//Copy constructor
-    V = original.V;
-    listOfContinents = original.listOfContinents;
+    //create a deep copy of V
+    for(auto i=0;i<original.getV().size();i++){
+        V.push_back(new Node(*original.V[i]));
+    }
+    
+    //create a deep copy of listOfContinents
+    for(int i=0;i<original.getListOfContinents().size();i++){
+        listOfContinents.push_back(new Continent(*original.listOfContinents[i]));
+    }
 }
+
+//-------------- Overloads --------------//
+//overload assignment operator
+Graph& Graph::operator=(const Graph& rhs){
+    if(this != &rhs){
+        //create a deep copy of V
+        for(auto i=0;i<rhs.getV().size();i++){
+            V.push_back(new Node(*rhs.V[i]));
+        }
+        
+        //create a deep copy of listOfContinents
+        for(int i=0;i<rhs.getListOfContinents().size();i++){
+            listOfContinents.push_back(new Continent(*rhs.listOfContinents[i]));
+        }
+    }
+    return *this;
+}
+
 //-------------- Getters --------------//
-vector<Node*> Graph::getV(){
+vector<Node*> Graph::getV() const{
     return this->V;
 }
 
-vector<Continent*> Graph::getListOfContinents(){
+vector<Continent*> Graph::getListOfContinents() const {
     return this->listOfContinents;
 }
 
@@ -295,12 +369,22 @@ Germany --> France --> Spain
 /*
 int main(){
     Graph myGraph;
-        Continent* southAmerica = myGraph.createContinent("South America");
+    
+    //cout<<myGraph;
+    Continent* southAmerica = myGraph.createContinent("South America");
+    //cout<<*southAmerica;
     Territory venzuela("Venzuela", southAmerica);
+    //cout<<venzuela;
     Territory brazil("Brazil", southAmerica);
     Territory argentina("Argentina", southAmerica);
     Territory peru("Peru", southAmerica);    
     myGraph.insertATerritory(peru);
+    myGraph.insertATerritory(argentina); 
+    Graph copy(myGraph);   
+    cout<<*myGraph.getV()[0];
+    myGraph.connectTwoNodes(myGraph.getV()[0],myGraph.getV()[1]);
+    //test assignment operator
+    Continent x = *southAmerica;
     //myGraph.insertATerritory(argentina);
     //myGraph.connectTwoNodes(myGraph.getV().end()[-1],myGraph.getV().end()[-2]);
     //myGraph.insertAndConnectTwoTerritories(venzuela, brazil);// venzuela --> brazil
@@ -318,7 +402,7 @@ int main(){
     Territory ran1("ran1", xy); 
     Territory ran2("ran2", xy); 
 
-    myGraph.insertATerritory(spain); //Unconnected node
+     //Unconnected node
 
     myGraph.insertATerritory(ran1); //Unconnected node
     myGraph.insertATerritory(ran2); //Unconnected node
@@ -328,7 +412,7 @@ int main(){
     Territory germany("Germany", europe);
     myGraph.insertAndConnectTwoTerritories(france, germany);// Germany --> France
     myGraph.connectTwoNodes(myGraph.getV()[0], myGraph.getV()[3]); //Spain --> France
-    //myGraph.connectTwoNodes(myGraph.getV()[0], myGraph.getV()[1]); //Spain --> Itali
+    myGraph.connectTwoNodes(myGraph.getV()[0], myGraph.getV()[1]); //Spain --> Itali
 
     // for(Node* territory : myGraph.getV()){
     //     cout<<territory->getData().getTerritoryName() + " belongs to " + territory->getData().getContinent()->getContinentName()
