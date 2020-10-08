@@ -107,7 +107,6 @@ Deck::Deck(const Deck& initDeck){
     for (int i = 0; i < initDeck.cardsInDeck.size(); i++) {
         this->cardsInDeck.push_back(new Card(*(initDeck.cardsInDeck[i])));
     }
-    this->setDeckCards(this->cardsInDeck);
 }
 
 Deck& Deck::operator=(const Deck& deck){
@@ -186,7 +185,6 @@ Hand::Hand(const Hand &initHand) {
     for (int i = 0; i < initHand.cardsInHand.size(); i++) {
         this->cardsInHand.push_back(new Card(*(initHand.cardsInHand[i])));
     }
-    this->setHandCards(this->cardsInHand);
 }
 
 Hand& Hand::operator=(const Hand& hand){
