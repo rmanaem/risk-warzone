@@ -19,9 +19,9 @@ Card::Card(CardType cardType){
     this->cardType = cardType;
 }
 
-Card::Card(const Card& card){
+Card::Card(const Card& initCard){
     cout << "Inside copy constructor of Card" << endl;
-    this->cardType = card.cardType;
+    this->cardType = initCard.cardType;
 }
 
 Card& Card::operator=(const Card& card){
@@ -102,9 +102,13 @@ Deck::Deck(vector<Card*> cardsInDeck){
     this->cardsInDeck = cardsInDeck;
 }
 
-Deck::Deck(const Deck& deck){
+Deck::Deck(const Deck& initDeck){
     cout << "Inside copy constructor of Deck" << endl;
-    this->cardsInDeck = deck.cardsInDeck;
+    vector<Card*> cards;
+    for (int i = 0; i < initDeck.cardsInDeck.size(); i++) {
+        cards.push_back(new Card(*(initDeck.cardsInDeck[i])));
+    }
+    this->setDeckCards(cards);
 }
 
 Deck& Deck::operator=(const Deck& deck){
@@ -174,9 +178,13 @@ Hand::Hand(vector<Card*> cardsInHand){
     this->cardsInHand = cardsInHand;    
 }
 
-Hand::Hand(const Hand& hand){
+Hand::Hand(const Hand &initHand) {
     cout << "Inside copy constructor of Hand" << endl;
-    this->cardsInHand = hand.cardsInHand;
+    vector<Card*> cards;
+    for (int i = 0; i < initHand.cardsInHand.size(); i++) {
+        cards.push_back(new Card(*(initHand.cardsInHand[i])));
+    }
+    this->setHandCards(cards);
 }
 
 Hand& Hand::operator=(const Hand& hand){
