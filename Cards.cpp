@@ -123,9 +123,9 @@ std::ostream& operator<<(std::ostream& stream, const Deck& deck){
 
 //-------------- Destructors --------------//
 Deck::~Deck(){
-    for (int i = 0; i < cardsInDeck.size(); i++) {
-        delete[] cardsInDeck[i];  
-        cardsInDeck[i] = nullptr;      
+    for (int i = 0; i < cardsInDeck.size(); i++) { 
+        cardsInDeck[i] = nullptr;  
+        delete[] cardsInDeck[i];     
     }
     cout<< "Deleted card elements in deck"<<endl;
 }
