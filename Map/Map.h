@@ -66,6 +66,9 @@ class Node{
         Node(Territory data);//Create a node without connecting it
         Node(const Node& original); //Copy constructor
 
+    //-------------- Deconstructor --------------//
+        ~Node();
+
     //-------------- Overloads --------------//
         Node& operator=(const Node& rhs); //overload copy constructor
         friend ostream& operator<<(ostream& output, Node& obj); //overload stream insertion operator
@@ -91,6 +94,9 @@ class Graph{
         Graph();
         Graph(const Graph& original);//Copy constructor
 
+        //-------------- Deconstructor --------------//
+        ~Graph();
+        
         //-------------- Overloads --------------//
         Graph& operator=(const Graph& rhs); //overload assignment operator
         friend ostream& operator<<(ostream& output, Graph& obj); //overload stream insertion operator

@@ -136,6 +136,11 @@ Node::Node(const Node& original){ //Copy construcotr
     E = original.E;
 }
 
+//-------------- Deconstructor --------------//
+Node::~Node(){
+    delete[] data;
+}
+
 //-------------- Overloads --------------//
 //overload assignment operator
 Node& Node::operator=(const Node& rhs){
@@ -187,6 +192,16 @@ Graph::Graph(const Graph& original){//Copy constructor
     }
 }
 
+//-------------- Deconstructor --------------//
+Graph::~Graph(){
+    for(Node* node : V){
+        delete[] node;
+    }
+
+    for(Continent* continent : listOfContinents){
+        delete[] continent;
+    }
+}
 //-------------- Overloads --------------//
 //overload assignment operator
 Graph& Graph::operator=(const Graph& rhs){
