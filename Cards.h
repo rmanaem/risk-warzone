@@ -20,7 +20,7 @@ class Card {
         Card(CardType cardType);
         Card(int intCardType);
 
-        Card(const Card& card);
+        Card(const Card& initCard);
         Card& operator =(const Card& card);
   
         friend std::ostream& operator <<(std::ostream& stream, const Card& card);
@@ -56,7 +56,7 @@ class Deck {
         Deck();
         Deck(vector<Card*> cardsInDeck);
 
-        Deck(const Deck& deck);
+        Deck(const Deck& initDeck);
         Deck& operator =(const Deck& deck);
   
         friend std::ostream& operator <<(std::ostream& stream, const Deck& deck);
@@ -93,7 +93,7 @@ class Deck {
         Hand();
         Hand(vector<Card*> cardsInHand);
 
-        Hand(const Hand& hand);
+        Hand(const Hand& initHand);
         Hand& operator =(const Hand& hand);
   
         friend std::ostream& operator <<(std::ostream& stream, const Hand& hand);
