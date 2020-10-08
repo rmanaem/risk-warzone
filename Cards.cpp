@@ -104,16 +104,18 @@ Deck::Deck(vector<Card*> cardsInDeck){
 
 Deck::Deck(const Deck& initDeck){
     cout << "Inside copy constructor of Deck" << endl;
-    vector<Card*> cards;
     for (int i = 0; i < initDeck.cardsInDeck.size(); i++) {
-        cards.push_back(new Card(*(initDeck.cardsInDeck[i])));
+        this->cardsInDeck.push_back(new Card(*(initDeck.cardsInDeck[i])));
     }
-    this->setDeckCards(cards);
+    this->setDeckCards(this->cardsInDeck);
 }
 
 Deck& Deck::operator=(const Deck& deck){
     cout << "Inside operator = of Deck" << endl;
-    this->cardsInDeck = deck.cardsInDeck;
+    for (int i = 0; i < deck.cardsInDeck.size(); i++) {
+        this->cardsInDeck.push_back(new Card(*(deck.cardsInDeck[i])));
+    }
+    this->setDeckCards(this->cardsInDeck);
     return *this;
 }
 
@@ -123,9 +125,9 @@ std::ostream& operator<<(std::ostream& stream, const Deck& deck){
 
 //-------------- Destructors --------------//
 Deck::~Deck(){
-    for (int i = 0; i < cardsInDeck.size(); i++) {   
-        delete[] cardsInDeck[i];
-        cardsInDeck[i] = nullptr;     
+    for (int i = 0; i < cardsInDeck.size(); i++) {
+        delete[] cardsInDeck[i];  
+        cardsInDeck[i] = nullptr;      
     }
     cout<< "Deleted card elements in deck"<<endl;
 }
@@ -181,16 +183,18 @@ Hand::Hand(vector<Card*> cardsInHand){
 
 Hand::Hand(const Hand &initHand) {
     cout << "Inside copy constructor of Hand" << endl;
-    vector<Card*> cards;
     for (int i = 0; i < initHand.cardsInHand.size(); i++) {
-        cards.push_back(new Card(*(initHand.cardsInHand[i])));
+        this->cardsInHand.push_back(new Card(*(initHand.cardsInHand[i])));
     }
-    this->setHandCards(cards);
+    this->setHandCards(this->cardsInHand);
 }
 
 Hand& Hand::operator=(const Hand& hand){
     cout << "Inside operator = of Hand" << endl;
-    this->cardsInHand = hand.cardsInHand;
+    for (int i = 0; i < hand.cardsInHand.size(); i++) {
+        this->cardsInHand.push_back(new Card(*(hand.cardsInHand[i])));
+    }
+    this->setHandCards(this->cardsInHand);
     return *this;
 }
 
@@ -200,9 +204,9 @@ std::ostream& operator<<(std::ostream& stream, const Hand& hand){
 
 //-------------- Destructors --------------//
 Hand::~Hand(){
-    for (int i = 0; i < cardsInHand.size(); i++) {     
-        delete[] cardsInHand[i];   
-        cardsInHand[i] = nullptr; 
+    for (int i = 0; i < cardsInHand.size(); i++) {
+        delete[] cardsInHand[i];    
+        cardsInHand[i] = nullptr;           
     }
     cout<< "Deleted card elements in hand"<<endl;
 }
