@@ -200,9 +200,9 @@ std::ostream& operator<<(std::ostream& stream, const Hand& hand){
 
 //-------------- Destructors --------------//
 Hand::~Hand(){
-    for (int i = 0; i < cardsInHand.size(); i++) {
-        delete[] cardsInHand[i];    
-        cardsInHand[i] = nullptr;           
+    for (int i = 0; i < cardsInHand.size(); i++) {  
+        cardsInHand[i] = nullptr;     
+        delete[] cardsInHand[i];  
     }
     cout<< "Deleted card elements in hand"<<endl;
 }
