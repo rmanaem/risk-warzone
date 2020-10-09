@@ -13,44 +13,24 @@ int main()
 {
 
     Graph validGraph;
-    //create the South America continent
+    // Creating the South America and Africa continents
     Continent *southAmerica = validGraph.createContinent("South America");
-    Territory venzuela("Venzuela", southAmerica);
-    Territory brazil("Brazil", southAmerica);
-    Territory argentina("Argentina", southAmerica);
-    Territory peru("Peru", southAmerica);
-    validGraph.insertAndConnectTwoTerritories(venzuela, brazil);                   // venzuela --> brazil
-    validGraph.insertAndConnectTwoTerritories(argentina, peru);                    // argentina --> peru
-    validGraph.connectTwoNodes(validGraph.getV()[0], validGraph.getV().end()[-1]); //venzuela --> peru
-    validGraph.connectTwoNodes(validGraph.getV().end()[-1], validGraph.getV()[1]); //peru --> brazil
-
-    //create the Africa continent
     Continent *africa = validGraph.createContinent("Africa");
-    Territory northAfrica("North Africa", africa);
-    Territory egypt("Egypt", africa);
-    Territory eastAfrica("East Africa", africa);
-    Territory congo("Congo", africa);
-    Territory southAfrica("South Africa", africa);
-    Territory mdagascar("Mdagascar", africa);
-    validGraph.insertAndConnectTwoTerritories(northAfrica, egypt);                 //north africa --> egypt
-    validGraph.insertAndConnectTwoTerritories(eastAfrica, congo);                  //east africa --> congo
-    validGraph.insertAndConnectTwoTerritories(southAfrica, mdagascar);             //south africa --> mdagascar
-    validGraph.connectTwoNodes(validGraph.getV()[4], validGraph.getV()[7]);        //north africa --> congo
-    validGraph.connectTwoNodes(validGraph.getV()[7], validGraph.getV().end()[-2]); //congo --> south africa
-    validGraph.connectTwoNodes(validGraph.getV()[5], validGraph.getV()[6]);        //egypt --> east africa
 
-    //connect between south america and africa
-    validGraph.connectTwoNodes(validGraph.getV()[1], validGraph.getV()[4]); //brazil --> north africa
-
+    // Creating the Territory pointers
     Territory *ven = new Territory("Venzuela", southAmerica);
     Territory *braz = new Territory("Brazil", southAmerica);
     Territory *argen = new Territory("Argentina", southAmerica);
+    Territory *peru = new Territory("Peru", southAmerica);
 
-    vector<Territory *> tv1;
-    tv1.push_back(ven);
-    tv1.push_back(braz);
-    tv1.push_back(argen);
+    // Creating a vector of Territory pointers for the player
+    vector<Territory *> territoryv1;
+    territoryv1.push_back(ven);
+    territoryv1.push_back(braz);
+    territoryv1.push_back(argen);
+    territoryv1.push_back(peru);
 
+    // Creating order pointers and a vector of order pointers for the player
     Deploy *d1 = new Deploy;
     Advance *a1 = new Advance;
     Bomb *b1 = new Bomb;
@@ -60,6 +40,7 @@ int main()
     vo.push_back(b1);
     OrdersList *olp = new OrdersList(vo);
 
+    // Creating card pointers and a vector of card pointers for the player
     Card *card1 = new Card(0);
     Card *card2 = new Card(1);
     Card *card3 = new Card(3);
@@ -67,15 +48,15 @@ int main()
     vcards1.push_back(card1);
     vcards1.push_back(card2);
     vcards1.push_back(card3);
-    Hand hand1;
-    hand1.setHandCards(vcards1);
-    Hand *handp = new Hand();
+    Hand *handp = new Hand(vcards1);
 
-    Player p1;
-    p1.setPlayerId(1);
-    p1.setTerritoriesOwned(tv1);
-    p1.setOrders(olp);
-    p1.setCards(handp);
+    // Initializing a Player using the initalized data memebers
+    Player p1(4, territoryv1, handp, olp);
     cout << p1;
+    Blockade *blockade1 = new Blockade;
+    p1.issueOrder(blockade1);
+    p1.toDefend();
+    p1.toAttack(validGraph);
+
     return 0;
 }

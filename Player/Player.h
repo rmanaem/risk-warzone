@@ -49,7 +49,7 @@ public:
     //-------------- Other Player methods --------------//
 
     std::vector<Territory *> toDefend();
-    std::vector<Territory *> toAttack();
+    std::vector<Territory *> toAttack(Graph graph);
     void issueOrder(Order *issuedOrder);
 
     //-------------- Stream insertion Operator --------------//

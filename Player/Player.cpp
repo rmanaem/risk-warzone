@@ -11,7 +11,7 @@ Player::Player() : playerId(0)
 {
 }
 
-Player::Player(int playedId, std::vector<Territory *> territoriesOwned, Hand *cards, OrdersList *orders) : playerId(playerId), territoriesOwned(territoriesOwned), cards(cards), orders(orders)
+Player::Player(int playerId, std::vector<Territory *> territoriesOwned, Hand *cards, OrdersList *orders) : playerId(playerId), territoriesOwned(territoriesOwned), cards(cards), orders(orders)
 {
 }
 
@@ -56,15 +56,15 @@ Player &Player::operator=(const Player &e)
 
 std::ostream &operator<<(std::ostream &out, const Player &e)
 {
-    out << "Player" << e.playerId;
-    out << "Owns this collection of territories: {";
+    out << "Player" << e.playerId << ":\n";
+    out << "Player4 has this collection of territories: {";
     for (Territory *t : e.territoriesOwned)
     {
         out << *(t);
     }
-    out << " }";
-    out << "Has this hand of cards: " << *(e.cards);
-    out << "Has this list of orders: " << *(e.orders);
+    out << "}\n";
+    out << "Player4 has this hand of cards: " << *(e.cards);
+    out << "Player4 has this list of orders: " << *(e.orders);
     return out;
 }
 
@@ -116,20 +116,45 @@ void Player::setOrders(OrdersList *orders)
 
 std::vector<Territory *> Player::toDefend()
 {
+    cout << "Player" << playerId << " has this collection of territories to defend: {";
+    for (Territory *t : territoriesOwned)
+    {
+        cout << *(t);
+    };
+    cout << "}\n";
     return territoriesOwned;
 }
 
 //-------------- toAttack method --------------//
 
-std::vector<Territory *> Player::toAttack()
+std::vector<Territory *> Player::toAttack(Graph graph)
 {
-    Territory *tTA1;
-    Territory *tTA2;
-    Territory *tTA3;
+    Continent *africa = graph.createContinent("Africa");
+    Territory northAfrica("North Africa", africa);
+    Territory egypt("Egypt", africa);
+    Territory eastAfrica("East Africa", africa);
+    Territory congo("Congo", africa);
+    Territory southAfrica("South Africa", africa);
+    Territory mdagascar("Mdagascar", africa);
+    Territory *tTA1 = new Territory("North Africa", africa);
+    Territory *tTA2 = new Territory("Egypt", africa);
+    Territory *tTA3 = new Territory("East Africa", africa);
+    Territory *tTA4 = new Territory("Congo", africa);
+    Territory *tTA5 = new Territory("South Africa", africa);
+    Territory *tTA6 = new Territory("Madagascar", africa);
     std::vector<Territory *> territoriesToAttack;
     territoriesToAttack.push_back(tTA1);
     territoriesToAttack.push_back(tTA2);
     territoriesToAttack.push_back(tTA3);
+    territoriesToAttack.push_back(tTA4);
+    territoriesToAttack.push_back(tTA5);
+    territoriesToAttack.push_back(tTA6);
+    cout << "Player" << playerId << " has has this collection of territories to attack: {";
+    for (Territory *t : territoriesToAttack)
+    {
+        cout << *(t);
+    };
+    cout << "}\n";
     return territoriesToAttack;
 }
 
@@ -137,5 +162,7 @@ std::vector<Territory *> Player::toAttack()
 
 void Player::issueOrder(Order *issuedOrder)
 {
-    (*orders).addOrder(issuedOrder);
+    cout << "Adding order " << *(issuedOrder) << " to the players order list ";
+    (*(orders)).addOrder(issuedOrder);
+    cout << *(orders);
 }
