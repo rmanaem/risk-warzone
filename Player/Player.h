@@ -30,7 +30,7 @@ public:
 
     //-------------- Assignment operator --------------//
 
-    Player &Player::operator=(const Player &e);
+    Player &operator=(const Player &e);
 
     //-------------- Accessor methods --------------//
 

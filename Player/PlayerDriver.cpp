@@ -60,20 +60,22 @@ int main()
     vo.push_back(b1);
     OrdersList *olp = new OrdersList(vo);
 
-    Card *c1 = new Card(1);
-    Card *c2 = new Card(2);
-    Card *c3 = new Card(3);
-    vector<Card *> vc1;
-    vc1.push_back(c1);
-    vc1.push_back(c2);
-    vc1.push_back(c3);
-    Hand h1(vc1);
-    Hand *hp1 = new Hand(h1);
+    Card *card1 = new Card(0);
+    Card *card2 = new Card(1);
+    Card *card3 = new Card(3);
+    vector<Card *> vcards1;
+    vcards1.push_back(card1);
+    vcards1.push_back(card2);
+    vcards1.push_back(card3);
+    Hand hand1;
+    hand1.setHandCards(vcards1);
+    Hand *handp = new Hand();
 
     Player p1;
-    p1.setPlayerId(0);
+    p1.setPlayerId(1);
     p1.setTerritoriesOwned(tv1);
-    p1.setCards(hp1);
     p1.setOrders(olp);
+    p1.setCards(handp);
+    cout << p1;
     return 0;
 }

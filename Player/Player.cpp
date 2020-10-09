@@ -130,6 +130,7 @@ std::vector<Territory *> Player::toAttack()
     territoriesToAttack.push_back(tTA1);
     territoriesToAttack.push_back(tTA2);
     territoriesToAttack.push_back(tTA3);
+    return territoriesToAttack;
 }
 
 //-------------- issueOrder method --------------//
