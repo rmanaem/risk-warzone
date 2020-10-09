@@ -127,8 +127,7 @@ void Territory::setContinent(Continent* newContinent){
 Node::Node(){}
 
 Node::Node(Territory data){
-    Territory* temp = new Territory(data.getTerritoryName(), data.getContinent());
-    this->data = temp;
+    this->data = new Territory(data.getTerritoryName(), data.getContinent());
 }
 
 Node::Node(const Node& original){ //Copy construcotr
@@ -138,7 +137,7 @@ Node::Node(const Node& original){ //Copy construcotr
 
 //-------------- Deconstructor --------------//
 Node::~Node(){
-    delete[] data;
+    delete data;
 }
 
 //-------------- Overloads --------------//
@@ -195,11 +194,11 @@ Graph::Graph(const Graph& original){//Copy constructor
 //-------------- Deconstructor --------------//
 Graph::~Graph(){
     for(Node* node : V){
-        delete[] node;
+        delete node;
     }
-
+    
     for(Continent* continent : listOfContinents){
-        delete[] continent;
+        delete continent;
     }
 }
 //-------------- Overloads --------------//
