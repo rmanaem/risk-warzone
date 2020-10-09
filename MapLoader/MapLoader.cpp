@@ -8,7 +8,7 @@
 #include <algorithm>
 #include <iterator>
 #include "./MapLoader.h"
-#include "/Users/talalbazerbachi/Documents/Risk Game/Risk Game/Map/Map.h"
+#include "/Users/talalbazerbachi/Documents/Risk Game/Risk Game/Map/Map.hpp"
 using namespace std;
 
 
@@ -62,9 +62,10 @@ void MapLoader::parseMap(std::string map) {
                 string continentId= theLine[1];
                 string continentColor=theLine[2];
                 if(continentName.length()>0){
-                    Continent* newConteinent = new Continent(continentName);
+                    Continent* newConteinent= myGraph.createContinent(continentName);
                     continentts.push_back(newConteinent);
                 }
+                cout << "*****here****" <<endl;
                 theLine.clear();
             }
         }
@@ -82,7 +83,9 @@ void MapLoader::parseMap(std::string map) {
                 string contryId= countryLine[0];
                 string countryName= countryLine[1];
                 string continentId= countryLine[2];
+                
                 Territory newTerritory(countryName, continentts[stoi(continentId)-1]);
+                cout << "territory" << newTerritory.getTerritoryName() << " " << *continentts[stoi(continentId)-1] << "******" <<endl;
                 teritories.push_back(newTerritory);
                 teritoryIdZ.push_back(contryId);
                 myGraph.insertATerritory(newTerritory);
@@ -147,12 +150,13 @@ void MapLoader::parseMap(std::string map) {
     
     // Close the file
     MyReadFile.close();
-    for(Node* territory : myGraph.getV()){
-        cout<<territory->getData().getTerritoryName() + " belongs to " + territory->getData().getContinent()->getContinentName()
-        + " has the following edges:"<<endl;
-        cout<<"The continent address is "<<territory->getData().getContinent()<<endl;
-        for(string edge : territory->getE()){
-            cout<<edge<<endl;
-        }
-    }
+    cout << "++++end+++" <<endl;
+//    for(Node* territory : myGraph.getV()){
+//        cout<<territory->getData().getTerritoryName() + " belongs to " + territory->getData().getContinent()->getContinentName()
+//        + " has the following edges:"<<endl;
+//        cout<<"The continent address is "<<territory->getData().getContinent()<<endl;
+//        for(string edge : territory->getE()){
+//            cout<<edge<<endl;
+//        }
+//    }
 }
