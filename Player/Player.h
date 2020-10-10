@@ -50,7 +50,7 @@ public:
 
     std::vector<Territory *> toDefend();
     std::vector<Territory *> toAttack(Graph graph);
-    void issueOrder(Order *issuedOrder);
+    void issueOrder();
 
     //-------------- Stream insertion Operator --------------//
 

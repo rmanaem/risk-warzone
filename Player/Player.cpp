@@ -160,9 +160,60 @@ std::vector<Territory *> Player::toAttack(Graph graph)
 
 //-------------- issueOrder method --------------//
 
-void Player::issueOrder(Order *issuedOrder)
+void Player::issueOrder()
 {
-    cout << "Adding order " << *(issuedOrder) << " to the players order list ";
-    (*(orders)).addOrder(issuedOrder);
+    cout << "Player" << playerId << "What order would you like to issue? \n1. Deploy \n2. Advance \n3. Bomb \n4. Blocakde \n5. Airlift \n6. Negotiate";
+    int num;
+    cin >> num;
+    switch (num)
+    {
+    case 1:
+    {
+        Deploy *deployp = new Deploy;
+        (*(orders)).addOrder(deployp);
+        cout << "Adding order " << *(deployp) << " to the players order list ";
+        break;
+    }
+    case 2:
+    {
+        Advance *advancep = new Advance;
+        (*(orders)).addOrder(advancep);
+        cout << "Adding order " << *(advancep) << " to the players order list ";
+        break;
+    }
+    case 3:
+    {
+        Bomb *bombp = new Bomb;
+        (*(orders)).addOrder(bombp);
+        cout << "Adding order " << *(bombp) << " to the players order list ";
+        break;
+    }
+    case 4:
+    {
+        Blockade *blockadep = new Blockade;
+        (*(orders)).addOrder(blockadep);
+        cout << "Adding order " << *(blockadep) << " to the players order list ";
+        break;
+    }
+    case 5:
+    {
+        Airlift *airliftp = new Airlift;
+        (*(orders)).addOrder(airliftp);
+        cout << "Adding order " << *(airliftp) << " to the players order list ";
+        break;
+    }
+    case 6:
+    {
+        Negotiate *negotiatep = new Negotiate;
+        (*(orders)).addOrder(negotiatep);
+        cout << "Adding order " << *(negotiatep) << " to the players order list ";
+        break;
+    }
+    default:
+    {
+        throw logic_error("Invalid input");
+        break;
+    }
+    }
     cout << *(orders);
 }

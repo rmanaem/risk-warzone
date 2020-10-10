@@ -53,8 +53,7 @@ int main()
     // Initializing a Player using the initalized data memebers
     Player p1(4, territoryv1, handp, olp);
     cout << p1;
-    Blockade *blockade1 = new Blockade;
-    p1.issueOrder(blockade1);
+    p1.issueOrder();
     p1.toDefend();
     p1.toAttack(validGraph);
 
