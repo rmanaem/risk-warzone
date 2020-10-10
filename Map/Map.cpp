@@ -229,8 +229,7 @@ vector<Continent*> Graph::getListOfContinents() const {
 
 //-------------- Inserting and connecting territories --------------//
 void Graph::insertATerritory(Territory data){
-    Node* newTerritory = new Node(data);
-    V.push_back(newTerritory);
+    V.push_back(new Node(data));
 }
 
 void Graph::insertAndConnectTwoTerritories(Territory dataA, Territory dataB){
