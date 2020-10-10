@@ -28,11 +28,11 @@ std::vector<string> stripLine(std::string line){
     return result;
 }
 
-void MapLoader::parseMap(std::string map) {
+Map MapLoader::parseMap(std::string map) {
     cout << "-----" <<map<<"----"<<endl;
     string line;
     string title = "";
-    Graph myGraph;
+    Map myGraph;
     vector <Continent*> continentts;
     vector<Territory> teritories;
     list<string> teritoryIdZ;
@@ -159,4 +159,5 @@ void MapLoader::parseMap(std::string map) {
 //            cout<<edge<<endl;
 //        }
 //    }
+return myGraph;
 }

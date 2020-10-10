@@ -4,6 +4,7 @@
 #include <list>
 #include <iterator>
 #include "MapLoader.h"
+#include "/Users/talalbazerbachi/Documents/Risk Game/Risk Game/Map/Map.h"
 using namespace std;
 void showlist(list <string> g)
 {
@@ -39,5 +40,5 @@ int main() {
     MapLoader loader;
     list <string> :: iterator it;
     for(it = toBeParsed.begin(); it != toBeParsed.end(); ++it)
-    loader.parseMap((*it));
+    Map theMap=loader.parseMap((*it));
 }
