@@ -66,7 +66,7 @@ class Node{
         Node(Territory data);//Create a node without connecting it
         Node(const Node& original); //Copy constructor
 
-    //-------------- Deconstructor --------------//
+    //-------------- Destructor --------------//
         ~Node();
 
     //-------------- Overloads --------------//
@@ -94,7 +94,7 @@ class Graph{
         Graph();
         Graph(const Graph& original);//Copy constructor
 
-        //-------------- Deconstructor --------------//
+        //-------------- Destructor --------------//
         ~Graph();
         
         //-------------- Overloads --------------//

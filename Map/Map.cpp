@@ -135,7 +135,7 @@ Node::Node(const Node& original){ //Copy construcotr
     E = original.E;
 }
 
-//-------------- Deconstructor --------------//
+//-------------- Destructor --------------//
 Node::~Node(){
     delete data;
 }
@@ -191,7 +191,7 @@ Graph::Graph(const Graph& original){//Copy constructor
     }
 }
 
-//-------------- Deconstructor --------------//
+//-------------- Destructor --------------//
 Graph::~Graph(){
     for(Node* node : V){
         delete node;
