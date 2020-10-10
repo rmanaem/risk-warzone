@@ -18,8 +18,8 @@ ostream& operator<<(ostream& output, Territory& obj){
     output << obj.getTerritoryName() <<" which belongs to" <<obj.getContinent()->getContinentName() <<endl;
     return output;
 }
-ostream& operator<<(ostream& output, Graph& obj){
-    output <<"The graph has "<< obj.getV().size()<< " vertices and contains "
+ostream& operator<<(ostream& output, Map& obj){
+    output <<"The Map has "<< obj.getV().size()<< " vertices and contains "
             <<obj.getListOfContinents().size()<<" continents."<<endl;
     return output;
 }
@@ -176,11 +176,11 @@ void Node::addEdge(string edge){
 }
 
 
-//-------------------------- Graph class --------------------------//
+//-------------------------- Map class --------------------------//
 //-------------- Constructor --------------//
-Graph::Graph(){}
+Map::Map(){}
 
-Graph::Graph(const Graph& original){//Copy constructor
+Map::Map(const Map& original){//Copy constructor
     //create a deep copy of V
     for(auto i=0;i<original.getV().size();i++){
         V.push_back(new Node(*original.V[i]));
@@ -193,7 +193,7 @@ Graph::Graph(const Graph& original){//Copy constructor
 }
 
 //-------------- Destructor --------------//
-Graph::~Graph(){
+Map::~Map(){
     for(Node* node : V){
         delete node;
         node = nullptr;
@@ -205,7 +205,7 @@ Graph::~Graph(){
 }
 //-------------- Overloads --------------//
 //overload assignment operator
-Graph& Graph::operator=(const Graph& rhs){
+Map& Map::operator=(const Map& rhs){
     if(this != &rhs){
         //create a deep copy of V
         for(auto i=0;i<rhs.getV().size();i++){
@@ -221,20 +221,20 @@ Graph& Graph::operator=(const Graph& rhs){
 }
 
 //-------------- Getters --------------//
-vector<Node*> Graph::getV() const{
+vector<Node*> Map::getV() const{
     return this->V;
 }
 
-vector<Continent*> Graph::getListOfContinents() const {
+vector<Continent*> Map::getListOfContinents() const {
     return this->listOfContinents;
 }
 
 //-------------- Inserting and connecting territories --------------//
-void Graph::insertATerritory(Territory data){
+void Map::insertATerritory(Territory data){
     V.push_back(new Node(data));
 }
 
-void Graph::insertAndConnectTwoTerritories(Territory dataA, Territory dataB){
+void Map::insertAndConnectTwoTerritories(Territory dataA, Territory dataB){
     //1- create two territories without connections
     insertATerritory(dataA);
     insertATerritory(dataB);
@@ -242,7 +242,7 @@ void Graph::insertAndConnectTwoTerritories(Territory dataA, Territory dataB){
     connectTwoNodes(getV().end()[-1],getV().end()[-2]);
 }
 
-void Graph::connectTwoNodes(Node* A, Node* B){
+void Map::connectTwoNodes(Node* A, Node* B){
     string edgeName = A->getData().getTerritoryName() + B->getData().getTerritoryName(); //AB
     //cout<<edgeName<<endl;
     A->addEdge(edgeName);
@@ -250,7 +250,7 @@ void Graph::connectTwoNodes(Node* A, Node* B){
 }
 
 //-------------- Others --------------//
-bool Graph::areConnected(Node* A, Node* B){
+bool Map::areConnected(Node* A, Node* B){
     string possibleEdge1 = A->getData().getTerritoryName() + B->getData().getTerritoryName(); //AB
     string possibleEdge2 = B->getData().getTerritoryName() + A->getData().getTerritoryName(); //BA
     
@@ -262,13 +262,13 @@ bool Graph::areConnected(Node* A, Node* B){
     return false;
 }
 
-void Graph::validate(){
+void Map::validate(){
     bool isErrorThrown = false;
 
-    //check that the map is a connected graph
+    //check that the map is a connected Map
     try{
         if(!DFS(getV(),getV()[0]))
-            throw std::logic_error("Unconnected Graph");
+            throw std::logic_error("Unconnected Map");
 
     }catch(const std::exception& e){
         isErrorThrown = true;
@@ -286,7 +286,7 @@ void Graph::validate(){
             }
             
             if(!DFS(tempListOfTerritoriesInContinent,tempListOfTerritoriesInContinent[0]))
-                throw std::logic_error("Unconnected Sub-Graph: "+ continent->getContinentName() + " continent is not connected.");
+                throw std::logic_error("Unconnected Sub-Map: "+ continent->getContinentName() + " continent is not connected.");
 
             tempListOfTerritoriesInContinent.clear();//earse the vector contentss
         }
@@ -318,7 +318,7 @@ void Graph::validate(){
         exit(EXIT_FAILURE);
 }
 
-Continent* Graph::createContinent(string name){
+Continent* Map::createContinent(string name){
     Continent* ptr = new Continent(name);
     listOfContinents.push_back(ptr);
     return ptr;
@@ -326,17 +326,17 @@ Continent* Graph::createContinent(string name){
 
 stack<Node*> adjList;
 vector<Node*> visited;
-bool Graph::DFS(vector<Node*> graphNodes, Node* startNode){
+bool Map::DFS(vector<Node*> MapNodes, Node* startNode){
     bool isConnected = false;
     //remove visited element
-    for(int i=0; i<graphNodes.size();i++){
-        if(startNode == graphNodes[i])
-            graphNodes.erase(graphNodes.begin() + i);
+    for(int i=0; i<MapNodes.size();i++){
+        if(startNode == MapNodes[i])
+            MapNodes.erase(MapNodes.begin() + i);
     }
 
     visited.push_back(startNode);
     for(string str : visited.end()[-1]->getE()){
-        for(Node* node : graphNodes){
+        for(Node* node : MapNodes){
             for(string edge : node->getE()){
                 if(str == edge){
                     adjList.push(node);
@@ -348,11 +348,11 @@ bool Graph::DFS(vector<Node*> graphNodes, Node* startNode){
     if(!adjList.empty()){//base condition is for adjList to be empty
         Node* temp = adjList.top();
         adjList.pop();
-        return DFS(graphNodes, temp);
+        return DFS(MapNodes, temp);
     }else{
         visited.clear();//to be ready for the next use
-        if(graphNodes.size() == 0)
-            isConnected = true; //connected graph
+        if(MapNodes.size() == 0)
+            isConnected = true; //connected Map
     }
     return isConnected;
 }

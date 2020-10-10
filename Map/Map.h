@@ -85,21 +85,21 @@ class Node{
         void addEdge(string edge);//Add edge to E vector
 };
 
-class Graph{
+class Map{
     private:
         vector<Node*> V; //A vector of vertices (i.e. Territories)
         vector<Continent*> listOfContinents;
     public:
         //-------------- Constructor --------------//
-        Graph();
-        Graph(const Graph& original);//Copy constructor
+        Map();
+        Map(const Map& original);//Copy constructor
 
         //-------------- Destructor --------------//
-        ~Graph();
+        ~Map();
         
         //-------------- Overloads --------------//
-        Graph& operator=(const Graph& rhs); //overload assignment operator
-        friend ostream& operator<<(ostream& output, Graph& obj); //overload stream insertion operator
+        Map& operator=(const Map& rhs); //overload assignment operator
+        friend ostream& operator<<(ostream& output, Map& obj); //overload stream insertion operator
 
         //-------------- Getters --------------//
         vector<Node*> getV() const; //get vertices
@@ -114,7 +114,7 @@ class Graph{
         bool areConnected(Node* A, Node* B);
         void validate();
         Continent* createContinent(string continentName);
-        bool DFS(vector<Node*> graphNodes, Node* startNode);
+        bool DFS(vector<Node*> mapNodes, Node* startNode);
 
 };
 
@@ -122,4 +122,4 @@ class Graph{
 ostream& operator<<(ostream& output, Continent& obj);
 ostream& operator<<(ostream& output, Territory& obj);
 ostream& operator<<(ostream& output, Node& obj);
-ostream& operator<<(ostream& output, Graph& obj);
+ostream& operator<<(ostream& output, Map& obj);

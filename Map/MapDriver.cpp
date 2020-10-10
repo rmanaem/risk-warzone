@@ -10,39 +10,39 @@ If you want to see the third illustation being validated, the second one should 
 To do so, just remove the comment from line 88 (i.e. establish the brazil --> north africa connection).
 */
 int main(){
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ valid Graph illustration ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-    Graph validGraph;
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ valid Map illustration ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+    Map* validMap = new Map();
 
     //create the South America continent
-    Continent* southAmerica = validGraph.createContinent("South America");
-    Territory venzuela("Venzuela", southAmerica);
-    Territory brazil("Brazil", southAmerica);
-    Territory argentina("Argentina", southAmerica);
-    Territory peru("Peru", southAmerica);
-    validGraph.insertAndConnectTwoTerritories(venzuela, brazil);// venzuela --> brazil
-    validGraph.insertAndConnectTwoTerritories(argentina, peru);// argentina --> peru
-    validGraph.connectTwoNodes(validGraph.getV()[0],validGraph.getV().end()[-1]);//venzuela --> peru
-    validGraph.connectTwoNodes(validGraph.getV().end()[-1],validGraph.getV()[1]);//peru --> brazil
+    Continent* southAmerica = validMap->createContinent("South America");
+    Territory* venzuela = new Territory("Venzuela", southAmerica);
+    Territory* brazil = new Territory("Brazil", southAmerica);
+    Territory* argentina = new Territory("Argentina", southAmerica);
+    Territory* peru = new Territory("Peru", southAmerica);
+    validMap->insertAndConnectTwoTerritories(*venzuela, *brazil);// venzuela --> brazil
+    validMap->insertAndConnectTwoTerritories(*argentina, *peru);// argentina --> peru
+    validMap->connectTwoNodes(validMap->getV()[0],validMap->getV().end()[-1]);//venzuela --> peru
+    validMap->connectTwoNodes(validMap->getV().end()[-1],validMap->getV()[1]);//peru --> brazil
 
     //create the Africa continent
-    Continent* africa = validGraph.createContinent("Africa");
-    Territory northAfrica("North Africa", africa);
-    Territory egypt("Egypt", africa);
-    Territory eastAfrica("East Africa", africa);
-    Territory congo("Congo", africa);
-    Territory southAfrica("South Africa", africa);
-    Territory mdagascar("Mdagascar", africa);
-    validGraph.insertAndConnectTwoTerritories(northAfrica, egypt);//north africa --> egypt
-    validGraph.insertAndConnectTwoTerritories(eastAfrica, congo);//east africa --> congo
-    validGraph.insertAndConnectTwoTerritories(southAfrica, mdagascar);//south africa --> mdagascar
-    validGraph.connectTwoNodes(validGraph.getV()[4], validGraph.getV()[7]);//north africa --> congo
-    validGraph.connectTwoNodes(validGraph.getV()[7], validGraph.getV().end()[-2]);//congo --> south africa
-    validGraph.connectTwoNodes(validGraph.getV()[5], validGraph.getV()[6]);//egypt --> east africa
+    Continent* africa = validMap->createContinent("Africa");
+    Territory* northAfrica = new Territory("North Africa", africa);
+    Territory* egypt = new Territory("Egypt", africa);
+    Territory* eastAfrica = new Territory("East Africa", africa);
+    Territory* congo = new Territory("Congo", africa);
+    Territory* southAfrica = new Territory("South Africa", africa);
+    Territory* mdagascar = new Territory("Mdagascar", africa);
+    validMap->insertAndConnectTwoTerritories(*northAfrica, *egypt);//north africa --> egypt
+    validMap->insertAndConnectTwoTerritories(*eastAfrica, *congo);//east africa --> congo
+    validMap->insertAndConnectTwoTerritories(*southAfrica, *mdagascar);//south africa --> mdagascar
+    validMap->connectTwoNodes(validMap->getV()[4], validMap->getV()[7]);//north africa --> congo
+    validMap->connectTwoNodes(validMap->getV()[7], validMap->getV().end()[-2]);//congo --> south africa
+    validMap->connectTwoNodes(validMap->getV()[5], validMap->getV()[6]);//egypt --> east africa
 
     //connect between south america and africa
-    validGraph.connectTwoNodes(validGraph.getV()[1], validGraph.getV()[4]);//brazil --> north africa
+    validMap->connectTwoNodes(validMap->getV()[1], validMap->getV()[4]);//brazil --> north africa
 
-    // for(Node* territory : validGraph.getV()){
+    // for(Node* territory : validMap->getV()){
     //     cout<<territory->getData().getTerritoryName() + " belongs to " + territory->getData().getContinent()->getContinentName()
     //         + " has the following edges:"<<endl;
     //     for(string edge : territory->getE()){
@@ -50,44 +50,44 @@ int main(){
     //     }
     //     cout<<endl;
     // }
-    validGraph.validate();
 
+    validMap->validate();
 
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ invalid Graph illustration ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ invalid Map illustration ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
     //Unconnected graph
 
-    Graph invalidGraph;
+    Map* invalidMap = new Map();
 
     //create the South America continent
-    Continent* southAmericaInvalid = invalidGraph.createContinent("South America");
-    Territory venzuelaInvalid("Venzuela", southAmericaInvalid);
-    Territory brazilInvalid("Brazil", southAmericaInvalid);
-    Territory argentinaInvalid("Argentina", southAmericaInvalid);
-    Territory peruInvalid("Peru", southAmericaInvalid);
-    invalidGraph.insertAndConnectTwoTerritories(venzuelaInvalid, brazilInvalid);// venzuela --> brazil
-    invalidGraph.insertAndConnectTwoTerritories(argentinaInvalid, peruInvalid);// argentina --> peru
-    invalidGraph.connectTwoNodes(invalidGraph.getV()[0],invalidGraph.getV().end()[-1]);//venzuela --> peru
-    invalidGraph.connectTwoNodes(invalidGraph.getV().end()[-1],invalidGraph.getV()[1]);//peru --> brazil
+    Continent* southAmericaInvalid = invalidMap->createContinent("South America");
+    Territory* venzuelaInvalid = new Territory("Venzuela", southAmericaInvalid);
+    Territory* brazilInvalid = new Territory("Brazil", southAmericaInvalid);
+    Territory* argentinaInvalid = new Territory("Argentina", southAmericaInvalid);
+    Territory* peruInvalid = new Territory("Peru", southAmericaInvalid);
+    invalidMap->insertAndConnectTwoTerritories(*venzuelaInvalid, *brazilInvalid);// venzuela --> brazil
+    invalidMap->insertAndConnectTwoTerritories(*argentinaInvalid, *peruInvalid);// argentina --> peru
+    invalidMap->connectTwoNodes(invalidMap->getV()[0],invalidMap->getV().end()[-1]);//venzuela --> peru
+    invalidMap->connectTwoNodes(invalidMap->getV().end()[-1],invalidMap->getV()[1]);//peru --> brazil
 
     //create the Africa continent
-    Continent* africaInvalid = invalidGraph.createContinent("Africa");
-    Territory northAfricaInvalid("North Africa", africaInvalid);
-    Territory egyptInvalid("Egypt", africaInvalid);
-    Territory eastAfricaInvalid("East Africa", africaInvalid);
-    Territory congoInvalid("Congo", africaInvalid);
-    Territory southAfricaInvalid("South Africa", africaInvalid);
-    Territory mdagascarInvalid("Mdagascar", africaInvalid);
-    invalidGraph.insertAndConnectTwoTerritories(northAfricaInvalid, egyptInvalid);//north africa --> egypt
-    invalidGraph.insertAndConnectTwoTerritories(eastAfricaInvalid, congoInvalid);//east africa --> congo
-    invalidGraph.insertAndConnectTwoTerritories(southAfricaInvalid, mdagascarInvalid);//south africa --> mdagascar
-    invalidGraph.connectTwoNodes(invalidGraph.getV()[4], invalidGraph.getV()[7]);//north africa --> congo
-    invalidGraph.connectTwoNodes(invalidGraph.getV()[7], invalidGraph.getV().end()[-2]);//congo --> south africa
-    invalidGraph.connectTwoNodes(invalidGraph.getV()[5], invalidGraph.getV()[6]);//egypt --> east africa
+    Continent* africaInvalid = invalidMap->createContinent("Africa");
+    Territory* northAfricaInvalid = new Territory("North Africa", africaInvalid);
+    Territory* egyptInvalid = new Territory("Egypt", africaInvalid);
+    Territory* eastAfricaInvalid = new Territory("East Africa", africaInvalid);
+    Territory* congoInvalid = new Territory("Congo", africaInvalid);
+    Territory* southAfricaInvalid = new Territory("South Africa", africaInvalid);
+    Territory* mdagascarInvalid = new Territory("Mdagascar", africaInvalid);
+    invalidMap->insertAndConnectTwoTerritories(*northAfricaInvalid, *egyptInvalid);//north africa --> egypt
+    invalidMap->insertAndConnectTwoTerritories(*eastAfricaInvalid, *congoInvalid);//east africa --> congo
+    invalidMap->insertAndConnectTwoTerritories(*southAfricaInvalid, *mdagascarInvalid);//south africa --> mdagascar
+    invalidMap->connectTwoNodes(invalidMap->getV()[4], invalidMap->getV()[7]);//north africa --> congo
+    invalidMap->connectTwoNodes(invalidMap->getV()[7], invalidMap->getV().end()[-2]);//congo --> south africa
+    invalidMap->connectTwoNodes(invalidMap->getV()[5], invalidMap->getV()[6]);//egypt --> east africa
 
     // No connection between south america and africa
-    // invalidGraph.connectTwoNodes(invalidGraph.getV()[1], invalidGraph.getV()[4]);//brazil --> north africa
+    invalidMap->connectTwoNodes(invalidMap->getV()[1], invalidMap->getV()[4]);//brazil --> north africa
 
-    // for(Node* territory : invalidGraph.getV()){
+    // for(Node* territory : invalidMap->getV()){
     //     cout<<territory->getData().getTerritoryName() + " belongs to " + territory->getData().getContinent()->getContinentName()
     //         + " has the following edges:"<<endl;
     //     for(string edge : territory->getE()){
@@ -95,28 +95,28 @@ int main(){
     //     }
     //     cout<<endl;
     // }
-    invalidGraph.validate();
-    
 
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ invalid Graph illustration ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+    invalidMap->validate();
+    
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ invalid Map illustration ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
     //Unconnected sub-graph
 
-    Graph Invalid11Graph;
+    Map* Invalid11Map = new Map();
 
     //create the South America continent
-    Continent* southAmericaInvalid1 = Invalid11Graph.createContinent("South America");
-    Territory venzuelaInvalid1("Venzuela", southAmericaInvalid1);
-    Territory brazilInvalid1("Brazil", southAmericaInvalid1);
-    Territory argentinaInvalid1("Argentina", southAmericaInvalid1);
-    Territory peruInvalid1("Peru", southAmericaInvalid1);
-    //Invalid11Graph.insertAndConnectTwoTerritories(venzuelaInvalid1, brazilInvalid1);// venzuela --> brazil
-    Invalid11Graph.insertATerritory(venzuelaInvalid1);
-    Invalid11Graph.insertATerritory(brazilInvalid1);
-    Invalid11Graph.insertAndConnectTwoTerritories(argentinaInvalid1, peruInvalid1);// argentina --> peru
-    //Invalid11Graph.connectTwoNodes(Invalid11Graph.getV()[0],Invalid11Graph.getV().end()[-1]);//venzuela --> peru
-    Invalid11Graph.connectTwoNodes(Invalid11Graph.getV().end()[-1],Invalid11Graph.getV()[1]);//peru --> brazil
+    Continent* southAmericaInvalid1 = Invalid11Map->createContinent("South America");
+    Territory* venzuelaInvalid1 = new Territory("Venzuela", southAmericaInvalid1);
+    Territory* brazilInvalid1 = new Territory("Brazil", southAmericaInvalid1);
+    Territory* argentinaInvalid1 = new Territory("Argentina", southAmericaInvalid1);
+    Territory* peruInvalid1 = new Territory("Peru", southAmericaInvalid1);
+    Invalid11Map->insertAndConnectTwoTerritories(*venzuelaInvalid1, *brazilInvalid1);// venzuela --> brazil
+    // Invalid11Map->insertATerritory(*venzuelaInvalid1);
+    // Invalid11Map->insertATerritory(*brazilInvalid1);
+    Invalid11Map->insertAndConnectTwoTerritories(*argentinaInvalid1, *peruInvalid1);// argentina --> peru
+    Invalid11Map->connectTwoNodes(Invalid11Map->getV()[0],Invalid11Map->getV().end()[-1]);//venzuela --> peru
+    Invalid11Map->connectTwoNodes(Invalid11Map->getV().end()[-1],Invalid11Map->getV()[1]);//peru --> brazil
 
-    // for(Node* territory : Invalid11Graph.getV()){
+    // for(Node* territory : Invalid11Map->getV()){
     //     cout<<territory->getData().getTerritoryName() + " belongs to " + territory->getData().getContinent()->getContinentName()
     //         + " has the following edges:"<<endl;
     //     for(string edge : territory->getE()){
@@ -124,7 +124,22 @@ int main(){
     //     }
     //     cout<<endl;
     // }
-    Invalid11Graph.validate();
-    
+    Invalid11Map->validate();
+
+    //first valid graph pointer deleting
+    delete southAmerica; southAmerica = nullptr; delete africa; africa = nullptr;
+    delete venzuela; delete brazil; delete argentina; delete peru; delete northAfrica; delete egypt; delete eastAfrica; delete congo; delete southAfrica; delete mdagascar;
+    venzuela= nullptr; brazil= nullptr; argentina= nullptr; peru= nullptr; northAfrica= nullptr; egypt= nullptr; eastAfrica= nullptr; congo= nullptr; southAfrica= nullptr; mdagascar= nullptr;
+
+    //first invalid graph pointer deleting
+    delete southAmericaInvalid; southAmericaInvalid = nullptr; delete africaInvalid; africaInvalid = nullptr;
+    delete venzuelaInvalid; delete brazilInvalid; delete argentinaInvalid; delete peruInvalid; delete northAfricaInvalid; delete egyptInvalid; delete eastAfricaInvalid; delete congoInvalid; delete southAfricaInvalid; delete mdagascarInvalid;
+    venzuelaInvalid= nullptr; brazilInvalid= nullptr; argentinaInvalid= nullptr; peruInvalid= nullptr; northAfricaInvalid= nullptr; egyptInvalid= nullptr; eastAfricaInvalid= nullptr; congoInvalid= nullptr; southAfricaInvalid= nullptr; mdagascarInvalid= nullptr;
+
+    //second invalid graph pointer deleting
+    delete southAmericaInvalid1; southAmericaInvalid1 = nullptr;
+    delete venzuelaInvalid1; delete brazilInvalid1; delete argentinaInvalid1; delete peruInvalid1;
+    venzuelaInvalid1= nullptr; brazilInvalid1= nullptr; argentinaInvalid1= nullptr; peruInvalid1= nullptr;
+
     return 0;
 }
