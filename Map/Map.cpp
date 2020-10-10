@@ -138,6 +138,7 @@ Node::Node(const Node& original){ //Copy construcotr
 //-------------- Destructor --------------//
 Node::~Node(){
     delete data;
+    data = nullptr;
 }
 
 //-------------- Overloads --------------//
@@ -195,6 +196,7 @@ Graph::Graph(const Graph& original){//Copy constructor
 Graph::~Graph(){
     for(Node* node : V){
         delete node;
+        node = nullptr;
     }
     
     for(Continent* continent : listOfContinents){
