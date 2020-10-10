@@ -313,7 +313,7 @@ void Graph::validate(){
 
     //will terminate the program if an error was thrown
     if(isErrorThrown)
-        exit(0);
+        exit(EXIT_FAILURE);
 }
 
 Continent* Graph::createContinent(string name){
