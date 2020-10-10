@@ -201,6 +201,7 @@ Map::~Map(){
     
     for(Continent* continent : listOfContinents){
         delete continent;
+        continent = nullptr;
     }
 }
 //-------------- Overloads --------------//
