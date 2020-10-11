@@ -45,7 +45,7 @@ public:
     void setCards(Hand *cards);
     void setOrders(OrdersList *orders);
 
-    //-------------- toDeffend methods --------------//
+    //-------------- toDefend methods --------------//
     std::vector<Territory *> toDefend();
 
     //--------------  toAttack methods --------------//
