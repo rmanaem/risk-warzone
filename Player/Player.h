@@ -6,6 +6,9 @@
 #include <iostream>
 #include <vector>
 
+class Card;
+class Hand;
+
 class Player
 {
 
@@ -49,7 +52,7 @@ public:
     //-------------- Other Player methods --------------//
 
     std::vector<Territory *> toDefend();
-    std::vector<Territory *> toAttack(Graph graph);
+    std::vector<Territory *> toAttack(Map *map);
     void issueOrder();
 
     //-------------- Stream insertion Operator --------------//

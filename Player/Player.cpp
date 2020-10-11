@@ -127,9 +127,9 @@ std::vector<Territory *> Player::toDefend()
 
 //-------------- toAttack method --------------//
 
-std::vector<Territory *> Player::toAttack(Graph graph)
+std::vector<Territory *> Player::toAttack(Map *map)
 {
-    Continent *africa = graph.createContinent("Africa");
+    Continent *africa = map->createContinent("Africa");
     Territory northAfrica("North Africa", africa);
     Territory egypt("Egypt", africa);
     Territory eastAfrica("East Africa", africa);
@@ -162,51 +162,51 @@ std::vector<Territory *> Player::toAttack(Graph graph)
 
 void Player::issueOrder()
 {
-    cout << "Player" << playerId << "What order would you like to issue? \n1. Deploy \n2. Advance \n3. Bomb \n4. Blocakde \n5. Airlift \n6. Negotiate";
+    cout << "Player" << playerId << "What order would you like to issue? \n0. Deploy \n1. Advance \n2. Bomb \n3. Blocakde \n4. Airlift \n5. Negotiate\n";
     int num;
     cin >> num;
     switch (num)
     {
-    case 1:
+    case 0:
     {
         Deploy *deployp = new Deploy;
         (*(orders)).addOrder(deployp);
-        cout << "Adding order " << *(deployp) << " to the players order list ";
+        cout << "Adding order " << *(deployp) << " to the players order list \n";
+        break;
+    }
+    case 1:
+    {
+        Advance *advancep = new Advance;
+        (*(orders)).addOrder(advancep);
+        cout << "Adding order " << *(advancep) << " to the players order list \n";
         break;
     }
     case 2:
     {
-        Advance *advancep = new Advance;
-        (*(orders)).addOrder(advancep);
-        cout << "Adding order " << *(advancep) << " to the players order list ";
+        Bomb *bombp = new Bomb;
+        (*(orders)).addOrder(bombp);
+        cout << "Adding order " << *(bombp) << " to the players order list \n";
         break;
     }
     case 3:
     {
-        Bomb *bombp = new Bomb;
-        (*(orders)).addOrder(bombp);
-        cout << "Adding order " << *(bombp) << " to the players order list ";
+        Blockade *blockadep = new Blockade;
+        (*(orders)).addOrder(blockadep);
+        cout << "Adding order " << *(blockadep) << " to the players order list \n";
         break;
     }
     case 4:
     {
-        Blockade *blockadep = new Blockade;
-        (*(orders)).addOrder(blockadep);
-        cout << "Adding order " << *(blockadep) << " to the players order list ";
+        Airlift *airliftp = new Airlift;
+        (*(orders)).addOrder(airliftp);
+        cout << "Adding order " << *(airliftp) << " to the players order list \n";
         break;
     }
     case 5:
     {
-        Airlift *airliftp = new Airlift;
-        (*(orders)).addOrder(airliftp);
-        cout << "Adding order " << *(airliftp) << " to the players order list ";
-        break;
-    }
-    case 6:
-    {
         Negotiate *negotiatep = new Negotiate;
         (*(orders)).addOrder(negotiatep);
-        cout << "Adding order " << *(negotiatep) << " to the players order list ";
+        cout << "Adding order " << *(negotiatep) << " to the players order list \n";
         break;
     }
     default:

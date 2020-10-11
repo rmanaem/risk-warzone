@@ -12,10 +12,9 @@ using namespace std;
 int main()
 {
 
-    Graph validGraph;
+    Map *validMap = new Map;
     // Creating the South America and Africa continents
-    Continent *southAmerica = validGraph.createContinent("South America");
-    Continent *africa = validGraph.createContinent("Africa");
+    Continent *southAmerica = validMap->createContinent("South America");
 
     // Creating the Territory pointers
     Territory *ven = new Territory("Venzuela", southAmerica);
@@ -53,9 +52,10 @@ int main()
     // Initializing a Player using the initalized data memebers
     Player p1(4, territoryv1, handp, olp);
     cout << p1;
-    p1.issueOrder();
+
     p1.toDefend();
-    p1.toAttack(validGraph);
+    p1.toAttack(validMap);
+    p1.issueOrder();
 
     return 0;
 }
