@@ -51,22 +51,6 @@ Player &Player::operator=(const Player &e)
     return *this;
 }
 
-//-------------- Stream insertion operator --------------//
-std::ostream &operator<<(std::ostream &out, const Player &e)
-{
-    out << "Player" << e.playerId << ":\n";
-    out << "Player4 has this collection of territories: {";
-    for (Territory *t : e.territoriesOwned)
-    {
-        out << *(t);
-    }
-    out << "}\n";
-    out << "Player4 has this hand of cards: ";
-    (*(e.cards)).print();
-    out << "Player4 has this list of orders: " << *(e.orders);
-    return out;
-}
-
 //-------------- Accessor methods --------------//
 int Player::getPlayerId()
 {
@@ -222,4 +206,20 @@ void Player::issueOrder()
     }
     }
     cout << *(orders);
+}
+
+//-------------- Stream insertion operator --------------//
+std::ostream &operator<<(std::ostream &out, const Player &e)
+{
+    out << "Player" << e.playerId << ":\n";
+    out << "Player4 has this collection of territories: {";
+    for (Territory *t : e.territoriesOwned)
+    {
+        out << *(t);
+    }
+    out << "}\n";
+    out << "Player4 has this hand of cards: ";
+    (*(e.cards)).print();
+    out << "Player4 has this list of orders: " << *(e.orders);
+    return out;
 }
