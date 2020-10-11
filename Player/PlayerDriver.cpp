@@ -11,9 +11,10 @@ using namespace std;
 
 int main()
 {
-
+    // Crearting a Map pointer
     Map *validMap = new Map;
-    // Creating the South America and Africa continents
+
+    // Creating South America continent pointer
     Continent *southAmerica = validMap->createContinent("South America");
 
     // Creating the Territory pointers

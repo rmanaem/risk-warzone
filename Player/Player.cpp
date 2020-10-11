@@ -5,8 +5,9 @@
 #include <iostream>
 #include <list>
 
-//-------------- Constructors --------------//
+//============================ Player Class ============================/
 
+//-------------- Constructors --------------//
 Player::Player() : playerId(0)
 {
 }
@@ -24,7 +25,6 @@ Player::Player(const Player &e) : playerId(e.playerId), cards(new Hand(*(e.cards
 }
 
 //-------------- Destructor --------------//
-
 Player::~Player()
 {
     for (Territory *t : territoriesOwned)
@@ -39,7 +39,6 @@ Player::~Player()
 }
 
 //-------------- Assignment operator --------------//
-
 Player &Player::operator=(const Player &e)
 {
     this->playerId = e.playerId;
@@ -53,7 +52,6 @@ Player &Player::operator=(const Player &e)
 }
 
 //-------------- Stream insertion operator --------------//
-
 std::ostream &operator<<(std::ostream &out, const Player &e)
 {
     out << "Player" << e.playerId << ":\n";
@@ -63,13 +61,13 @@ std::ostream &operator<<(std::ostream &out, const Player &e)
         out << *(t);
     }
     out << "}\n";
-    out << "Player4 has this hand of cards: " << *(e.cards);
+    out << "Player4 has this hand of cards: ";
+    (*(e.cards)).print();
     out << "Player4 has this list of orders: " << *(e.orders);
     return out;
 }
 
 //-------------- Accessor methods --------------//
-
 int Player::getPlayerId()
 {
     return playerId;
@@ -91,7 +89,6 @@ OrdersList *Player::getOrders()
 }
 
 //-------------- Mutator methods --------------//
-
 void Player::setPlayerId(int playerId)
 {
     this->playerId = playerId;
@@ -113,7 +110,9 @@ void Player::setOrders(OrdersList *orders)
 }
 
 //-------------- toDefent method --------------//
-
+/*
+ Returns a collection of territories that the player can defend
+*/
 std::vector<Territory *> Player::toDefend()
 {
     cout << "Player" << playerId << " has this collection of territories to defend: {";
@@ -126,7 +125,9 @@ std::vector<Territory *> Player::toDefend()
 }
 
 //-------------- toAttack method --------------//
-
+/*
+ (for the time being)Returns an arbitrary collection of territories
+*/
 std::vector<Territory *> Player::toAttack(Map *map)
 {
     Continent *africa = map->createContinent("Africa");
@@ -159,10 +160,12 @@ std::vector<Territory *> Player::toAttack(Map *map)
 }
 
 //-------------- issueOrder method --------------//
-
+/*
+ Creates an order based on the player input and adds it to the player's orderslist
+*/
 void Player::issueOrder()
 {
-    cout << "Player" << playerId << "What order would you like to issue? \n0. Deploy \n1. Advance \n2. Bomb \n3. Blocakde \n4. Airlift \n5. Negotiate\n";
+    cout << "Player " << playerId << "What order would you like to issue? \n0. Deploy \n1. Advance \n2. Bomb \n3. Blocakde \n4. Airlift \n5. Negotiate \n6. None \n";
     int num;
     cin >> num;
     switch (num)
@@ -171,44 +174,47 @@ void Player::issueOrder()
     {
         Deploy *deployp = new Deploy;
         (*(orders)).addOrder(deployp);
-        cout << "Adding order " << *(deployp) << " to the players order list \n";
+        cout << "Adding order " << *(deployp) << " to the player's order list \n";
         break;
     }
     case 1:
     {
         Advance *advancep = new Advance;
         (*(orders)).addOrder(advancep);
-        cout << "Adding order " << *(advancep) << " to the players order list \n";
+        cout << "Adding order " << *(advancep) << " to the player's order list \n";
         break;
     }
     case 2:
     {
         Bomb *bombp = new Bomb;
         (*(orders)).addOrder(bombp);
-        cout << "Adding order " << *(bombp) << " to the players order list \n";
+        cout << "Adding order " << *(bombp) << " to the player's order list \n";
         break;
     }
     case 3:
     {
         Blockade *blockadep = new Blockade;
         (*(orders)).addOrder(blockadep);
-        cout << "Adding order " << *(blockadep) << " to the players order list \n";
+        cout << "Adding order " << *(blockadep) << " to the player's order list \n";
         break;
     }
     case 4:
     {
         Airlift *airliftp = new Airlift;
         (*(orders)).addOrder(airliftp);
-        cout << "Adding order " << *(airliftp) << " to the players order list \n";
+        cout << "Adding order " << *(airliftp) << " to the player's order list \n";
         break;
     }
     case 5:
     {
         Negotiate *negotiatep = new Negotiate;
         (*(orders)).addOrder(negotiatep);
-        cout << "Adding order " << *(negotiatep) << " to the players order list \n";
+        cout << "Adding order " << *(negotiatep) << " to the player's order list \n";
         break;
     }
+    case 6:
+        cout << "No order added.\n";
+        break;
     default:
     {
         throw logic_error("Invalid input");
