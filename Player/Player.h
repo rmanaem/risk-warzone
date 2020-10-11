@@ -45,13 +45,13 @@ public:
     void setCards(Hand *cards);
     void setOrders(OrdersList *orders);
 
-    //-------------- toDefend methods --------------//
+    //-------------- toDefend method --------------//
     std::vector<Territory *> toDefend();
 
-    //--------------  toAttack methods --------------//
+    //--------------  toAttack method --------------//
     std::vector<Territory *> toAttack(Map *map);
 
-    //-------------- issueOrder methods --------------//
+    //-------------- issueOrder method --------------//
     void issueOrder();
 
     //-------------- Stream insertion Operator --------------//
