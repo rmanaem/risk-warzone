@@ -154,10 +154,14 @@ Map MapLoader::parseMap(std::string map) {
         delete terriotryPointer;
         terriotryPointer=nullptr;
     }
-//    for(auto continentPointer: continentts){
-//        delete continentPointer;
-//        continentPointer=nullptr;
-//    }
+     for(Node* territory : myGraph->getV()){
+         cout<<territory->getData().getTerritoryName() + " belongs to " + territory->getData().getContinent()->getContinentName()
+             + " has the following edges:"<<endl;
+         for(string edge : territory->getE()){
+             cout<<edge<<"\t";
+         }
+         cout<<endl;
+     }
     myGraph->validate();
 return *myGraph;
 }
