@@ -14,6 +14,7 @@ class Order {
     public:
         //-------------- Constructors --------------//
         Order();
+        Order(string orderType);
         Order(const Order &order);
 
         //-------------- Destructors --------------//
@@ -51,6 +52,9 @@ class OrdersList {
         //-------------- Getters --------------//
         vector<Order*> getOrdersList();
 
+        //-------------- Setters --------------//
+        void setOrdersList(vector<Order*> oList);
+
         //-------------- Other Methods --------------//
         //Method to add an Order to the players list of orders
         void addOrder(Order* order);
@@ -80,6 +84,7 @@ class Deploy : public Order {
     public:
         //-------------- Constructors --------------//
         Deploy();
+        Deploy(string orderType);
         Deploy(const Deploy &dep);
 
         //-------------- Destructors --------------//
@@ -114,6 +119,7 @@ class Advance : public Order {
     public:
         //-------------- Constructors --------------//
         Advance();
+        Advance(string orderType);
         Advance(const Advance &adv);
 
         //-------------- Destructors --------------//
@@ -147,6 +153,7 @@ class Bomb : public Order {
     public: 
         //-------------- Constructors --------------//
         Bomb();
+        Bomb(string orderType);
         Bomb(const Bomb &bomb);
 
         //-------------- Destructors --------------//
@@ -181,6 +188,7 @@ class Blockade : public Order {
     public: 
         //-------------- Constructors --------------//
         Blockade();
+        Blockade(string orderType);
         Blockade(const Blockade &block);
 
         //-------------- Destructors --------------//
@@ -215,6 +223,7 @@ class Airlift : public Order {
     public:
         //-------------- Constructors --------------//
         Airlift();
+        Airlift(string orderType);
         Airlift(const Airlift &air);
 
         //-------------- Destructors --------------//
@@ -249,6 +258,7 @@ class Negotiate : public Order {
     public: 
         //-------------- Constructors --------------//
         Negotiate();
+        Negotiate(string orderType);
         Negotiate(const Negotiate &neg);
 
         //-------------- Destructors --------------//

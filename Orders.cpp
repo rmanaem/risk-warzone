@@ -11,6 +11,10 @@ Order::Order(){
     this->orderType = "ORDER";
 }
 
+Order::Order(string orderType){
+    this->orderType = orderType;
+}
+
 Order::Order(const Order &order){
     this->orderType = order.orderType;
     cout << "Copy constructor for Order class has been called" << endl;
@@ -44,8 +48,8 @@ OrdersList::OrdersList(vector<Order*> ordList){
 }
 
 OrdersList::OrdersList(const OrdersList &ordList){
-    this->oList = ordList.oList;
     cout << "Copy constructor for OrdersList class has been called" << endl;
+    this->oList = ordList.oList;
 }
 
 //-------------- Getters --------------//
@@ -53,10 +57,14 @@ vector<Order*> OrdersList::getOrdersList(){
     return oList;
 }
 
+//-------------- Setters --------------//
+void OrdersList::setOrdersList(vector<Order*> oList){
+    this->oList = oList;
+}
+
 //-------------- Other Methods --------------//
 //Add an order to the players list of orders
 void OrdersList::addOrder(Order* order){
-
     oList.push_back(order);
 }
 
@@ -88,11 +96,14 @@ OrdersList& OrdersList::operator =(const OrdersList &ordList){
 }
 
 
-
 //----------------------------Deploy Class----------------------------//
 //-------------- Constructors --------------//
 Deploy::Deploy(){
     this->orderType = "DEPLOY";
+}
+
+Deploy::Deploy(string orderType){
+    this->orderType = orderType;
 }
 
 Deploy::Deploy(const Deploy &dep) : Order(dep) {
@@ -148,6 +159,10 @@ Advance::Advance(){
     this->orderType = "ADVANCE";
 }
 
+Advance::Advance(string orderType){
+    this->orderType = orderType;
+}
+
 Advance::Advance(const Advance &adv) : Order(adv) {
     this->orderType = adv.orderType;
     cout << "Copy constructor for Advance class has been called" << endl;
@@ -199,6 +214,10 @@ Advance& Advance::operator =(const Advance &adv){
 //-------------- Constructors --------------//
 Bomb::Bomb(){
     this->orderType = "BOMB";
+}
+
+Bomb::Bomb(string orderType){
+    this->orderType = orderType;
 }
 
 Bomb::Bomb(const Bomb &bomb) : Order(bomb) {
@@ -254,6 +273,10 @@ Blockade::Blockade(){
     this->orderType = "BLOCKADE";
 }
 
+Blockade::Blockade(string orderType){
+    this->orderType = orderType;
+}
+
 Blockade::Blockade(const Blockade &block) : Order(block) {
     this->orderType = block.orderType;
     cout << "Copy constructor for Blockade class has been called" << endl;
@@ -307,6 +330,10 @@ Airlift::Airlift(){
     this->orderType = "AIRLIFT";
 }
 
+Airlift::Airlift(string orderType){
+    this->orderType = orderType;
+}
+
 Airlift::Airlift(const Airlift &air) : Order(air) {
     this->orderType = air.orderType;
     cout << "Copy constructor for Airlift class has been called" << endl;
@@ -358,6 +385,10 @@ Airlift& Airlift::operator =(const Airlift &air){
 //-------------- Constructors --------------//
 Negotiate::Negotiate(){
     this->orderType = "NEGOTIATE";
+}
+
+Negotiate::Negotiate(string orderType){
+    this->orderType = orderType;
 }
 
 Negotiate::Negotiate(const Negotiate &neg) : Order(neg) {
