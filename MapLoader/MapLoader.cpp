@@ -8,7 +8,7 @@
 #include <algorithm>
 #include <iterator>
 #include "./MapLoader.h"
-#include "/Users/talalbazerbachi/Documents/Risk Game/Risk Game/Map/Map.hpp"
+#include "/Users/talalbazerbachi/Documents/Risk Game/Risk Game/Map/Map.h"
 using namespace std;
 
 
@@ -32,11 +32,9 @@ Map MapLoader::parseMap(std::string map) {
     cout << "-----" <<map<<"----"<<endl;
     string line;
     string title = "";
-    Map myGraph;
+    Map* myGraph=new Map();
     vector <Continent*> continentts;
-    vector<Territory> teritories;
-    list<string> teritoryIdZ;
-    list <string> continentIdz;
+    vector<Territory*> teritories;
     // Read from the text file
     ifstream MyReadFile("/Users/talalbazerbachi/Documents/GitHub/Risk-Game/MapLoader/Maps/"+map);
     
@@ -62,10 +60,9 @@ Map MapLoader::parseMap(std::string map) {
                 string continentId= theLine[1];
                 string continentColor=theLine[2];
                 if(continentName.length()>0){
-                    Continent* newConteinent= myGraph.createContinent(continentName);
+                    Continent* newConteinent= myGraph->createContinent(continentName);
                     continentts.push_back(newConteinent);
                 }
-                cout << "*****here****" <<endl;
                 theLine.clear();
             }
         }
@@ -75,7 +72,8 @@ Map MapLoader::parseMap(std::string map) {
         if (line.find("[countries]") != std::string::npos) {
             string countries;
             while(getline(MyReadFile, countries)){
-                if (!(countries.find("[borders]") == -1 && countries[0] != '\r')) {break;}
+                cout << "the countries -----" << countries<<endl;
+                if (!(countries.find("[borders]") == -1 && countries[0] != '\r')) {line = countries; break;}
                 if (countries.length() == 0 || countries[0] == '\r' || countries.at(0) == ';') {
                     continue;
                 }
@@ -84,16 +82,15 @@ Map MapLoader::parseMap(std::string map) {
                 string countryName= countryLine[1];
                 string continentId= countryLine[2];
                 
-                Territory newTerritory(countryName, continentts[stoi(continentId)-1]);
-                cout << "territory" << newTerritory.getTerritoryName() << " " << *continentts[stoi(continentId)-1] << "******" <<endl;
+                Territory* newTerritory=new Territory(countryName, continentts[stoi(continentId)-1]);
+               // cout << "territory" << newTerritory.getTerritoryName() << " " << *continentts[stoi(continentId)-1] << "******" <<endl;
                 teritories.push_back(newTerritory);
-                teritoryIdZ.push_back(contryId);
-                myGraph.insertATerritory(newTerritory);
-                string unkown1= countryLine[3];
-                string unkown2=countryLine[4];;
+                myGraph->insertATerritory(*newTerritory);
+                string distance1= countryLine[3];
+                string distance2= countryLine[4];
             }
         }
-        
+        cout << "________borders:_______ " << line <<endl;
         //get borders:
         if (line.find("[borders]") != std::string::npos) {
             if (line.length() == 0 || line.at(0) == ';') {
@@ -136,8 +133,8 @@ Map MapLoader::parseMap(std::string map) {
                 while(iterr != intBorders.end())
                 {
                     int index=(*iterr);
-                    if(!myGraph.areConnected(myGraph.getV()[index-1], myGraph.getV()[stoi(country)-1])){
-                        myGraph.connectTwoNodes(myGraph.getV()[index-1], myGraph.getV()[stoi(country)-1]);
+                    if(!myGraph->areConnected(myGraph->getV()[index-1], myGraph->getV()[stoi(country)-1])){
+                        myGraph->connectTwoNodes(myGraph->getV()[index-1], myGraph->getV()[stoi(country)-1]);
                     }
                     iterr++;
                 }
@@ -151,13 +148,16 @@ Map MapLoader::parseMap(std::string map) {
     // Close the file
     MyReadFile.close();
     cout << "++++end+++" <<endl;
-//    for(Node* territory : myGraph.getV()){
-//        cout<<territory->getData().getTerritoryName() + " belongs to " + territory->getData().getContinent()->getContinentName()
-//        + " has the following edges:"<<endl;
-//        cout<<"The continent address is "<<territory->getData().getContinent()<<endl;
-//        for(string edge : territory->getE()){
-//            cout<<edge<<endl;
-//        }
+
+   
+    for(auto terriotryPointer: teritories){
+        delete terriotryPointer;
+        terriotryPointer=nullptr;
+    }
+//    for(auto continentPointer: continentts){
+//        delete continentPointer;
+//        continentPointer=nullptr;
 //    }
-return myGraph;
+    myGraph->validate();
+return *myGraph;
 }
