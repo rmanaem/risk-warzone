@@ -126,20 +126,9 @@ int main(){
     // }
     Invalid11Map->validate();
 
-    //first valid graph pointer deleting
-    delete southAmerica; southAmerica = nullptr; delete africa; africa = nullptr;
-    delete venzuela; delete brazil; delete argentina; delete peru; delete northAfrica; delete egypt; delete eastAfrica; delete congo; delete southAfrica; delete mdagascar;
-    venzuela= nullptr; brazil= nullptr; argentina= nullptr; peru= nullptr; northAfrica= nullptr; egypt= nullptr; eastAfrica= nullptr; congo= nullptr; southAfrica= nullptr; mdagascar= nullptr;
-
-    //first invalid graph pointer deleting
-    delete southAmericaInvalid; southAmericaInvalid = nullptr; delete africaInvalid; africaInvalid = nullptr;
-    delete venzuelaInvalid; delete brazilInvalid; delete argentinaInvalid; delete peruInvalid; delete northAfricaInvalid; delete egyptInvalid; delete eastAfricaInvalid; delete congoInvalid; delete southAfricaInvalid; delete mdagascarInvalid;
-    venzuelaInvalid= nullptr; brazilInvalid= nullptr; argentinaInvalid= nullptr; peruInvalid= nullptr; northAfricaInvalid= nullptr; egyptInvalid= nullptr; eastAfricaInvalid= nullptr; congoInvalid= nullptr; southAfricaInvalid= nullptr; mdagascarInvalid= nullptr;
-
-    //second invalid graph pointer deleting
-    delete southAmericaInvalid1; southAmericaInvalid1 = nullptr;
-    delete venzuelaInvalid1; delete brazilInvalid1; delete argentinaInvalid1; delete peruInvalid1;
-    venzuelaInvalid1= nullptr; brazilInvalid1= nullptr; argentinaInvalid1= nullptr; peruInvalid1= nullptr;
+    delete validMap; validMap = nullptr;
+    delete invalidMap; invalidMap = nullptr;
+    delete Invalid11Map; Invalid11Map = nullptr;
 
     return 0;
 }
