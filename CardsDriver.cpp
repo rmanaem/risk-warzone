@@ -79,6 +79,10 @@ int main()
         cout << "After drawing 1 card from deck to player's hand" << endl;
         handp->print();
         deckp->print();
+        
+        delete p1;
+        delete deckp;
+        delete validMap;
         return (0);
     }
 }
