@@ -211,16 +211,6 @@ void Deck::addCardToDeck(Card *card)
 
 void Deck::removeCardFromDeck(int index)
 {
-    int i = 0;
-    for (Card *c : cardsInDeck)
-    {
-        if (i == index)
-        {
-            delete c;
-            c = nullptr;
-        }
-        i++;
-    }
     cardsInDeck.erase(cardsInDeck.begin() + index);
 }
 
@@ -318,16 +308,6 @@ void Hand::addCardToHand(Card *card)
 
 void Hand::removeCardFromHand(int index)
 {
-    int i = 0;
-    for (Card *c : cardsInHand)
-    {
-        if (i == index)
-        {
-            delete c;
-            c = nullptr;
-        }
-        i++;
-    }
     cardsInHand.erase(cardsInHand.begin() + index);
 }
 
