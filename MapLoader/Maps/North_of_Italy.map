@@ -1,0 +1,116 @@
+; map: North_of_Italy.map
+; map made with the map maker
+; yura.net Risk 1.0.9.7
+
+[files]
+pic North_of_Italy_pic.png
+map North_of_Italy_map.png
+crd North_of_Italy.cards
+
+[continents]
+Valle_di_Aosta 1 #33ffff
+Piemonte 4 #3333ff
+Lombardia 6 #cc00cc
+Trentino 1 yellow
+Veneto 4 green
+Friuli 2 red
+Liguria 2 #0099ff
+Emilia 5 #ff3333
+
+[countries]
+1 Aosta 1 70 198
+2 Verbano_Cusio_Ossola 2 151 160
+3 Biella 2 127 215
+4 Novara 2 167 221
+5 Vercelli 2 144 244
+6 Torino 2 73 264
+7 Asti 2 134 292
+8 Alessandria 2 182 303
+9 Cuneo 2 84 340
+10 Sondrio 3 274 146
+11 Varese 3 183 188
+12 Como 3 214 173
+13 Lecco 3 237 177
+14 Bergamo 3 268 191
+15 Brescia 3 311 213
+16 Monza 3 220 210
+17 Milano 3 210 233
+18 Pavia 3 212 268
+19 Lodi 3 251 255
+20 Cremona 3 302 267
+21 Mantova 3 349 266
+22 Bolzano 4 405 92
+23 Trento 4 367 159
+24 Belluno 5 465 132
+25 Vicenza 5 410 203
+26 Treviso 5 471 191
+27 Verona 5 373 233
+28 Padova 5 439 245
+29 Venezia 5 466 230
+30 Rovigo 5 476 279
+31 Pordenone 6 510 159
+32 Udine 6 553 152
+33 Gorizia 6 582 182
+34 Trieste 6 601 206
+35 Imperia 7 106 396
+36 Savona 7 143 362
+37 Genova 7 217 340
+38 La_Spezia 7 264 368
+39 Piacenza 8 255 295
+40 Parma 8 296 316
+41 Reggio_Emilia 8 337 324
+42 Modena 8 362 335
+43 Bologna 8 402 341
+44 Ferrara 8 447 303
+45 Ravenna 8 461 345
+46 Forli-Cesena 8 458 387
+47 Rimini 8 502 395
+
+[borders]
+1 2 3 5 6
+2 1 5 4 11
+3 1 6 5
+4 5 18 17 11 2
+5 1 6 8 18 4 2 3
+6 1 3 5 8 7 9
+7 6 9 8
+8 6 9 7 5 36 37 39 18
+9 6 35 36 7 8
+10 12 13 14 15 23 22
+11 4 2 17 16 12
+12 11 16 13 10
+13 16 12 10 14
+14 17 13 20 15 10
+15 14 10 23 27 21 20
+16 17 11 12 13
+17 4 18 19 14 16 11 20
+18 5 8 4 39 19 17
+19 18 17 39 20
+20 19 17 14 15 21 39 40
+21 15 27 20 40 41 42 44 30
+22 10 24 23
+23 10 15 25 27 24 22
+24 26 25 23 22 31 32
+25 28 26 23 27 24
+26 28 29 31 24 25
+27 15 21 30 28 25 23
+28 30 27 25 26 29
+29 30 28 26 31 32
+30 21 44 27 28 29
+31 29 26 24 32
+32 29 24 31 33
+33 32 34
+34 33
+35 9 36
+36 9 8 35 37
+37 8 36 38 39 40
+38 37 40
+39 8 37 18 19 20 40
+40 38 37 21 20 39 41
+41 21 40 42
+42 21 41 44 43
+43 42 44 45
+44 21 42 30 43 45
+45 44 46 43
+46 45 47
+47 46
