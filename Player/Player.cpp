@@ -27,11 +27,6 @@ Player::Player(const Player &e) : playerId(e.playerId), cards(new Hand(*(e.cards
 //-------------- Destructor --------------//
 Player::~Player()
 {
-    for (Territory *t : territoriesOwned)
-    {
-        delete t;
-        t = nullptr;
-    }
     delete cards;
     cards = nullptr;
     delete orders;
@@ -115,25 +110,25 @@ std::vector<Territory *> Player::toDefend()
 std::vector<Territory *> Player::toAttack(Map *map)
 {
     Continent *africa = map->createContinent("Africa");
-    Territory northAfrica("North Africa", africa);
-    Territory egypt("Egypt", africa);
-    Territory eastAfrica("East Africa", africa);
-    Territory congo("Congo", africa);
-    Territory southAfrica("South Africa", africa);
-    Territory mdagascar("Mdagascar", africa);
-    Territory *tTA1 = new Territory("North Africa", africa);
-    Territory *tTA2 = new Territory("Egypt", africa);
-    Territory *tTA3 = new Territory("East Africa", africa);
-    Territory *tTA4 = new Territory("Congo", africa);
-    Territory *tTA5 = new Territory("South Africa", africa);
-    Territory *tTA6 = new Territory("Madagascar", africa);
+    Territory *northAfrica = new Territory("North Africa", africa);
+    Territory *egypt = new Territory("Egypt", africa);
+    Territory *eastAfrica = new Territory("East Africa", africa);
+    Territory *congo = new Territory("Congo", africa);
+    Territory *southAfrica = new Territory("South Africa", africa);
+    Territory *mdagascar = new Territory("Mdagascar", africa);
+    map->insertAndConnectTwoTerritories(*northAfrica, *egypt);     //north africa --> egypt
+    map->insertAndConnectTwoTerritories(*eastAfrica, *congo);      //east africa --> congo
+    map->insertAndConnectTwoTerritories(*southAfrica, *mdagascar); //south africa --> mdagascar
+    map->connectTwoNodes(map->getV()[4], map->getV()[7]);          //north africa --> congo
+    map->connectTwoNodes(map->getV()[7], map->getV().end()[-2]);   //congo --> south africa
+    map->connectTwoNodes(map->getV()[5], map->getV()[6]);          //egypt --> east africa
     std::vector<Territory *> territoriesToAttack;
-    territoriesToAttack.push_back(tTA1);
-    territoriesToAttack.push_back(tTA2);
-    territoriesToAttack.push_back(tTA3);
-    territoriesToAttack.push_back(tTA4);
-    territoriesToAttack.push_back(tTA5);
-    territoriesToAttack.push_back(tTA6);
+    territoriesToAttack.push_back(northAfrica);
+    territoriesToAttack.push_back(egypt);
+    territoriesToAttack.push_back(eastAfrica);
+    territoriesToAttack.push_back(congo);
+    territoriesToAttack.push_back(southAfrica);
+    territoriesToAttack.push_back(mdagascar);
     cout << "Player" << playerId << " has has this collection of territories to attack: {";
     for (Territory *t : territoriesToAttack)
     {
@@ -149,7 +144,7 @@ std::vector<Territory *> Player::toAttack(Map *map)
 */
 void Player::issueOrder()
 {
-    cout << "Player " << playerId << "What order would you like to issue? \n0. Deploy \n1. Advance \n2. Bomb \n3. Blocakde \n4. Airlift \n5. Negotiate \n6. None \n";
+    cout << "Player" << playerId << ", What order would you like to issue? \n0. Deploy \n1. Advance \n2. Bomb \n3. Blocakde \n4. Airlift \n5. Negotiate \n6. None \n";
     int num;
     cin >> num;
     switch (num)

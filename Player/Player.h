@@ -17,8 +17,11 @@ class Player
 private:
     //-------------- Data mambers --------------//
     int playerId;
+    //vector of territories owned by player
     std::vector<Territory *> territoriesOwned;
+    //ptr of tpye hand that contains a vector of ptr of cards that belong to player
     Hand *cards;
+    //ptr of type orderslist that contains a vector of ptr of orders that belong to player
     OrdersList *orders;
 
 public:

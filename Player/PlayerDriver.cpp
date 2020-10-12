@@ -12,22 +12,24 @@ using namespace std;
 int main()
 {
     // Crearting a Map pointer
-    Map *validMap = new Map;
+    Map *validMap = new Map();
 
-    // Creating South America continent pointer
+    //create the South America continent
     Continent *southAmerica = validMap->createContinent("South America");
-
-    // Creating the Territory pointers
-    Territory *ven = new Territory("Venzuela", southAmerica);
-    Territory *braz = new Territory("Brazil", southAmerica);
-    Territory *argen = new Territory("Argentina", southAmerica);
+    Territory *venzuela = new Territory("Venzuela", southAmerica);
+    Territory *brazil = new Territory("Brazil", southAmerica);
+    Territory *argentina = new Territory("Argentina", southAmerica);
     Territory *peru = new Territory("Peru", southAmerica);
+    validMap->insertAndConnectTwoTerritories(*venzuela, *brazil);               // venzuela --> brazil
+    validMap->insertAndConnectTwoTerritories(*argentina, *peru);                // argentina --> peru
+    validMap->connectTwoNodes(validMap->getV()[0], validMap->getV().end()[-1]); //venzuela --> peru
+    validMap->connectTwoNodes(validMap->getV().end()[-1], validMap->getV()[1]); //peru --> brazil
 
     // Creating a vector of Territory pointers for the player
     vector<Territory *> territoryv1;
-    territoryv1.push_back(ven);
-    territoryv1.push_back(braz);
-    territoryv1.push_back(argen);
+    territoryv1.push_back(venzuela);
+    territoryv1.push_back(brazil);
+    territoryv1.push_back(argentina);
     territoryv1.push_back(peru);
 
     // Creating order pointers and a vector of order pointers for the player
@@ -57,6 +59,7 @@ int main()
     p1.toDefend();
     p1.toAttack(validMap);
     p1.issueOrder();
+    delete validMap;
 
     return 0;
 }
