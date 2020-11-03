@@ -12,11 +12,11 @@ Player::Player() : playerId(0)
 {
 }
 
-Player::Player(int playerId, std::vector<Territory *> territoriesOwned, Hand *cards, OrdersList *orders) : playerId(playerId), territoriesOwned(territoriesOwned), cards(cards), orders(orders)
+Player::Player(int playerId, int nbArmies, std::vector<Territory *> territoriesOwned, Hand *cards, OrdersList *orders) : playerId(playerId), nbArmies(nbArmies), territoriesOwned(territoriesOwned), cards(cards), orders(orders)
 {
 }
 
-Player::Player(const Player &e) : playerId(e.playerId), cards(new Hand(*(e.cards))), orders(new OrdersList(*(e.orders)))
+Player::Player(const Player &e) : playerId(e.playerId), nbArmies(e.nbArmies), cards(new Hand(*(e.cards))), orders(new OrdersList(*(e.orders)))
 {
     for (int i = 0; i < e.territoriesOwned.size(); i++)
     {
@@ -27,6 +27,11 @@ Player::Player(const Player &e) : playerId(e.playerId), cards(new Hand(*(e.cards
 //-------------- Destructor --------------//
 Player::~Player()
 {
+    for (Territory *t : territoriesOwned)
+    {
+        delete t;
+        t = nullptr;
+    };
     delete cards;
     cards = nullptr;
     delete orders;
@@ -52,6 +57,10 @@ int Player::getPlayerId()
     return playerId;
 }
 
+int Player::getNbArmies() {
+    return nbArmies;
+}
+
 std::vector<Territory *> Player::getTerritoriesOwned()
 {
     return territoriesOwned;
@@ -71,6 +80,10 @@ OrdersList *Player::getOrders()
 void Player::setPlayerId(int playerId)
 {
     this->playerId = playerId;
+}
+
+void Player::setNbArmies(int nbArmies) {
+    this->nbArmies = nbArmies;
 }
 
 void Player::setTerritoriesOwned(std::vector<Territory *> territoriesOwned)
@@ -109,38 +122,36 @@ std::vector<Territory *> Player::toDefend()
 */
 std::vector<Territory *> Player::toAttack(Map *map)
 {
-    Continent *africa = map->createContinent("Africa");
-    Territory *northAfrica = new Territory("North Africa", africa);
-    Territory *egypt = new Territory("Egypt", africa);
-    Territory *eastAfrica = new Territory("East Africa", africa);
-    Territory *congo = new Territory("Congo", africa);
-    Territory *southAfrica = new Territory("South Africa", africa);
-    Territory *mdagascar = new Territory("Mdagascar", africa);
-    map->insertAndConnectTwoTerritories(*northAfrica, *egypt);     //north africa --> egypt
-    map->insertAndConnectTwoTerritories(*eastAfrica, *congo);      //east africa --> congo
-    map->insertAndConnectTwoTerritories(*southAfrica, *mdagascar); //south africa --> mdagascar
-    map->connectTwoNodes(map->getV()[4], map->getV()[7]);          //north africa --> congo
-    map->connectTwoNodes(map->getV()[7], map->getV().end()[-2]);   //congo --> south africa
-    map->connectTwoNodes(map->getV()[5], map->getV()[6]);          //egypt --> east africa
-    std::vector<Territory *> territoriesToAttack;
-    territoriesToAttack.push_back(northAfrica);
-    territoriesToAttack.push_back(egypt);
-    territoriesToAttack.push_back(eastAfrica);
-    territoriesToAttack.push_back(congo);
-    territoriesToAttack.push_back(southAfrica);
-    territoriesToAttack.push_back(mdagascar);
-    cout << "Player" << playerId << " has has this collection of territories to attack: {";
-    for (Territory *t : territoriesToAttack)
-    {
-        cout << *(t);
-    };
+    vector<Territory*> territoriesToAttack;
+    vector<Node*> ownedTerritoriesNodes;
+    for (Node *n : map->getV()) {
+        for(Territory *t : territoriesOwned) {
+            if (n->getDataPtr() == t) {
+                ownedTerritoriesNodes.push_back(n);
+            }
+
+        }
+
+    }
+    for (Node *n : map->getV()) {
+        for (Node *pn : ownedTerritoriesNodes) {
+            if (map->areConnected(n, pn)) {
+                territoriesToAttack.push_back(n->getDataPtr());
+            }
+        }
+    }
+
+    cout << "Player" << playerId << " has this collection of territories to attack: {";
+    for (Territory *t : territoriesToAttack) {
+        cout << *t << endl;
+    }
     cout << "}\n";
     return territoriesToAttack;
 }
 
 //-------------- issueOrder method --------------//
 /*
- Creates an order based on the player input and adds it to the player's orderslist
+ Creates an order based on the player input and adds it to the player's OrdersList
 */
 void Player::issueOrder()
 {
@@ -197,7 +208,6 @@ void Player::issueOrder()
     default:
     {
         throw logic_error("Invalid input");
-        break;
     }
     }
     cout << *(orders);

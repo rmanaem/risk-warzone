@@ -15,19 +15,20 @@ class Player
 {
 
 private:
-    //-------------- Data mambers --------------//
+    //-------------- Data members --------------//
     int playerId;
-    //vector of territories owned by player
+    int nbArmies;
+    //vector of Territories owned by Player
     std::vector<Territory *> territoriesOwned;
-    //ptr of tpye hand that contains a vector of ptr of cards that belong to player
+    //ptr of type Hand that contains a vector of ptr of Cards that belong to Player
     Hand *cards;
-    //ptr of type orderslist that contains a vector of ptr of orders that belong to player
+    //ptr of type OrdersList that contains a vector of ptr of Orders that belong to Player
     OrdersList *orders;
 
 public:
     //-------------- Constructors --------------//
     Player();
-    Player(int playerId, std::vector<Territory *> territoriesOwned, Hand *cards, OrdersList *orders);
+    Player(int playerId, int nbArmies, std::vector<Territory *> territoriesOwned, Hand *cards, OrdersList *orders);
     Player(const Player &e);
 
     //-------------- Destructor --------------//
@@ -38,12 +39,14 @@ public:
 
     //-------------- Accessor methods --------------//
     int getPlayerId();
+    int getNbArmies();
     std::vector<Territory *> getTerritoriesOwned();
     Hand *getCards();
     OrdersList *getOrders();
 
     //-------------- Mutator methods --------------//
     void setPlayerId(int playerId);
+    void setNbArmies(int nbArmies);
     void setTerritoriesOwned(std::vector<Territory *> territoriesOwned);
     void setCards(Hand *cards);
     void setOrders(OrdersList *orders);
