@@ -1,0 +1,107 @@
+; Stefan Wunderlich
+; map: Deutsches_Reich_1871.map
+; map made with the map maker
+; yura.net Risk 1.0.9.4
+
+[files]
+pic Deutsches_Reich_1871_pic.png
+map Deutsches_Reich_1871_map.gif
+crd Deutsches_Reich_1871.cards
+
+[continents]
+Königreich_Bayern 3 #ff8090
+Baden-Württemberg 3 #ff8c80
+Schleswig-Holstein&Mecklenburg-Schwerin 2 #80ff9c
+Mitteldeutschland 4 #80ff90
+Rheinland 4 #80b0ff
+Elsaß-Lothringen 1 #80fff7
+Königreich_Sachsen 2 #80c0ff
+Preußen 6 #80c8ff
+
+[countries]
+1 Schwaben 1 197 374
+2 Ober_Bayern 1 236 389
+3 Nieder_Bayern_&_Oberpfalz 1 265 344
+4 Franken 1 195 311
+5 Oberfranken 1 233 293
+6 Württemberg 2 160 360
+7 Großherzogtum_Baden 2 133 335
+8 Grhzm._Darmstadt 2 140 295
+9 Karlsruhe 2 114 314
+10 Lothringen 6 67 324
+11 Elsaß 6 101 343
+12 Trier 5 93 288
+13 Hessen-Nassau 5 140 264
+14 Kassel 4 169 236
+15 Rheinprovinz 5 88 250
+16 Essen 5 83 215
+17 Dortmund 5 106 189
+18 Westfalen 5 128 218
+19 Oldenburg 4 131 138
+20 Flensburg 3 180 68
+21 Hamburg 3 198 100
+22 Grhm._Mecklenburg-Schwerin 3 257 115
+23 Hannover 4 176 166
+24 Braunschweig 4 206 205
+25 Dessau 4 249 181
+26 West-Brandenburg 8 263 151
+27 Berlin 8 300 170
+28 Stralsund 8 298 108
+29 Pommern 8 361 115
+30 Küstrin 8 341 179
+31 Breslau 8 405 243
+32 Liegnitz 8 363 229
+33 Dresden 7 326 243
+34 Chemnitz 7 287 251
+35 Thüringen 7 221 258
+36 Gleiwitz 8 446 262
+37 Posen 8 416 199
+38 Nord-Posen 8 396 167
+39 Danzig 8 442 92
+40 Königsberg 8 513 63
+41 Ostpreußen 8 531 100
+42 Westpreußen 8 442 128
+
+[borders]
+1 6 2 4
+2 1 4 3
+3 2 4 5
+4 6 8 2 1 3 5 13 35 7
+5 3 4 35 34
+6 7 1 4
+7 11 6 8 9 4
+8 7 12 13 4 9
+9 11 10 12 8 7
+10 11 12 9
+11 7 9 10
+12 10 8 9 13 15
+13 8 4 12 18 14 35 15
+14 18 13 35 24
+15 12 18 13 16
+16 18 15 17
+17 18 16 19 23
+18 15 13 14 24 23 17 16
+19 17 23 21 22 25
+20 21
+21 19 20 22
+22 19 25 21 28 27 26
+23 18 17 19 24 25
+24 18 25 35 14 23
+25 19 24 26 22 27 33 34 35 23
+26 25 22 27
+27 25 22 26 28 29 30 32
+28 22 27 29
+29 27 28 30 42 39
+30 27 29 32 38 42
+31 32 36 37 38
+32 27 33 30 31 38
+33 25 34 32
+34 5 25 35 33
+35 5 13 25 24 14 4 34
+36 31 37
+37 31 38 36
+38 32 31 30 42 37
+39 29 42 40 41
+40 39 41
+41 39 42 40
+42 29 38 39 41 30

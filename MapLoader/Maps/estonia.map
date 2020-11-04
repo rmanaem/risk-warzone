@@ -1,0 +1,48 @@
+; map: estonia.map
+; map made with the map maker
+; yura.net Risk 1.0.9.3
+
+[files]
+pic estonia_pic.png
+map estonia_map.gif
+crd estonia.cards
+
+[continents]
+L‰‰ne_Eesti 5 green
+Kesk_Eesti 3 yellow
+Ida_Eesti 3 blue
+Lıuna_Eesti 4 red
+
+[countries]
+1 Hiiumaa 1 167 172
+2 Saaremaa 1 155 247
+3 L‰‰nemaa 1 250 170
+4 P‰rnumaa 1 316 234
+5 Raplamaa 2 332 137
+6 J‰rvamaa 2 404 142
+7 Harjumaa 2 349 79
+8 L‰‰ne_Virumaa 3 463 128
+9 Ida_virumaa 3 536 117
+10 Jıgevamaa 3 469 175
+11 Viljandimaa 1 395 252
+12 Tartumaa 4 484 252
+13 Valgamaa 4 445 313
+14 Pılvamaa 4 527 271
+15 Vırumaa 4 515 348
+
+[borders]
+1 2 3
+2 1 3 4
+3 2 1 4 5 7
+4 2 3 5 6 11
+5 3 4 6 7
+6 5 4 7 8 10 11
+7 3 5 6 8
+8 6 7 9 10
+9 8 10
+10 6 8 9 11 12
+11 4 6 10 12 13
+12 10 11 13 14
+13 11 12 14 15
+14 12 13 15
+15 13 14
