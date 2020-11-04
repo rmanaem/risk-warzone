@@ -2,13 +2,12 @@
 #include <stdio.h>
 #include <string>
 #include <iostream>
-#include "/Users/talalbazerbachi/Documents/Risk Game/Risk Game/Map/Map.hpp"
+#include "../Map/Map.h"
 using namespace std;
 
 #pragma once
-class MapLoader {
-
-    public:
     Map parseMap (std::string map);
+    list<string> list_dir(const char *path);
+    void showlist(list <string> g);
 
-};
+

@@ -5,12 +5,39 @@
 #include <cstring>
 #include <list>
 #include <vector>
+#include <dirent.h>
+#include <sys/types.h>
 #include <algorithm>
 #include <iterator>
 #include "./MapLoader.h"
-#include "/Users/talalbazerbachi/Documents/Risk Game/Risk Game/Map/Map.h"
+#include "../Map/Map.h"
 using namespace std;
 
+void showlist(list <string> g)
+{
+    g.pop_front();
+    g.pop_front();
+    list <string> :: iterator it;
+    for(it = g.begin(); it != g.end(); ++it)
+        cout  << *it <<endl;
+    cout << '\n';
+}
+
+list<string> list_dir(const char *path) {
+    list<string> results;
+    struct dirent *entry;
+    DIR *dir = opendir(path);
+
+//   if (dir == NULL) {
+//      return;
+//   }
+    while ((entry = readdir(dir)) != NULL) {
+        results.push_back( entry->d_name);
+    }
+    //showlist(results);
+    closedir(dir);
+    return results;
+}
 
 std::vector<string> stripLine(std::string line){
     vector<string> result;
@@ -28,7 +55,7 @@ std::vector<string> stripLine(std::string line){
     return result;
 }
 
-Map MapLoader::parseMap(std::string map) {
+Map parseMap(std::string map) {
     cout << "-----" <<map<<"----"<<endl;
     string line;
     string title = "";
@@ -36,7 +63,7 @@ Map MapLoader::parseMap(std::string map) {
     vector <Continent*> continentts;
     vector<Territory*> teritories;
     // Read from the text file
-    ifstream MyReadFile("/Users/talalbazerbachi/Documents/GitHub/Risk-Game/MapLoader/Maps/"+map);
+    ifstream MyReadFile("./MapLoader/Maps/"+map);
     
     while (getline (MyReadFile, line)) {
         
@@ -148,20 +175,21 @@ Map MapLoader::parseMap(std::string map) {
     // Close the file
     MyReadFile.close();
     cout << "++++end+++" <<endl;
+    myGraph->validate();
 
    
-    for(auto terriotryPointer: teritories){
-        delete terriotryPointer;
-        terriotryPointer=nullptr;
-    }
-     for(Node* territory : myGraph->getV()){
-         cout<<territory->getData().getTerritoryName() + " belongs to " + territory->getData().getContinent()->getContinentName()
-             + " has the following edges:"<<endl;
-         for(string edge : territory->getE()){
-             cout<<edge<<"\t";
-         }
-         cout<<endl;
-     }
-    myGraph->validate();
+//    for(auto terriotryPointer: teritories){
+//        delete terriotryPointer;
+//        terriotryPointer=nullptr;
+//    }
+//     for(Node* territory : myGraph->getV()){
+//         cout<<territory->getData().getTerritoryName() + " belongs to " + territory->getData().getContinent()->getContinentName()
+//             + " has the following edges:"<<endl;
+//         for(string edge : territory->getE()){
+//             cout<<edge<<"\t";
+//         }
+//         cout<<endl;
+//     }
+     cout<< "trump";
 return *myGraph;
 }
