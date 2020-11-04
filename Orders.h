@@ -17,9 +17,6 @@ class Order {
         Order(string orderType);
         Order(const Order &order);
 
-        //-------------- Destructors --------------//
-        ~Order(){}
-
         //-------------- Getters --------------//
         //Make this getter 'virtual' to allow for polymorphism
         virtual string getOrderType();
@@ -47,7 +44,7 @@ class OrdersList {
         OrdersList(const OrdersList &ordList);
 
         //-------------- Destructors --------------//
-        ~OrdersList(){}
+        ~OrdersList();
 
         //-------------- Getters --------------//
         vector<Order*> getOrdersList();
@@ -87,9 +84,6 @@ class Deploy : public Order {
         Deploy(string orderType);
         Deploy(const Deploy &dep);
 
-        //-------------- Destructors --------------//
-        ~Deploy(){}
-
         //-------------- Getters --------------//
         string getOrderType();
 
@@ -122,9 +116,6 @@ class Advance : public Order {
         Advance(string orderType);
         Advance(const Advance &adv);
 
-        //-------------- Destructors --------------//
-        ~Advance(){}
-
         //-------------- Getters --------------//
         string getOrderType();
 
@@ -155,9 +146,6 @@ class Bomb : public Order {
         Bomb();
         Bomb(string orderType);
         Bomb(const Bomb &bomb);
-
-        //-------------- Destructors --------------//
-        ~Bomb(){}
 
         //-------------- Getters --------------//
         string getOrderType();
@@ -191,9 +179,6 @@ class Blockade : public Order {
         Blockade(string orderType);
         Blockade(const Blockade &block);
 
-        //-------------- Destructors --------------//
-        ~Blockade(){}
-
         //-------------- Getters --------------//
         string getOrderType();
 
@@ -226,9 +211,6 @@ class Airlift : public Order {
         Airlift(string orderType);
         Airlift(const Airlift &air);
 
-        //-------------- Destructors --------------//
-        ~Airlift(){}
-
         //-------------- Getters --------------//
         string getOrderType();
 
@@ -260,9 +242,6 @@ class Negotiate : public Order {
         Negotiate();
         Negotiate(string orderType);
         Negotiate(const Negotiate &neg);
-
-        //-------------- Destructors --------------//
-        ~Negotiate(){}
 
         //-------------- Getters --------------//
         string getOrderType();

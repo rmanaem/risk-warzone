@@ -52,6 +52,14 @@ OrdersList::OrdersList(const OrdersList &ordList){
     this->oList = ordList.oList;
 }
 
+//-------------- Destructors --------------//
+OrdersList::~OrdersList(){
+    for(Order* order : oList){
+        delete order;
+        order = nullptr;
+    }
+}
+
 //-------------- Getters --------------//
 vector<Order*> OrdersList::getOrdersList(){
     return oList;
@@ -70,6 +78,14 @@ void OrdersList::addOrder(Order* order){
 
 //Delete an order  from the players list of orders
 void OrdersList::deleteOrder(int index){
+    int i = 0;
+    for(Order* order : oList){
+        if(i==index){
+            delete order;
+            order = nullptr;
+        }
+        i++;
+    }
     oList.erase(oList.begin() + index);
 }
 

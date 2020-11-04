@@ -13,7 +13,6 @@ int main()
     Blockade* blockadeOrder = new Blockade;
     Airlift* airliftOrder = new Airlift;
     Negotiate* negotiateOrder = new Negotiate;
-    Deploy* deployOrder2 = deployOrder;
 
 
     //Test the validate() and execute() methods for each type of order
@@ -45,7 +44,6 @@ int main()
     list1.addOrder(blockadeOrder);
     list1.addOrder(airliftOrder);
     list1.addOrder(negotiateOrder);
-    list1.addOrder(deployOrder2);
 
     //Show the contents of the OrdersList
     cout << "\nContents of list: \n" << list1 << endl;
@@ -61,11 +59,6 @@ int main()
 
     //Show the order was moved
     cout << "Contents of list after move: \n" << list1 << endl;
-
-    OrdersList list2;
-    list2 = list1;
-   
-    cout << list2 << endl;
 
     return 0;
 }
