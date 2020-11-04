@@ -2,7 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
-using namespace std; 
+using namespace std;
 
 int main()
 {
@@ -36,7 +36,7 @@ int main()
 
     //Create an OrdersList
     OrdersList list1;
-    
+
     //Fill the OrdersList
     list1.addOrder(deployOrder);
     list1.addOrder(advanceOrder);

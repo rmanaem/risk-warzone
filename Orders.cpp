@@ -2,7 +2,7 @@
 #include <string>
 #include <iostream>
 #include <type_traits>
-using namespace std; 
+using namespace std;
 
 
 //----------------------------Order Class----------------------------//
@@ -49,7 +49,27 @@ OrdersList::OrdersList(vector<Order*> ordList){
 
 OrdersList::OrdersList(const OrdersList &ordList){
     cout << "Copy constructor for OrdersList class has been called" << endl;
-    this->oList = ordList.oList;
+    for(int i=0; i<ordList.oList.size(); i++){
+
+        if(ordList.oList[i]->getOrderType() == "DEPLOY"){
+             this->oList.push_back(new Deploy());
+        }
+        else if(ordList.oList[i]->getOrderType() == "ADVANCE"){
+            this->oList.push_back(new Advance());
+        }
+        else if(ordList.oList[i]->getOrderType() == "BOMB"){
+            this->oList.push_back(new Bomb());
+        }
+        else if(ordList.oList[i]->getOrderType() == "BLOCKADE"){
+            this->oList.push_back(new Blockade());
+        }
+        else if(ordList.oList[i]->getOrderType() == "AIRLIFT"){
+            this->oList.push_back(new Airlift());
+        }
+        else if(ordList.oList[i]->getOrderType() == "NEGOTIATE"){
+            this->oList.push_back(new Negotiate());
+        }
+    }
 }
 
 //-------------- Destructors --------------//
@@ -99,7 +119,7 @@ void OrdersList::move(int currentOrderPos, int newOrderPos){
 //Stream insertion operator overload
 ostream& operator <<(ostream &strm, OrdersList &ordList){
     for(int i = 0; i < ordList.oList.size(); i++){
-        
+
         strm << "Order at index " + to_string(i) << " is of type : " << ordList.getOrdersList()[i]->getOrderType() << endl;
     }
     return strm;
@@ -107,7 +127,28 @@ ostream& operator <<(ostream &strm, OrdersList &ordList){
 
 //Assignment operator overload
 OrdersList& OrdersList::operator =(const OrdersList &ordList){
-    this->oList = ordList.oList;
+    cout << "Assignment operator for OrdersList class has been called" << endl;
+    for(int i=0; i<ordList.oList.size(); i++){
+
+        if(ordList.oList[i]->getOrderType() == "DEPLOY"){
+            this->oList.push_back(new Deploy());
+        }
+        else if(ordList.oList[i]->getOrderType() == "ADVANCE"){
+            this->oList.push_back(new Advance());
+        }
+        else if(ordList.oList[i]->getOrderType() == "BOMB"){
+            this->oList.push_back(new Bomb());
+        }
+        else if(ordList.oList[i]->getOrderType() == "BLOCKADE"){
+            this->oList.push_back(new Blockade());
+        }
+        else if(ordList.oList[i]->getOrderType() == "AIRLIFT"){
+            this->oList.push_back(new Airlift());
+        }
+        else if(ordList.oList[i]->getOrderType() == "NEGOTIATE"){
+            this->oList.push_back(new Negotiate());
+        }
+    }
     return *this;
 }
 
@@ -139,20 +180,20 @@ bool Deploy::validate(){
     //Check if Deploy is a subclass of Order
     if (is_base_of<Order, Deploy>::value) {
         return true;
-    }   
-    else 
+    }
+    else
         return false;
 }
 
 //Execute the order
 void Deploy::execute(){
-     if(validate() == true){
-         cout << "Deploy executed" << endl;
-     }
-     else{
-         cout << "Error executing Deploy command" << endl;
-     }
-    
+    if(validate() == true){
+        cout << "Deploy executed" << endl;
+    }
+    else{
+        cout << "Error executing Deploy command" << endl;
+    }
+
 }
 
 //Stream insertion operator overload
@@ -196,20 +237,20 @@ bool Advance::validate(){
     //Check if Advance is a subclass of Order
     if (is_base_of<Order, Advance>::value) {
         return true;
-    }   
-    else 
+    }
+    else
         return false;
 }
 
 //Execute the order
 void Advance::execute(){
-     if(validate() == true){
-         cout << "Advance executed" << endl;
-     }
-     else{
-         cout << "Error executing Advance command" << endl;
-     }
-    
+    if(validate() == true){
+        cout << "Advance executed" << endl;
+    }
+    else{
+        cout << "Error executing Advance command" << endl;
+    }
+
 }
 
 //Stream insertion operator overload
@@ -253,20 +294,20 @@ bool Bomb::validate(){
     //Check if Bomb is a subclass of Order
     if (is_base_of<Order, Bomb>::value) {
         return true;
-    }   
-    else 
+    }
+    else
         return false;
 }
 
 //Execute the order
 void Bomb::execute(){
-     if(validate() == true){
-         cout << "Bomb executed" << endl;
-     }
-     else{
-         cout << "Error executing Bomb command" << endl;
-     }
-    
+    if(validate() == true){
+        cout << "Bomb executed" << endl;
+    }
+    else{
+        cout << "Error executing Bomb command" << endl;
+    }
+
 }
 
 //Stream insertion operator overload
@@ -310,20 +351,20 @@ bool Blockade::validate(){
     //Check if Blockade is a subclass of Order
     if (is_base_of<Order, Blockade>::value) {
         return true;
-    }   
-    else 
+    }
+    else
         return false;
 }
 
 //Execute the order
 void Blockade::execute(){
-     if(validate() == true){
-         cout << "Blockade executed" << endl;
-     }
-     else{
-         cout << "Error executing Blockade command" << endl;
-     }
-    
+    if(validate() == true){
+        cout << "Blockade executed" << endl;
+    }
+    else{
+        cout << "Error executing Blockade command" << endl;
+    }
+
 }
 
 //Stream insertion operator overload
@@ -367,20 +408,20 @@ bool Airlift::validate(){
     //Check if Airlift is a subclass of Order
     if (is_base_of<Order, Airlift>::value) {
         return true;
-    }   
-    else 
+    }
+    else
         return false;
 }
 
 //Execute the order
 void Airlift::execute(){
-     if(validate() == true){
-         cout << "Airlift executed" << endl;
-     }
-     else{
-         cout << "Error executing Airlift command" << endl;
-     }
-     
+    if(validate() == true){
+        cout << "Airlift executed" << endl;
+    }
+    else{
+        cout << "Error executing Airlift command" << endl;
+    }
+
 }
 
 //Stream insertion operator overload
@@ -424,20 +465,20 @@ bool Negotiate::validate(){
     //Check if Negotiate is a subclass of Order
     if (is_base_of<Order, Negotiate>::value) {
         return true;
-    }   
-    else 
+    }
+    else
         return false;
 }
 
 //Execute the order
 void Negotiate::execute(){
-     if(validate() == true){
-         cout << "Negotiate executed" << endl;
-     }
-     else{
-         cout << "Error executing Negotiate command" << endl;
-     }
-    
+    if(validate() == true){
+        cout << "Negotiate executed" << endl;
+    }
+    else{
+        cout << "Error executing Negotiate command" << endl;
+    }
+
 }
 
 //Stream insertion operator overload
