@@ -4,6 +4,8 @@ using namespace std;
 #include <list>
 #include <algorithm>
 #include <iterator>
+#include <vector>
+#include "../Player/Player.h"
 
 GameStarter::GameStarter(){
     selectedMap = "";
@@ -103,12 +105,21 @@ void GameStarter::turnObservers(){
         isObserverTurnedOn[1] = true;
 }
 
+void GameStarter::setUpGame(){
+    selectNumOfPlayers();
+    //create players
+    for(int i=0; i<numberOfPlayers;i++){
+        players.push_back(new Player());
+        players.front()->setPlayerId(i);
+    }
+}
+
 int main(){
     GameStarter x = GameStarter();
-    x.turnObservers();
+    x.setUpGame();
     //cout<<x.getSelectedMap();
     //cout<<x.getSelectedNumberOfPlayers();
-    cout<<x.getIsObserverTurnedOn()[0];
-    cout<<x.getIsObserverTurnedOn()[1];
+    // cout<<x.getIsObserverTurnedOn()[0];
+    // cout<<x.getIsObserverTurnedOn()[1];
     return 0;
 }

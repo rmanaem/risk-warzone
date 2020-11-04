@@ -1,7 +1,7 @@
-#include "Map.h"
-#include "Orders.h"
-#include "Cards.h"
-#include "Player.h"
+#include "../Map/Map.h"
+#include "../Orders.h"
+#include "../Cards.h"
+#include "./Player.h"
 #include <iostream>
 #include <list>
 

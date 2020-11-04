@@ -1,15 +1,19 @@
+#pragma once
+
 #include <iostream>
 using namespace std;
 #include <list>
 #include <algorithm>
 #include <iterator>
+#include <vector>
+#include "../Player/Player.h"
 
 class GameStarter{
     private:
         string selectedMap;
         int numberOfPlayers;
         bool isObserverTurnedOn[2];//isObserverTurnedOn[0] for Phase Observer. isObserverTurnedOn[1] for Game Statistics Observer
-
+        vector<Player*> players;
     public:
     //-------------- constructors --------------//
         GameStarter();
