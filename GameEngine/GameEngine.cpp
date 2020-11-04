@@ -87,7 +87,21 @@ void GameStarter::selectNumOfPlayers(){
     numberOfPlayers = tempNumOfPlayers;
 }
 
+void GameStarter::turnObservers(){
+    char responseGameStatistics;
+    char phaseObserver;
 
+    cout<<"Would you like to turn on Phase Observer (y for yes/anything else for no)? ";
+    cin>>phaseObserver;
+
+    cout<<"Would you like to turn on Game Statistics Observer (y for yes/anything else for no)? ";
+    cin>>responseGameStatistics;
+
+    if(phaseObserver == 'y')
+        isObserverTurnedOn[0] = true;
+    if(responseGameStatistics == 'y')
+        isObserverTurnedOn[1] = true;
+}
 
 int main(){
     GameStarter x = GameStarter();
