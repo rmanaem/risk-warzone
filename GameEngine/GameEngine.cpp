@@ -66,6 +66,29 @@ void GameStarter::selectMap(){
     selectedMap = *it;
 }
 
+void GameStarter::selectNumOfPlayers(){
+    int tempNumOfPlayers;
+    cout<<"How many palyers (2-5)? ";
+    
+    bool isInputCorrect = false;
+    while(!isInputCorrect){
+        cin>>tempNumOfPlayers;
+
+        if(tempNumOfPlayers>=2 && tempNumOfPlayers<=5){
+            isInputCorrect = true;
+        }else{//hanldes invalid inputs (i.e. 0, tempNumOfPlayers<2 or tempNumOfPlayers>5 or non-int input)
+            if(cin.fail()){
+                cin.clear();
+                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            }
+            cout<<"Invalid input! Re-enter number of players: ";
+        }
+    }
+    numberOfPlayers = tempNumOfPlayers;
+}
+
+
+
 int main(){
     GameStarter x = GameStarter();
     x.turnObservers();
