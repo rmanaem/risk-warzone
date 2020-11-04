@@ -12,6 +12,17 @@ GameStarter::GameStarter(){
     isObserverTurnedOn[1] = false;//Game Statistics Observer
 }
 
+string GameStarter::getSelectedMap(){
+    return selectedMap;
+}
+
+int GameStarter::getSelectedNumberOfPlayers(){
+    return numberOfPlayers;
+}
+
+bool* GameStarter::getIsObserverTurnedOn(){
+    return isObserverTurnedOn;
+}
 
 void GameStarter::selectMap(){
     int mapNum;
