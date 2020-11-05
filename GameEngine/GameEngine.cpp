@@ -26,6 +26,10 @@ bool* GameStarter::getIsObserverTurnedOn(){
     return isObserverTurnedOn;
 }
 
+vector<Player*> GameStarter::getPlayers(){
+    return players;
+}
+
 void GameStarter::selectMap(){
     int mapNum;
     cout<<"Available maps:"<<endl;
@@ -107,16 +111,42 @@ void GameStarter::turnObservers(){
 
 void GameStarter::setUpGame(){
     selectNumOfPlayers();
+
+    // Creating order pointers and a vector of order pointers for the player
+    Deploy *d1 = new Deploy;
+    Advance *a1 = new Advance;
+    Bomb *b1 = new Bomb;
+    vector<Order *> vo;
+    vo.push_back(d1);
+    vo.push_back(a1);
+    vo.push_back(b1);
+    OrdersList *olp = new OrdersList(vo);
+
     //create players
     for(int i=0; i<numberOfPlayers;i++){
-        players.push_back(new Player());
+        players.push_back(new Player);
         players.front()->setPlayerId(i);
+
+        players.front()->setCards(new Hand); //assign an empty hand of cards
+        players.front()->setOrders(olp); //assign orders
     }
+
+    // Create a deck of cards
+    Card *card4 = new Card(0);
+    Card *card5 = new Card(1);
+    Card *card6 = new Card(3);
+    vector<Card *> vdeck1;
+    vdeck1.push_back(card4);
+    vdeck1.push_back(card5);
+    vdeck1.push_back(card6);
+    Deck *deckp = new Deck(vdeck1);
 }
 
 int main(){
     GameStarter x = GameStarter();
     x.setUpGame();
+    cout<<"Size: "<<x.getPlayers().front()->getPlayerId()<<endl;
+    cout<<"Size: "<<x.getPlayers().back()->getPlayerId()<<endl;
     //cout<<x.getSelectedMap();
     //cout<<x.getSelectedNumberOfPlayers();
     // cout<<x.getIsObserverTurnedOn()[0];
