@@ -3,7 +3,6 @@
 #include "Orders.h"
 #include "Cards.h"
 #include <iostream>
-#include <list>
 
 /* Create a player to test out functionality */
 
@@ -25,23 +24,23 @@ int main()
    validMap->connectTwoNodes(validMap->getV()[0], validMap->getV().end()[-1]); //venzuela --> peru
    validMap->connectTwoNodes(validMap->getV().end()[-1], validMap->getV()[1]); //peru --> brazil
 
-//    //create the Africa continent
-//    Continent* africa = validMap->createContinent("Africa");
-//    Territory* northAfrica = new Territory("North Africa", africa);
-//    Territory* egypt = new Territory("Egypt", africa);
-//    Territory* eastAfrica = new Territory("East Africa", africa);
-//    Territory* congo = new Territory("Congo", africa);
-//    Territory* southAfrica = new Territory("South Africa", africa);
-//    Territory* mdagascar = new Territory("Mdagascar", africa);
-//    validMap->insertAndConnectTwoTerritories(*northAfrica, *egypt);//north africa --> egypt
-//    validMap->insertAndConnectTwoTerritories(*eastAfrica, *congo);//east africa --> congo
-//    validMap->insertAndConnectTwoTerritories(*southAfrica, *mdagascar);//south africa --> mdagascar
-//    validMap->connectTwoNodes(validMap->getV()[4], validMap->getV()[7]);//north africa --> congo
-//    validMap->connectTwoNodes(validMap->getV()[7], validMap->getV().end()[-2]);//congo --> south africa
-//    validMap->connectTwoNodes(validMap->getV()[5], validMap->getV()[6]);//egypt --> east africa
-//
-//    //connect between south america and africa
-//    validMap->connectTwoNodes(validMap->getV()[1], validMap->getV()[4]);//brazil --> north africa
+    //create the Africa continent
+    Continent* africa = validMap->createContinent("Africa");
+    Territory* northAfrica = new Territory("North Africa", africa);
+    Territory* egypt = new Territory("Egypt", africa);
+    Territory* eastAfrica = new Territory("East Africa", africa);
+    Territory* congo = new Territory("Congo", africa);
+    Territory* southAfrica = new Territory("South Africa", africa);
+    Territory* mdagascar = new Territory("Mdagascar", africa);
+    validMap->insertAndConnectTwoTerritories(*northAfrica, *egypt);//north africa --> egypt
+    validMap->insertAndConnectTwoTerritories(*eastAfrica, *congo);//east africa --> congo
+    validMap->insertAndConnectTwoTerritories(*southAfrica, *mdagascar);//south africa --> mdagascar
+    validMap->connectTwoNodes(validMap->getV()[4], validMap->getV()[7]);//north africa --> congo
+    validMap->connectTwoNodes(validMap->getV()[7], validMap->getV().end()[-2]);//congo --> south africa
+    validMap->connectTwoNodes(validMap->getV()[5], validMap->getV()[6]);//egypt --> east africa
+
+    //connect between south america and africa
+    validMap->connectTwoNodes(validMap->getV()[1], validMap->getV()[4]);//brazil --> north africa
 
    // Creating a vector of Territory pointers for the player
    vector<Territory *> territoryv1;
@@ -70,7 +69,7 @@ int main()
    vcards1.push_back(card3);
    Hand *handp = new Hand(vcards1);
 
-   // Initializing a Player using the initalized data memebers
+   // Initializing a Player using the initialized data members
    Player p1(4,0, territoryv1, handp, olp);
    cout << p1;
 
