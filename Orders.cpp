@@ -236,6 +236,9 @@ ostream& operator <<(ostream &strm, Deploy &dep){
 Deploy& Deploy::operator =(const Deploy &dep){
     Order::operator =(dep);
     this->orderType = dep.orderType;
+    this->p = dep.p;
+    this->target = dep.target;
+    this->numToDeploy = dep.numToDeploy;
     return *this;
 }
 
@@ -245,14 +248,26 @@ Deploy& Deploy::operator =(const Deploy &dep){
 //-------------- Constructors --------------//
 Advance::Advance(){
     this->orderType = "ADVANCE";
+    this->p = NULL;
+    this->source = NULL;
+    this->target = NULL;
+    this->numToAdvance = 0;
 }
 
-Advance::Advance(string orderType){
-    this->orderType = orderType;
+Advance::Advance(Player *player, Territory *sTerritory, Territory *tTerritory, int numArmies){
+    this->orderType = "ADVANCE";
+    this->p = player;
+    this->source = sTerritory;
+    this->target = tTerritory;
+    this->numToAdvance = numArmies;
 }
 
 Advance::Advance(const Advance &adv) : Order(adv) {
     this->orderType = adv.orderType;
+    this->p = adv.p;
+    this->source = adv.source;
+    this->target = adv.target;
+    this->numToAdvance = adv.numToAdvance;
     cout << "Copy constructor for Advance class has been called" << endl;
 }
 
@@ -261,12 +276,36 @@ string Advance::getOrderType(){
     return orderType;
 }
 
+Player* Advance::getPlayer() {
+    return p;
+}
+
+Territory* Advance::getSource() {
+    return source;
+}
+
+Territory* Advance::getTarget(){
+    return target;
+}
+
+int Advance::getNumToAdvance() {
+    return numToAdvance;
+}
+
 //-------------- Other Methods --------------//
 //Validate if Advance is a valid order
 bool Advance::validate(){
 
-    //Check if Advance is a subclass of Order
-    if (is_base_of<Order, Advance>::value) {
+    Territory* sourceAddress = 0;
+    for(int i = 0; i < p->getTerritoriesOwned().size(); i++){
+        sourceAddress = 0;
+        if(p->getTerritoriesOwned()[i] == source){
+            sourceAddress = p->getTerritoriesOwned()[i];
+            break;
+        }
+    }
+    //Check that player is advancing a valid number of armies from a territory that they own
+    if ((sourceAddress == source) && (numToAdvance <= source->getNumberOfArmies())) {
         return true;
     }
     else
@@ -279,11 +318,15 @@ void Advance::execute(){
         /*
          * Attacking armies * 0.6 = number of defending armies killed
          * Defending armies * 0.7 = number of attacking armies killed
+         * if target belongs to player, move them
+         * else simulate attack (to take over territory maybe need to pass a second player into Advance() to remove
+         * the territory from their list. and then change territories owner id
          */
+
         cout << "Advance executed" << endl;
     }
     else{
-        cout << "Error executing Advance command" << endl;
+        cout << "Invalid Advance Order" << endl;
     }
 
 }
@@ -297,6 +340,7 @@ ostream& operator <<(ostream &strm, Advance &adv){
 Advance& Advance::operator =(const Advance &adv){
     Order::operator =(adv);
     this->orderType = adv.orderType;
+    cout << "Assignment operator called";
     return *this;
 }
 

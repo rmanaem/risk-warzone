@@ -14,9 +14,9 @@ int main()
 
     //create the South America continent
     Continent* southAmerica = validMap->createContinent("South America");
-    Territory* venezuela = new Territory("Venezuela", southAmerica);
-    Territory* brazil = new Territory("Brazil", southAmerica);
-    Territory* argentina = new Territory("Argentina", southAmerica);
+    Territory* venezuela = new Territory("Venezuela", southAmerica, 4, 0);
+    Territory* brazil = new Territory("Brazil", southAmerica, 4, 0);
+    Territory* argentina = new Territory("Argentina", southAmerica, 4, 0);
     Territory* peru = new Territory("Peru", southAmerica);
     validMap->insertAndConnectTwoTerritories(*venezuela, *brazil);// venezuela --> brazil
     validMap->insertAndConnectTwoTerritories(*argentina, *peru);// argentina --> peru
@@ -58,15 +58,18 @@ int main()
     //Create a deploy order for p1 to deploy 4 armies to venezuela
     Deploy* deployOrder = new Deploy(p1, venezuela, 4);
 
-
     //Test the validate() and execute() for deploy
     cout << "Deploy is a valid Order: " << deployOrder->validate() << endl;
     cout << "Number of armies before executing deploy: " << venezuela->getNumberOfArmies() << endl;
     deployOrder->execute();
     cout << "Number of armies after executing deploy: " << venezuela->getNumberOfArmies() << endl;
 
+    //Test the validate() and execute() for advance
+    Advance* advanceOrder = new Advance(p1, venezuela, brazil, 4);
+    cout << "Advance is a valid Order: " << advanceOrder->validate() << endl;
+//    advanceOrder->execute();
 
-//    Advance* advanceOrder = new Advance;
+
 //    Bomb* bombOrder = new Bomb;
 //    Blockade* blockadeOrder = new Blockade;
 //    Airlift* airliftOrder = new Airlift;
@@ -74,8 +77,7 @@ int main()
 
 
 
-//    cout << "\nAdvance is a valid Order: " << advanceOrder->validate() << endl;
-//    advanceOrder->execute();
+
 //
 //    cout << "\nBomb is a valid Order: " << bombOrder->validate() << endl;
 //    bombOrder->execute();

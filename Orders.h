@@ -125,15 +125,23 @@ class Advance : public Order {
 private:
     //String describing the order type
     string orderType;
+    Player *p;
+    Territory *source;
+    Territory *target;
+    int numToAdvance;
 
 public:
     //-------------- Constructors --------------//
     Advance();
-    Advance(string orderType);
+    Advance(Player *p, Territory *source, Territory *target, int numToAdvance);
     Advance(const Advance &adv);
 
     //-------------- Getters --------------//
     string getOrderType();
+    Player* getPlayer();
+    Territory* getSource();
+    Territory* getTarget();
+    int getNumToAdvance();
 
     //-------------- Other Methods --------------//
     //Method to validate if an order is valid
