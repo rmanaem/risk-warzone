@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Map.h"
-#include "Orders.h"
 #include "Cards.h"
 #include <iostream>
 #include <vector>
@@ -9,6 +8,7 @@
 //============================ Forward declarations  ============================//
 class Card;
 class Hand;
+class OrdersList;
 
 //============================ Player Class ============================//
 class Player

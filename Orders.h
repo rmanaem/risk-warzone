@@ -1,8 +1,11 @@
 #pragma once
+#include "Map.h"
 #include <vector>
 #include <string>
 using namespace std;
 
+//Forward Declarations;
+class Player;
 
 //----------------------------Order Class----------------------------//
 class Order {
@@ -27,6 +30,9 @@ public:
 
     //Assignment operator
     virtual Order& operator =(const Order &order);
+
+    //Pure virtual execute function
+    virtual void execute() = 0;
 };
 
 
@@ -77,15 +83,25 @@ class Deploy : public Order {
 private:
     //String describing the order type
     string orderType;
+    Player *p;
+    Territory *target;
+    int numToDeploy;
 
 public:
+
     //-------------- Constructors --------------//
     Deploy();
-    Deploy(string orderType);
+    Deploy(Player *p, Territory *target, int numToDeploy);
     Deploy(const Deploy &dep);
 
     //-------------- Getters --------------//
     string getOrderType();
+
+    Player* getPlayer();
+
+    Territory* getTarget();
+
+    int getNumToDeploy();
 
     //-------------- Other Methods --------------//
     //Method to validate if an order is valid

@@ -1,4 +1,6 @@
 #include "Orders.h"
+#include "Player.h"
+//#include "Map.h"
 #include <string>
 #include <iostream>
 #include <type_traits>
@@ -36,8 +38,6 @@ Order& Order::operator =(const Order &order){
     this->orderType = order.orderType;
     return *this;
 }
-
-
 
 //----------------------------OrdersList Class----------------------------//
 //-------------- Constructors --------------//
@@ -157,14 +157,23 @@ OrdersList& OrdersList::operator =(const OrdersList &ordList){
 //-------------- Constructors --------------//
 Deploy::Deploy(){
     this->orderType = "DEPLOY";
+    this->p = NULL;
+    this->target = NULL;
+    this->numToDeploy = 0;
 }
 
-Deploy::Deploy(string orderType){
-    this->orderType = orderType;
+Deploy::Deploy(Player *player, Territory *territory, int numArmies){
+    this->orderType = "DEPLOY";
+    this->p = player;
+    this->target = territory;
+    this->numToDeploy = numArmies;
 }
 
 Deploy::Deploy(const Deploy &dep) : Order(dep) {
     this->orderType = dep.orderType;
+    this->p = dep.p;
+    this->target = dep.target;
+    this->numToDeploy = dep.numToDeploy;
     cout << "Copy constructor for Deploy class has been called" << endl;
 }
 
@@ -173,25 +182,47 @@ string Deploy::getOrderType(){
     return orderType;
 }
 
+Player* Deploy::getPlayer(){
+    return p;
+}
+
+Territory* Deploy::getTarget() {
+    return target;
+}
+
+int Deploy::getNumToDeploy() {
+    return numToDeploy;
+}
+
 //-------------- Other Methods --------------//
 //Validate if Deploy is a valid order
 bool Deploy::validate(){
-
-    //Check if Deploy is a subclass of Order
-    if (is_base_of<Order, Deploy>::value) {
+    Territory* targAddress = 0;
+    for(int i = 0; i < p->getTerritoriesOwned().size(); i++){
+        targAddress = 0;
+        if(p->getTerritoriesOwned()[i] == target){
+            targAddress = p->getTerritoriesOwned()[i];
+            break;
+        }
+    }
+    //Check that player is deploying a valid number of armies to a territory that they own
+    if ((targAddress == target) && (numToDeploy <= p->getNbArmies())) {
         return true;
     }
-    else
+    else {
         return false;
+    }
 }
 
 //Execute the order
 void Deploy::execute(){
-    if(validate() == true){
+    if(validate()){
+        target->setNumberOfArmies(target->getNumberOfArmies() + numToDeploy);
+        p->setNbArmies(p->getNbArmies() - numToDeploy);
         cout << "Deploy executed" << endl;
     }
     else{
-        cout << "Error executing Deploy command" << endl;
+        cout << "Invalid Deploy Order" << endl;
     }
 
 }
@@ -244,7 +275,11 @@ bool Advance::validate(){
 
 //Execute the order
 void Advance::execute(){
-    if(validate() == true){
+    if(validate()){
+        /*
+         * Attacking armies * 0.6 = number of defending armies killed
+         * Defending armies * 0.7 = number of attacking armies killed
+         */
         cout << "Advance executed" << endl;
     }
     else{
@@ -301,7 +336,7 @@ bool Bomb::validate(){
 
 //Execute the order
 void Bomb::execute(){
-    if(validate() == true){
+    if(validate()){
         cout << "Bomb executed" << endl;
     }
     else{
@@ -358,7 +393,7 @@ bool Blockade::validate(){
 
 //Execute the order
 void Blockade::execute(){
-    if(validate() == true){
+    if(validate()){
         cout << "Blockade executed" << endl;
     }
     else{
@@ -415,7 +450,7 @@ bool Airlift::validate(){
 
 //Execute the order
 void Airlift::execute(){
-    if(validate() == true){
+    if(validate()){
         cout << "Airlift executed" << endl;
     }
     else{
@@ -472,7 +507,7 @@ bool Negotiate::validate(){
 
 //Execute the order
 void Negotiate::execute(){
-    if(validate() == true){
+    if(validate()){
         cout << "Negotiate executed" << endl;
     }
     else{

@@ -101,7 +101,7 @@ void Player::setOrders(OrdersList *orders)
     this->orders = orders;
 }
 
-//-------------- toDefent method --------------//
+//-------------- toDefend method --------------//
 /*
  Returns a collection of territories that the player can defend
 */
