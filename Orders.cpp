@@ -206,7 +206,7 @@ bool Deploy::validate(){
         }
     }
     //Check that player is deploying a valid number of armies to a territory that they own
-    if ((targAddress == target) && (numToDeploy <= p->getNbArmies())) {
+    if ((targAddress == target) && (numToDeploy <= p->getNbArmies()) && (target != NULL)) {
         return true;
     }
     else {
@@ -299,30 +299,54 @@ bool Advance::validate(){
     Territory* sourceAddress = 0;
     for(int i = 0; i < p->getTerritoriesOwned().size(); i++){
         sourceAddress = 0;
-        if(p->getTerritoriesOwned()[i] == source){
+        if((p->getTerritoriesOwned()[i] == source) && (source != NULL)){
             sourceAddress = p->getTerritoriesOwned()[i];
             break;
         }
     }
     //Check that player is advancing a valid number of armies from a territory that they own
-    if ((sourceAddress == source) && (numToAdvance <= source->getNumberOfArmies())) {
-        return true;
+    if(source != NULL) {
+        if ((sourceAddress == source) && (numToAdvance <= source->getNumberOfArmies())) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
-    else
+
+    else {
         return false;
+    }
+
 }
 
 //Execute the order
 void Advance::execute(){
     if(validate()){
+        Territory* targetAddress = 0;
+        for(int i = 0; i < p->getTerritoriesOwned().size(); i++){
+            targetAddress = 0;
+            if(p->getTerritoriesOwned()[i] == target){
+                targetAddress = p->getTerritoriesOwned()[i];
+                break;
+            }
+        }
         /*
          * Attacking armies * 0.6 = number of defending armies killed
          * Defending armies * 0.7 = number of attacking armies killed
          * if target belongs to player, move them
          * else simulate attack (to take over territory maybe need to pass a second player into Advance() to remove
-         * the territory from their list. and then change territories owner id
+         * the territory from their list. and then change territories owner id but i dont like this because it
+         * requires knowing who owns the territory to attack)
+         * might need to pass a player in territory to know who to remove it from
          */
-
+        //this means the target is not in the player issuing the order's owned territories
+        if(targetAddress == NULL){
+            cout << "ATTACK";
+        }
+        else{
+            cout << "MOVE";
+        }
         cout << "Advance executed" << endl;
     }
     else{

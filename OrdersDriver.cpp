@@ -65,9 +65,9 @@ int main()
     cout << "Number of armies after executing deploy: " << venezuela->getNumberOfArmies() << endl;
 
     //Test the validate() and execute() for advance
-    Advance* advanceOrder = new Advance(p1, venezuela, brazil, 4);
+    Advance* advanceOrder = new Advance(p1, venezuela, peru, 4);
     cout << "Advance is a valid Order: " << advanceOrder->validate() << endl;
-//    advanceOrder->execute();
+    advanceOrder->execute();
 
 
 //    Bomb* bombOrder = new Bomb;
