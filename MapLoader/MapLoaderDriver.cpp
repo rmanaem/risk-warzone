@@ -15,8 +15,8 @@ int main() {
 
    list<string> toBeParsed =list_dir("./MapLoader/Maps/");
     showlist(toBeParsed);
-   toBeParsed.pop_front();
-    toBeParsed.pop_front();
+//    toBeParsed.pop_front();
+//     toBeParsed.pop_front();
     list <string> :: iterator it;
     for(it = toBeParsed.begin(); it != toBeParsed.end(); ++it)
         parseMap((*it));

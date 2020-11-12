@@ -7,6 +7,7 @@ using namespace std;
 #include <iterator>
 #include <vector>
 #include "../Player/Player.h"
+#include "../Map/Map.h"
 
 class GameStarter{
     private:
@@ -14,6 +15,7 @@ class GameStarter{
         int numberOfPlayers;
         bool isObserverTurnedOn[2];//isObserverTurnedOn[0] for Phase Observer. isObserverTurnedOn[1] for Game Statistics Observer
         vector<Player*> players;
+        Map* myGraph;
     public:
     //-------------- constructors --------------//
         GameStarter();

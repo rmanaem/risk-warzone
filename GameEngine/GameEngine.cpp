@@ -6,6 +6,7 @@ using namespace std;
 #include <iterator>
 #include <vector>
 #include "../Player/Player.h"
+#include "../MapLoader/MapLoader.h"
 
 GameStarter::GameStarter(){
     selectedMap = "";
@@ -35,7 +36,7 @@ void GameStarter::selectMap(){
     cout<<"Available maps:"<<endl;
 
     //!!!!!!!!!!!!!! dummy should by replace with list_dir from MapLoaderDriver
-    list<string> listOfMaps = {"Andorra.map","astadt.map","austria-hungary.map","astadt.map"};
+    list<string> listOfMaps = list_dir("./MapLoader/Maps/");
 
     int count = 1;
     for(std::list<std::string>::const_iterator i = listOfMaps.begin(); i != listOfMaps.end(); ++i)
@@ -110,6 +111,9 @@ void GameStarter::turnObservers(){
 }
 
 void GameStarter::setUpGame(){
+    selectMap();//load the map
+    myGraph = new Map(parseMap(selectedMap));
+
     selectNumOfPlayers();
 
     // Creating order pointers and a vector of order pointers for the player

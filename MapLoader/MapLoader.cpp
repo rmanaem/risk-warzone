@@ -36,6 +36,8 @@ list<string> list_dir(const char *path) {
     }
     //showlist(results);
     closedir(dir);
+    results.pop_front();
+    results.pop_front();
     return results;
 }
 
