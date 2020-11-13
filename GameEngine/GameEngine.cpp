@@ -31,6 +31,10 @@ vector<Player*> GameStarter::getPlayers(){
     return players;
 }
 
+Map* GameStarter::getMyGraph(){
+    return myGraph;
+}
+
 void GameStarter::selectMap(){
     int mapNum;
     cout<<"Available maps:"<<endl;

@@ -25,7 +25,8 @@ class GameStarter{
         int getSelectedNumberOfPlayers();
         bool* getIsObserverTurnedOn();
         vector<Player*> getPlayers();
-
+        Map* getMyGraph();
+        
     //-------------- getting user input --------------//
         void selectMap();
         void selectNumOfPlayers();
