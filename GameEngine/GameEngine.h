@@ -1,13 +1,14 @@
 #pragma once
 
 #include <iostream>
-using namespace std;
 #include <list>
 #include <algorithm>
 #include <iterator>
 #include <vector>
 #include "../Player/Player.h"
 #include "../Map/Map.h"
+
+using namespace std;
 
 class GameStarter{
     private:
@@ -34,4 +35,7 @@ class GameStarter{
 
     //-------------- set up the game --------------//
         void setUpGame();
+
+    //-------------- game startup phase --------------//
+    void startupPhase();
 };

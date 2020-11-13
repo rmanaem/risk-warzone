@@ -1,5 +1,4 @@
 #include <iostream>
-using namespace std;
 #include "./GameEngine.h"
 #include <list>
 #include <algorithm>
@@ -7,6 +6,8 @@ using namespace std;
 #include <vector>
 #include "../Player/Player.h"
 #include "../MapLoader/MapLoader.h"
+
+using namespace std;
 
 GameStarter::GameStarter(){
     selectedMap = "";
@@ -149,6 +150,68 @@ void GameStarter::setUpGame(){
     vdeck1.push_back(card6);
     Deck *deckp = new Deck(vdeck1);
 }
+
+//-------------- game startup phase --------------//
+//void GameStarter::startupPhase() {
+//    cout << "Initiating start up phase..." << endl;
+//
+//    // Determining the order of the players
+//    cout << "Determining the order of the players";
+//    srand(unsigned(time(0)));
+//    random_shuffle(players.begin(), players.end());
+//    cout << "order of the players is now: " << endl;
+//    for (Player *p : players) {
+//        cout << "Player" << p->getPlayerId() << endl;
+//    }
+//
+//    // Randomly assigning all the territories in the map
+//    cout << "Randomly assigning territories to players" << endl;
+//    vector<Node *> mapNodes = myGraph->getV();
+//    random_shuffle(mapNodes.begin(), mapNodes.end());
+//    for (Node *n : mapNodes) {
+//        players[rand() % players.size()]->getTerritoriesOwned().push_back(n->getDataPtr());
+//    }
+//
+//    for (Player *p : players) {
+//        p->toDefend();
+//    }
+//
+//    // Assigning initial number of armies to players based on the number of players
+//    cout << "Assigning initial number of armies to players: " << endl;
+//    switch (players.size()) {
+//        case 2: {
+//            cout << "Each of the 2 players are assigned 40 armies" << endl;
+//            for (Player *p : players) {
+//                p->setReinforcementPool(40);
+//            }
+//            break;
+//        }
+//        case 3: {
+//            cout << "Each of the 3 players are assigned 35 armies" << endl;
+//            for (Player *p : players) {
+//                p->setReinforcementPool(35);
+//            }
+//            break;
+//        }
+//        case 4: {
+//            cout << "Each of the 4 players are assigned 30 armies" << endl;
+//            for (Player *p : players) {
+//                p->setReinforcementPool(30);
+//            }
+//            break;
+//        }
+//        case 5: {
+//            cout << "Each of the 5 players are assigned 25 armies" << endl;
+//            for (Player *p : players) {
+//                p->setReinforcementPool(25);
+//            }
+//            break;
+//        }
+//        default: {
+//            throw logic_error("Invalid input");
+//        }
+//    }
+//}
 
 int main(){
     GameStarter x = GameStarter();
