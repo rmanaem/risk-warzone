@@ -127,7 +127,7 @@ std::vector<Territory *> Player::toAttack(Map *map)
     vector<Node *> ownedTerritoriesNodes;
     for (Node *n : map->getV()) {
         for(Territory *t : territoriesOwned) {
-            if (n->getDataPtr()->getTerritoryName() == t->getTerritoryName() ) {
+            if (n->getDataPtr()->getTerritoryName() == t->getTerritoryName()) {
                 ownedTerritoriesNodes.push_back(n);
             }
         }
@@ -135,7 +135,7 @@ std::vector<Territory *> Player::toAttack(Map *map)
     }
     for (Node *n : map->getV()) {
         for (Node *pn : ownedTerritoriesNodes) {
-            if (map->areConnected(n, pn) && !(count(ownedTerritoriesNodes.begin(), ownedTerritoriesNodes.end(), n))) {
+            if (map->areConnected(n, pn) && !(count(ownedTerritoriesNodes.begin(), ownedTerritoriesNodes.end(), n)) && !count(territoriesToAttack.begin(),territoriesToAttack.end(),n->getDataPtr())) {
                 territoriesToAttack.push_back(n->getDataPtr());
             }
         }
