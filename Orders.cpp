@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include <type_traits>
+#include <cmath>
 using namespace std;
 
 
@@ -388,14 +389,20 @@ Advance& Advance::operator =(const Advance &adv){
 //-------------- Constructors --------------//
 Bomb::Bomb(){
     this->orderType = "BOMB";
+    this->p = NULL;
+    this->target = NULL;
 }
 
-Bomb::Bomb(string orderType){
-    this->orderType = orderType;
+Bomb::Bomb(Player* player, Territory* tTerritory){
+    this->orderType = "BOMB";
+    this->p = player;
+    this->target = tTerritory;
 }
 
 Bomb::Bomb(const Bomb &bomb) : Order(bomb) {
     this->orderType = bomb.orderType;
+    this->p = bomb.p;
+    this->target = bomb.target;
     cout << "Copy constructor for Bomb class has been called" << endl;
 }
 
@@ -404,25 +411,44 @@ string Bomb::getOrderType(){
     return orderType;
 }
 
+Player* Bomb::getPlayer() {
+    return p;
+}
+
+Territory* Bomb::getTarget() {
+    return target;
+}
+
 //-------------- Other Methods --------------//
 //Validate if Bomb is a valid order
 bool Bomb::validate(){
+    Territory* targAddress = 0;
+    for(int i = 0; i < p->getTerritoriesOwned().size(); i++){
+        targAddress = 0;
+        if((p->getTerritoriesOwned()[i] == target) && (target != NULL)){
+            targAddress = p->getTerritoriesOwned()[i];
+            break;
+        }
+    }
 
-    //Check if Bomb is a subclass of Order
-    if (is_base_of<Order, Bomb>::value) {
+    if (targAddress != target) {
         return true;
     }
-    else
+    else {
         return false;
+    }
+
 }
 
 //Execute the order
 void Bomb::execute(){
     if(validate()){
+        int halfArmies = round(static_cast<double>(target->getNumberOfArmies())/2);
+        target->setNumberOfArmies(halfArmies);
         cout << "Bomb executed" << endl;
     }
     else{
-        cout << "Error executing Bomb command" << endl;
+        cout << "Invalid Bomb Order" << endl;
     }
 
 }
@@ -436,6 +462,8 @@ ostream& operator <<(ostream &strm, Bomb &bomb){
 Bomb& Bomb::operator =(const Bomb &bomb){
     Order::operator =(bomb);
     this->orderType = bomb.orderType;
+    this->p = bomb.p;
+    this->target = bomb.target;
     return *this;
 }
 
@@ -502,6 +530,10 @@ Blockade& Blockade::operator =(const Blockade &block){
 //-------------- Constructors --------------//
 Airlift::Airlift(){
     this->orderType = "AIRLIFT";
+    this->p = NULL;
+    this->source = NULL;
+    this->target = NULL;
+    this->numToAirlift = 0;
 }
 
 Airlift::Airlift(Player *player, Territory *sTerritory, Territory *tTerritory, int numAirlift){

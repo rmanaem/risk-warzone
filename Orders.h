@@ -164,15 +164,19 @@ class Bomb : public Order {
 private:
     //String describing the order type
     string orderType;
+    Player *p;
+    Territory *target;
 
 public:
     //-------------- Constructors --------------//
     Bomb();
-    Bomb(string orderType);
+    Bomb(Player* p, Territory* target);
     Bomb(const Bomb &bomb);
 
     //-------------- Getters --------------//
     string getOrderType();
+    Player* getPlayer();
+    Territory* getTarget();
 
     //-------------- Other methods --------------//
     //Method to validate if an order is valid

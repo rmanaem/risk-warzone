@@ -33,27 +33,40 @@ int main()
 //        cout<<endl;
 //    }
 
-    //Create a vector of territories
-    vector<Territory *> ownedTer;
-    ownedTer.push_back(venezuela);
-    ownedTer.push_back(brazil);
-    ownedTer.push_back(argentina);
+    //Create vectors of territories
+    vector<Territory *> ownedTer1;
+    ownedTer1.push_back(venezuela);
+    ownedTer1.push_back(brazil);
+    ownedTer1.push_back(argentina);
 
-    //Create some Cards and Hand containing those cards
+    vector<Territory*> ownedTer2;
+    ownedTer2.push_back(peru);
+
+    //Create some Cards and Hands containing those cards
     Card *card1 = new Card(0);
     Card *card2 = new Card(1);
     Card *card3 = new Card(3);
+
     vector<Card *> vcards1;
     vcards1.push_back(card1);
     vcards1.push_back(card2);
     vcards1.push_back(card3);
-    Hand *handp = new Hand(vcards1);
+    Hand *handp1 = new Hand(vcards1);
 
-    //Create an empty orderslist
-    OrdersList* ol = new OrdersList();
+    vector<Card *> vcards2;
+    vcards2.push_back(card1);
+    vcards2.push_back(card2);
+    vcards2.push_back(card3);
+    Hand *handp2 = new Hand(vcards2);
 
-    //Create a player
-    Player* p1 = new Player(4,4, ownedTer, handp, ol);
+
+    //Create empty orderslists
+    OrdersList* ol1 = new OrdersList();
+    OrdersList* ol2 = new OrdersList();
+
+    //Create players
+    Player* p1 = new Player(4,4, ownedTer1, handp1, ol1);
+    Player* p2 = new Player(2, 8, ownedTer2, handp2, ol2);
 
 
 
@@ -65,6 +78,12 @@ int main()
     deployOrder->execute();
     cout << "Number of armies after executing deploy: " << venezuela->getNumberOfArmies() << endl;
 
+    Deploy* deployOrder2 = new Deploy(p2, peru, 7);
+    cout << "\nDeploy is a valid Order: " << deployOrder2->validate() << endl;
+    cout << "Number of armies before executing deploy: " << peru->getNumberOfArmies() << endl;
+    deployOrder2->execute();
+    cout << "Number of armies after executing deploy: " << peru->getNumberOfArmies() << endl;
+
     //Test the validate() and execute() for advance
     Advance* advanceOrder = new Advance(p1, venezuela, brazil, 4);
     cout << "\nAdvance is a valid Order: " << advanceOrder->validate() << endl;
@@ -73,8 +92,6 @@ int main()
     advanceOrder->execute();
     cout << "Number of armies after executing advance in Venezuela: " << venezuela->getNumberOfArmies() << endl;
     cout << "Number of armies after executing advance in Brazil: " << brazil->getNumberOfArmies() << endl;
-
-    //p1->toAttack(validMap);
 
     //Test the validate() and execute() for airlift
     Airlift* airliftOrder = new Airlift(p1, brazil, venezuela, 3);
@@ -85,7 +102,13 @@ int main()
     cout << "Number of armies after executing airlift in Brazil: " << brazil->getNumberOfArmies() << endl;
     cout << "Number of armies after executing airlift in Venezuela: " << venezuela->getNumberOfArmies() << endl;
 
-//    Bomb* bombOrder = new Bomb;
+    //Test the validate() and execute() for airlift
+    Bomb* bombOrder = new Bomb(p1, peru);
+    cout << "\nBomb is a valid Order: " << bombOrder->validate() << endl;
+    cout << "Number of armies before executing bomb in peru: " << peru->getNumberOfArmies() << endl;
+    bombOrder->execute();
+    cout << "Number of armies after executing bomb in peru: " << peru->getNumberOfArmies() << endl;
+
 //    Blockade* blockadeOrder = new Blockade;
 
 //    Negotiate* negotiateOrder = new Negotiate;
