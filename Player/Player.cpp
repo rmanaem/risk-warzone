@@ -6,6 +6,8 @@
 #include <algorithm>
 #include <list>
 
+using namespace std;
+
 //============================ Player Class ============================/
 
 //-------------- Constructors --------------//
