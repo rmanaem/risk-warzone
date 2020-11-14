@@ -228,15 +228,23 @@ class Airlift : public Order {
 private:
     //String describing the order type
     string orderType;
+    Player *p;
+    Territory *source;
+    Territory *target;
+    int numToAirlift;
 
 public:
     //-------------- Constructors --------------//
     Airlift();
-    Airlift(string orderType);
+    Airlift(Player *p, Territory *source, Territory *target, int numToAirlift);
     Airlift(const Airlift &air);
 
     //-------------- Getters --------------//
     string getOrderType();
+    Player* getPlayer();
+    Territory* getSource();
+    Territory* getTarget();
+    int getNumToAirlift();
 
     //-------------- Other Methods --------------//
     //Method to validate if an order is valid

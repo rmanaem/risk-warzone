@@ -55,24 +55,39 @@ int main()
     //Create a player
     Player* p1 = new Player(4,4, ownedTer, handp, ol);
 
-    //Create a deploy order for p1 to deploy 4 armies to venezuela
-    Deploy* deployOrder = new Deploy(p1, venezuela, 4);
+
+
 
     //Test the validate() and execute() for deploy
-    cout << "Deploy is a valid Order: " << deployOrder->validate() << endl;
+    Deploy* deployOrder = new Deploy(p1, venezuela, 4);
+    cout << "\nDeploy is a valid Order: " << deployOrder->validate() << endl;
     cout << "Number of armies before executing deploy: " << venezuela->getNumberOfArmies() << endl;
     deployOrder->execute();
     cout << "Number of armies after executing deploy: " << venezuela->getNumberOfArmies() << endl;
 
     //Test the validate() and execute() for advance
-    Advance* advanceOrder = new Advance(p1, venezuela, peru, 4);
-    cout << "Advance is a valid Order: " << advanceOrder->validate() << endl;
+    Advance* advanceOrder = new Advance(p1, venezuela, brazil, 4);
+    cout << "\nAdvance is a valid Order: " << advanceOrder->validate() << endl;
+    cout << "Number of armies before executing advance in Venezuela: " << venezuela->getNumberOfArmies() << endl;
+    cout << "Number of armies before executing advance in Brazil: " << brazil->getNumberOfArmies() << endl;
     advanceOrder->execute();
+    cout << "Number of armies after executing advance in Venezuela: " << venezuela->getNumberOfArmies() << endl;
+    cout << "Number of armies after executing advance in Brazil: " << brazil->getNumberOfArmies() << endl;
 
+    //p1->toAttack(validMap);
+
+    //Test the validate() and execute() for airlift
+    Airlift* airliftOrder = new Airlift(p1, brazil, venezuela, 3);
+    cout << "\nAirlift is a valid Order: " << airliftOrder->validate() << endl;
+    cout << "Number of armies before executing airlift in Brazil: " << brazil->getNumberOfArmies() << endl;
+    cout << "Number of armies before executing airlift in Venezuela: " << venezuela->getNumberOfArmies() << endl;
+    airliftOrder->execute();
+    cout << "Number of armies after executing airlift in Brazil: " << brazil->getNumberOfArmies() << endl;
+    cout << "Number of armies after executing airlift in Venezuela: " << venezuela->getNumberOfArmies() << endl;
 
 //    Bomb* bombOrder = new Bomb;
 //    Blockade* blockadeOrder = new Blockade;
-//    Airlift* airliftOrder = new Airlift;
+
 //    Negotiate* negotiateOrder = new Negotiate;
 
 
@@ -85,8 +100,7 @@ int main()
 //    cout << "\nBlockade is a valid Order: " << blockadeOrder->validate() << endl;
 //    blockadeOrder->execute();
 //
-//    cout << "\nAirlift is a valid Order: " << airliftOrder->validate() << endl;
-//    airliftOrder->execute();
+
 //
 //    cout << "\nNegotiate is a valid Order: " << negotiateOrder->validate() << endl;
 //    negotiateOrder->execute();

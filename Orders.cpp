@@ -334,7 +334,6 @@ void Advance::execute(){
         /*
          * Attacking armies * 0.6 = number of defending armies killed
          * Defending armies * 0.7 = number of attacking armies killed
-         * if target belongs to player, move them
          * else simulate attack (to take over territory maybe need to pass a second player into Advance() to remove
          * the territory from their list. and then change territories owner id but i dont like this because it
          * requires knowing who owns the territory to attack)
@@ -343,9 +342,24 @@ void Advance::execute(){
         //this means the target is not in the player issuing the order's owned territories
         if(targetAddress == NULL){
             cout << "ATTACK";
+            int attackersKilled = (int)(target->getNumberOfArmies() * 0.7);
+            int defendersKilled = (int)(numToAdvance * 0.6);
+
+            //Attackers win and take control of the territory
+            if(defendersKilled >= target->getNumberOfArmies()){
+                target->setNumberOfArmies(numToAdvance - attackersKilled);
+                source->setNumberOfArmies(source->getNumberOfArmies() - numToAdvance);
+                //CHANGE OWNERSHIP OF THE TERRITORY, set the id, remove from old players list and add to new players list
+            }
+            //Defenders win and keep control of the territory
+            else{
+
+            }
+
         }
         else{
-            cout << "MOVE";
+            target->setNumberOfArmies(target->getNumberOfArmies() + numToAdvance);
+            source->setNumberOfArmies(source->getNumberOfArmies() - numToAdvance);
         }
         cout << "Advance executed" << endl;
     }
@@ -490,12 +504,20 @@ Airlift::Airlift(){
     this->orderType = "AIRLIFT";
 }
 
-Airlift::Airlift(string orderType){
-    this->orderType = orderType;
+Airlift::Airlift(Player *player, Territory *sTerritory, Territory *tTerritory, int numAirlift){
+    this->orderType = "ADVANCE";
+    this->p = player;
+    this->source = sTerritory;
+    this->target = tTerritory;
+    this->numToAirlift = numAirlift;
 }
 
 Airlift::Airlift(const Airlift &air) : Order(air) {
     this->orderType = air.orderType;
+    this->p = air.p;
+    this->source = air.source;
+    this->target = air.target;
+    this->numToAirlift = air.numToAirlift;
     cout << "Copy constructor for Airlift class has been called" << endl;
 }
 
@@ -504,25 +526,67 @@ string Airlift::getOrderType(){
     return orderType;
 }
 
+Player* Airlift::getPlayer() {
+    return p;
+}
+
+Territory* Airlift::getSource() {
+    return source;
+}
+
+Territory* Airlift::getTarget() {
+    return target;
+}
+
+int Airlift::getNumToAirlift() {
+    return numToAirlift;
+}
+
 //-------------- Other Methods --------------//
 //Validate if Airlift is a valid order
 bool Airlift::validate(){
 
-    //Check if Airlift is a subclass of Order
-    if (is_base_of<Order, Airlift>::value) {
-        return true;
+    Territory* sourceAddress = 0;
+    for(int i = 0; i < p->getTerritoriesOwned().size(); i++){
+        sourceAddress = 0;
+        if((p->getTerritoriesOwned()[i] == source) && (source != NULL)){
+            sourceAddress = p->getTerritoriesOwned()[i];
+            break;
+        }
     }
-    else
+    Territory* targAddress = 0;
+    for(int i = 0; i < p->getTerritoriesOwned().size(); i++){
+        targAddress = 0;
+        if((p->getTerritoriesOwned()[i] == target) && (target != NULL)){
+            targAddress = p->getTerritoriesOwned()[i];
+            break;
+        }
+    }
+
+    //Check that player is advancing a valid number of armies from a territory that they own
+    if(source != NULL) {
+        if ((sourceAddress == source) && (targAddress == target) && (numToAirlift <= source->getNumberOfArmies())) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    else {
         return false;
+    }
+
 }
 
 //Execute the order
 void Airlift::execute(){
     if(validate()){
+        source->setNumberOfArmies(source->getNumberOfArmies() - numToAirlift);
+        target->setNumberOfArmies(target->getNumberOfArmies() + numToAirlift);
         cout << "Airlift executed" << endl;
     }
     else{
-        cout << "Error executing Airlift command" << endl;
+        cout << "Invalid Airlift Order" << endl;
     }
 
 }
@@ -536,6 +600,10 @@ ostream& operator <<(ostream &strm, Airlift &air){
 Airlift& Airlift::operator =(const Airlift &air){
     Order::operator =(air);
     this->orderType = air.orderType;
+    this->p = air.p;
+    this->source = air.source;
+    this->target = air.target;
+    this->numToAirlift = air.numToAirlift;
     return *this;
 }
 
