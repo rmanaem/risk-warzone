@@ -27,11 +27,12 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="88dc3081-9506-4a42-a872-9e1c759f011b" name="Default Changelist" comment="">
+    <list default="true" id="88dc3081-9506-4a42-a872-9e1c759f011b" name="Default Changelist" comment="2">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameEngine/GameEngine.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/GameEngine/GameEngine.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Map/Map.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Map/Map.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Map/Map.h" beforeDir="false" afterPath="$PROJECT_DIR$/Map/Map.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MapLoader/MapLoader.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/MapLoader/MapLoader.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MapLoader/MapLoader.h" beforeDir="false" afterPath="$PROJECT_DIR$/MapLoader/MapLoader.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MapLoader/MapLoaderDriver.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/MapLoader/MapLoaderDriver.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,6 +40,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ClangdSettings">
+    <option name="clangTidyViaClangd" value="false" />
     <option name="formatViaClangd" value="false" />
   </component>
   <component name="Git.Settings">
@@ -80,6 +82,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="184" y="112" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1604501465554">

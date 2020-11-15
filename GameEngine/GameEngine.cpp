@@ -4,8 +4,10 @@
 #include <algorithm>
 #include <iterator>
 #include <vector>
+#include <map>
 #include "../Player/Player.h"
 #include "../MapLoader/MapLoader.h"
+#include "../Map/Map.h"
 
 using namespace std;
 
@@ -151,76 +153,109 @@ void GameStarter::setUpGame(){
     Deck *deckp = new Deck(vdeck1);
 }
 
-//-------------- game startup phase --------------//
-//void GameStarter::startupPhase() {
-//    cout << "Initiating start up phase..." << endl;
-//
-//    // Determining the order of the players
-//    cout << "Determining the order of the players";
-//    srand(unsigned(time(0)));
-//    random_shuffle(players.begin(), players.end());
-//    cout << "order of the players is now: " << endl;
-//    for (Player *p : players) {
-//        cout << "Player" << p->getPlayerId() << endl;
-//    }
-//
-//    // Randomly assigning all the territories in the map
-//    cout << "Randomly assigning territories to players" << endl;
-//    vector<Node *> mapNodes = myGraph->getV();
-//    random_shuffle(mapNodes.begin(), mapNodes.end());
-//    for (Node *n : mapNodes) {
-//        players[rand() % players.size()]->getTerritoriesOwned().push_back(n->getDataPtr());
-//    }
-//
-//    for (Player *p : players) {
-//        p->toDefend();
-//    }
-//
-//    // Assigning initial number of armies to players based on the number of players
-//    cout << "Assigning initial number of armies to players: " << endl;
-//    switch (players.size()) {
-//        case 2: {
-//            cout << "Each of the 2 players are assigned 40 armies" << endl;
-//            for (Player *p : players) {
-//                p->setReinforcementPool(40);
-//            }
-//            break;
-//        }
-//        case 3: {
-//            cout << "Each of the 3 players are assigned 35 armies" << endl;
-//            for (Player *p : players) {
-//                p->setReinforcementPool(35);
-//            }
-//            break;
-//        }
-//        case 4: {
-//            cout << "Each of the 4 players are assigned 30 armies" << endl;
-//            for (Player *p : players) {
-//                p->setReinforcementPool(30);
-//            }
-//            break;
-//        }
-//        case 5: {
-//            cout << "Each of the 5 players are assigned 25 armies" << endl;
-//            for (Player *p : players) {
-//                p->setReinforcementPool(25);
-//            }
-//            break;
-//        }
-//        default: {
-//            throw logic_error("Invalid input");
-//        }
-//    }
-//}
+vector<string> getCountriesInContinent(Map* map, Continent* continent){
+    vector<string> teritories;
+    for(Node* territory : map->getV()){
+        if( territory->getData().getContinent()->getContinentName() == continent->getContinentName()){
+            teritories.push_back(territory->getData().getTerritoryName());
+        }
+    }
+    return teritories;
+}
+vector<string> playerTerritories(vector<Territory*> terriroies){
+    vector<string> names;
+    for(Territory* territory : terriroies){
+        names.push_back(territory->getTerritoryName());
+    }
+    return names;
+}
+bool hasAllTerritories(Player* player, Map* map, Continent* continent) {
+    vector<string> cTerritories=getCountriesInContinent(map, continent);
+    vector<string> pTerritories=playerTerritories(player->getTerritoriesOwned());
+    bool contain= false;
+    for(std::vector<string>::iterator it = cTerritories.begin(); it != cTerritories.end(); ++it) {
+        bool booll = find(pTerritories.begin(), pTerritories.end(), *it) != pTerritories.end();
+        if (!booll)
+        {
+            contain = false;
+        }
+        else{ contain = true; }
+    }
+    return contain;
+}
+
+void reinforcementPhase(GameStarter x) {
+
+    vector<Player*> players= x.getPlayers();
+    Map* map=x.getMyGraph();
+    for (Player* player : players) {
+        int reinforcement = 0;
+        reinforcement += player->getTerritoriesOwned().size() / 3;
+        cout << "reinforcement is: " << player->getTerritoriesOwned().size() << endl;
+        int playerTerritories = player->getTerritoriesOwned().size();
+        for(Continent* continent : map->getListOfContinents()){
+            if(hasAllTerritories(player, map, continent)){
+                reinforcement+= continent->getBonus();
+            }
+        }
+        if(reinforcement<3){
+            cout << "player doesn't have enough territories" <<endl;
+            reinforcement=3;}
+        int prev = player->getNbArmies();
+        player->setNbArmies(prev+reinforcement);
+        cout << "player has " << player->getNbArmies() << "armies" <<endl;
+    }
+}
+void issueOrdersPhase(GameStarter x) {
+    vector<Player*> players= x.getPlayers();
+    // Contains whether a player is done with their turn or not. True if not done.
+    std::map<int, bool> playerTurns = std::map<int, bool>();
+    // Initializing the map
+    int i=0;
+    for (Player* player : players) {
+        playerTurns[i] = true;
+        i++;
+    }
+
+    // Going round robin until all turns are done.
+    int amountOfPlayersDone = 0;
+
+    while (amountOfPlayersDone != players.size()) {
+        int i=0;
+        for (Player* player : players) {
+            // If a player did not end his turn yet...
+            if (playerTurns[i]) {
+                // ... it is prompted to play.
+                player->issueOrder();
+
+                // If it decided to end it's turn just now...
+                if (!playerTurns[i]) {
+                    // ... we add it to the number of players that are done.
+                    amountOfPlayersDone++;
+                }
+            }
+            i++;
+        }
+    }
+    // Everyone has played.
+}
+
+//-------------- Main Game Loop --------------//
+void mainGameLoop(GameStarter x) {
+    vector<Player*> players= x.getPlayers();
+    cout << "Let the game begin!" << endl;
+    reinforcementPhase(x);
+    issueOrdersPhase(x);
+
+}
 
 int main(){
     GameStarter x = GameStarter();
     x.setUpGame();
+    cout<<"am heeere"<<endl;
+    mainGameLoop(x);
     cout<<"Size: "<<x.getPlayers().front()->getPlayerId()<<endl;
     cout<<"Size: "<<x.getPlayers().back()->getPlayerId()<<endl;
-    //cout<<x.getSelectedMap();
-    //cout<<x.getSelectedNumberOfPlayers();
-    // cout<<x.getIsObserverTurnedOn()[0];
-    // cout<<x.getIsObserverTurnedOn()[1];
+
     return 0;
 }

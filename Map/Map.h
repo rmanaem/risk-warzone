@@ -8,10 +8,12 @@ using namespace std;
 class Continent{
     private: 
         string continentName;
+        int bonus;
 
     public:
     //-------------- Constructors --------------//
         Continent(string continentName);
+        Continent(string continentName, int bonus);
         Continent(const Continent& original); //copy constructor
 
     //-------------- Overloads --------------//
@@ -20,9 +22,11 @@ class Continent{
 
     //-------------- Getters --------------//
         string getContinentName();
+        int getBonus();
         
     //-------------- Setters --------------//
         void setContinentName(string newContinentName);
+        void setBonus(int bonus);
 };
 
 class Territory {
@@ -114,7 +118,7 @@ class Map{
         //-------------- Others --------------//
         bool areConnected(Node* A, Node* B);
         void validate();
-        Continent* createContinent(string continentName);
+        Continent* createContinent(string continentName, int bonus);
         bool DFS(vector<Node*> mapNodes, Node* startNode);
 
 };
