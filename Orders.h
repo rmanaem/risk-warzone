@@ -19,6 +19,7 @@ public:
     Order();
     Order(string orderType);
     Order(const Order &order);
+    virtual ~Order();
 
     //-------------- Getters --------------//
     //Make this getter 'virtual' to allow for polymorphism
@@ -200,15 +201,19 @@ class Blockade : public Order {
 private:
     //String describing the order type
     string orderType;
+    Player* p;
+    Territory* target;
 
 public:
     //-------------- Constructors --------------//
     Blockade();
-    Blockade(string orderType);
+    Blockade(Player* p, Territory* target);
     Blockade(const Blockade &block);
 
     //-------------- Getters --------------//
     string getOrderType();
+    Player* getPlayer();
+    Territory* getTarget();
 
     //-------------- Other Methods --------------//
     //Method to validate if an order is valid

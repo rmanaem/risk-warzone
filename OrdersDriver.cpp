@@ -23,6 +23,7 @@ int main()
     validMap->connectTwoNodes(validMap->getV()[0],validMap->getV().end()[-1]);//venezuela --> peru
     validMap->connectTwoNodes(validMap->getV().end()[-1],validMap->getV()[1]);//peru --> brazil
 
+
 //    //Print out the territories of the map
 //    for(Node* territory : validMap->getV()){
 //        cout<<territory->getData().getTerritoryName() + " belongs to " + territory->getData().getContinent()->getContinentName()
@@ -65,7 +66,7 @@ int main()
     OrdersList* ol2 = new OrdersList();
 
     //Create players
-    Player* p1 = new Player(4,4, ownedTer1, handp1, ol1);
+    Player* p1 = new Player(1,4, ownedTer1, handp1, ol1);
     Player* p2 = new Player(2, 8, ownedTer2, handp2, ol2);
 
 
@@ -109,20 +110,25 @@ int main()
     bombOrder->execute();
     cout << "Number of armies after executing bomb in peru: " << peru->getNumberOfArmies() << endl;
 
-//    Blockade* blockadeOrder = new Blockade;
+
+    Blockade* blockadeOrder = new Blockade(p1, venezuela);
+    cout << "\nBlockade is a valid Order: " << blockadeOrder->validate() << endl;
+    cout << "Number of armies before executing blockade in venezuela: " << venezuela->getNumberOfArmies() << endl;
+    cout << "Player 1 owned territories before executing blockade: " << endl;
+    for(int i =0; i<p1->getTerritoriesOwned().size(); i++){
+        cout << p1->getTerritoriesOwned()[i]->getTerritoryName() << endl;
+    }
+    blockadeOrder->execute();
+    cout << "Number of armies after executing blockade in venezuela: " << venezuela->getNumberOfArmies() << endl;
+    cout << "Player 1 owned territories after executing blockade: " << endl;
+    for(int i =0; i<p1->getTerritoriesOwned().size(); i++){
+        cout << p1->getTerritoriesOwned()[i]->getTerritoryName() << endl;
+    }
+
 
 //    Negotiate* negotiateOrder = new Negotiate;
 
 
-
-
-//
-//    cout << "\nBomb is a valid Order: " << bombOrder->validate() << endl;
-//    bombOrder->execute();
-//
-//    cout << "\nBlockade is a valid Order: " << blockadeOrder->validate() << endl;
-//    blockadeOrder->execute();
-//
 
 //
 //    cout << "\nNegotiate is a valid Order: " << negotiateOrder->validate() << endl;
@@ -153,6 +159,9 @@ int main()
 //
 //    //Show the order was moved
 //    cout << "Contents of list after move: \n" << list1 << endl;
+
+      //DELETE ANY TERRITORIES WITH ID 0! because destructor deletes players owned territories,
+      //So any territories not owned by a player need to be deleted
 
     return 0;
 }

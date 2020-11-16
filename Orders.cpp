@@ -23,6 +23,8 @@ Order::Order(const Order &order){
     cout << "Copy constructor for Order class has been called" << endl;
 }
 
+Order::~Order(){}
+
 //-------------- Getters --------------//
 string Order::getOrderType(){
     return orderType;
@@ -431,6 +433,7 @@ bool Bomb::validate(){
         }
     }
 
+    //check that the player issuing the order is not targeting their own territory
     if (targAddress != target) {
         return true;
     }
@@ -473,14 +476,20 @@ Bomb& Bomb::operator =(const Bomb &bomb){
 //-------------- Constructors --------------//
 Blockade::Blockade(){
     this->orderType = "BLOCKADE";
+    this->p = NULL;
+    this->target = NULL;
 }
 
-Blockade::Blockade(string orderType){
-    this->orderType = orderType;
+Blockade::Blockade(Player* player, Territory* tTerritory){
+    this->orderType = "BLOCKADE";
+    this->p = player;
+    this->target = tTerritory;
 }
 
 Blockade::Blockade(const Blockade &block) : Order(block) {
     this->orderType = block.orderType;
+    this->p = block.p;
+    this->target = block.target;
     cout << "Copy constructor for Blockade class has been called" << endl;
 }
 
@@ -489,25 +498,60 @@ string Blockade::getOrderType(){
     return orderType;
 }
 
+Player* Blockade::getPlayer() {
+    return p;
+}
+
+Territory* Blockade::getTarget() {
+    return target;
+}
+
 //-------------- Other Methods --------------//
 //Validate if Blockade is a valid order
 bool Blockade::validate(){
+    Territory* targAddress = 0;
+    for(int i = 0; i < p->getTerritoriesOwned().size(); i++){
+        targAddress = 0;
+        if((p->getTerritoriesOwned()[i] == target) && (target != NULL)){
+            targAddress = p->getTerritoriesOwned()[i];
+            break;
+        }
+    }
 
-    //Check if Blockade is a subclass of Order
-    if (is_base_of<Order, Blockade>::value) {
+    //check that the player issuing the order owns the territory
+    if (targAddress == target && target != NULL) {
         return true;
     }
-    else
+    else {
         return false;
+    }
 }
 
 //Execute the order
 void Blockade::execute(){
     if(validate()){
+        int index = 0;
+        for(int i = 0; i < p->getTerritoriesOwned().size(); i++){
+            if((p->getTerritoriesOwned()[i] == target) && (target != NULL)){
+                break;
+            }
+            index++;
+        }
+        //Double the number of armies on the target territory
+        target->setNumberOfArmies(target->getNumberOfArmies() * 2);
+
+        //Remove the owners id from this territory
+        target->setOwnerId(0);
+
+        //Transfer ownership of the target territory to the neutral player
+        vector<Territory*> newOwnedTer = p->getTerritoriesOwned();
+        newOwnedTer.erase(remove(newOwnedTer.begin(), newOwnedTer.end(), target), newOwnedTer.end());
+        p->setTerritoriesOwned(newOwnedTer);
+
         cout << "Blockade executed" << endl;
     }
     else{
-        cout << "Error executing Blockade command" << endl;
+        cout << "Invalid Blockade Order" << endl;
     }
 
 }
@@ -521,6 +565,8 @@ ostream& operator <<(ostream &strm, Blockade &block){
 Blockade& Blockade::operator =(const Blockade &block){
     Order::operator =(block);
     this->orderType = block.orderType;
+    this->p = block.p;
+    this->target = block.target;
     return *this;
 }
 
@@ -595,7 +641,7 @@ bool Airlift::validate(){
         }
     }
 
-    //Check that player is advancing a valid number of armies from a territory that they own
+    //Check that player is airlifting a valid number of armies from and to territories they own
     if(source != NULL) {
         if ((sourceAddress == source) && (targAddress == target) && (numToAirlift <= source->getNumberOfArmies())) {
             return true;
