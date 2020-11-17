@@ -16,9 +16,14 @@ class GameStarter{
         bool isObserverTurnedOn[2];//isObserverTurnedOn[0] for Phase Observer. isObserverTurnedOn[1] for Game Statistics Observer
         vector<Player*> players;
         Map* myGraph;
+   
     public:
     //-------------- constructors --------------//
         GameStarter();
+        GameStarter(const GameStarter& original);
+
+    //-------------- Destructor --------------//
+        ~GameStarter();
 
     //-------------- getters --------------//
         string getSelectedMap();
@@ -34,4 +39,12 @@ class GameStarter{
 
     //-------------- set up the game --------------//
         void setUpGame();
+
+    //-------------- Overloads --------------//
+    //overload assignment operator
+    GameStarter& operator=(const GameStarter& rhs);
+    friend ostream& operator<<(ostream& output, GameStarter& obj);//to access private attributes
 };
+
+//overload stream insertion operator
+ostream& operator<<(ostream& output, GameStarter& obj);

@@ -7,7 +7,9 @@ using namespace std;
 #include <vector>
 #include "../Player/Player.h"
 #include "../MapLoader/MapLoader.h"
+#include "../Map/Map.h"
 
+//-------------- Constructors --------------//
 GameStarter::GameStarter(){
     selectedMap = "";
     numberOfPlayers = 0;
@@ -15,6 +17,25 @@ GameStarter::GameStarter(){
     isObserverTurnedOn[1] = false;//Game Statistics Observer
 }
 
+GameStarter::GameStarter(const GameStarter& original){//copy constructor
+    selectedMap = original.selectedMap;
+    numberOfPlayers = original.numberOfPlayers;
+    isObserverTurnedOn[0] = original.isObserverTurnedOn[0];
+    isObserverTurnedOn[1] = original.isObserverTurnedOn[1];
+    myGraph = new Map(*original.myGraph);//call Map copy constructor
+}
+
+//-------------- Destructors --------------//
+GameStarter::~GameStarter(){
+    //de-allocate palyerss
+    for(int i=0;i<players.size();i++){
+        delete players[i];
+    }
+
+    delete myGraph;
+}
+
+//-------------- Getters --------------//
 string GameStarter::getSelectedMap(){
     return selectedMap;
 }
@@ -39,7 +60,7 @@ void GameStarter::selectMap(){
     int mapNum;
     cout<<"Available maps:"<<endl;
 
-    //!!!!!!!!!!!!!! dummy should by replace with list_dir from MapLoaderDriver
+    //list all maps available in ./MapLoader/Maps/ directory
     list<string> listOfMaps = list_dir("./MapLoader/Maps/");
 
     int count = 1;
@@ -150,14 +171,27 @@ void GameStarter::setUpGame(){
     Deck *deckp = new Deck(vdeck1);
 }
 
-int main(){
-    GameStarter x = GameStarter();
-    x.setUpGame();
-    cout<<"Size: "<<x.getPlayers().front()->getPlayerId()<<endl;
-    cout<<"Size: "<<x.getPlayers().back()->getPlayerId()<<endl;
-    //cout<<x.getSelectedMap();
-    //cout<<x.getSelectedNumberOfPlayers();
-    // cout<<x.getIsObserverTurnedOn()[0];
-    // cout<<x.getIsObserverTurnedOn()[1];
-    return 0;
+//-------------- Overloads --------------//
+//overload assignment operator
+GameStarter& GameStarter::operator=(const GameStarter& rhs){
+    if(this != &rhs){
+        selectedMap = rhs.selectedMap;
+        numberOfPlayers = rhs.numberOfPlayers;
+        isObserverTurnedOn[0] = rhs.isObserverTurnedOn[0];
+        isObserverTurnedOn[1] = rhs.isObserverTurnedOn[1];
+        myGraph = rhs.myGraph;
+    }
+    return *this;
 }
+
+//Overload insertion stream operator
+ostream& operator<<(ostream& output, GameStarter& obj){
+    output << "Selected Map: "<<obj.selectedMap<<"\nNumber of Players: "<<obj.numberOfPlayers
+    <<"\nIs Phase Observer turned on? "<<obj.isObserverTurnedOn[0]<<"\nIs Statistics Observer turned on? "<<obj.isObserverTurnedOn[1]<<endl;
+    return output;
+}
+
+// int main(){
+
+//     return 0;
+// }
