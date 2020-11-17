@@ -18,12 +18,11 @@ class Card
 public:
     enum CardType
     {
-        SPY,
         BOMB,
         REINFORCEMENT,
         BLOCKADE,
         AIRLIFT,
-        DIPLOMACY
+        NEGOTIATE
     };
 
     //-------------- Constructors --------------//
