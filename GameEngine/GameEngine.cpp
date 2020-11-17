@@ -154,7 +154,7 @@ void GameStarter::setUpGame(){
     //create players
     for(int i=0; i<numberOfPlayers;i++){
         players.push_back(new Player);
-        players.front()->setPlayerId(i);
+        players.front()->setPlayerId(i+1);
 
         players.front()->setCards(new Hand); //assign an empty hand of cards
         players.front()->setOrders(olp); //assign orders
