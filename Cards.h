@@ -1,5 +1,6 @@
 #pragma once
 #include "Player.h"
+#include "GameEngine.h"
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -34,7 +35,7 @@ public:
     void setCardType(string cardType);
 
     //-------------- Others --------------//
-    void play(Deck *deck, Player *player);
+    void play(Deck *deck, Player *player, Map *map, GameStarter *gameStarter);
 
 private:
     string cardType;
