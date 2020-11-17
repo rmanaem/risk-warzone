@@ -1,19 +1,20 @@
 #pragma once
 
 #include <iostream>
-using namespace std;
 #include <list>
 #include <algorithm>
 #include <iterator>
 #include <vector>
 #include "../Player/Player.h"
 #include "../Map/Map.h"
+using namespace std;
 
 class GameStarter{
     private:
         string selectedMap;
         int numberOfPlayers;
-        bool isObserverTurnedOn[2];//isObserverTurnedOn[0] for Phase Observer. isObserverTurnedOn[1] for Game Statistics Observer
+        bool isPhaseObserverTurnedOn;
+        bool isStatisticsObserverTurnedOn;
         vector<Player*> players;
         Map* myGraph;
    
@@ -28,7 +29,8 @@ class GameStarter{
     //-------------- getters --------------//
         string getSelectedMap();
         int getSelectedNumberOfPlayers();
-        bool* getIsObserverTurnedOn();
+        bool getIsPhaseObserverTurnedOn();
+        bool getIsStatisticsObserverTurnedOn();
         vector<Player*> getPlayers();
         Map* getMyGraph();
         

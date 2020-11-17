@@ -1,5 +1,4 @@
 #include <iostream>
-using namespace std;
 #include "./GameEngine.h"
 #include <list>
 #include <algorithm>
@@ -8,20 +7,21 @@ using namespace std;
 #include "../Player/Player.h"
 #include "../MapLoader/MapLoader.h"
 #include "../Map/Map.h"
+using namespace std;
 
 //-------------- Constructors --------------//
 GameStarter::GameStarter(){
     selectedMap = "";
     numberOfPlayers = 0;
-    isObserverTurnedOn[0] = false;//Phase Observer
-    isObserverTurnedOn[1] = false;//Game Statistics Observer
+    isPhaseObserverTurnedOn = false;
+    isStatisticsObserverTurnedOn = false;
 }
 
 GameStarter::GameStarter(const GameStarter& original){//copy constructor
     selectedMap = original.selectedMap;
     numberOfPlayers = original.numberOfPlayers;
-    isObserverTurnedOn[0] = original.isObserverTurnedOn[0];
-    isObserverTurnedOn[1] = original.isObserverTurnedOn[1];
+    isPhaseObserverTurnedOn = original.isPhaseObserverTurnedOn;
+    isStatisticsObserverTurnedOn = original.isStatisticsObserverTurnedOn;
     myGraph = new Map(*original.myGraph);//call Map copy constructor
 }
 
@@ -44,8 +44,12 @@ int GameStarter::getSelectedNumberOfPlayers(){
     return numberOfPlayers;
 }
 
-bool* GameStarter::getIsObserverTurnedOn(){
-    return isObserverTurnedOn;
+bool GameStarter::getIsPhaseObserverTurnedOn(){
+    return isPhaseObserverTurnedOn;
+}
+
+bool GameStarter::getIsStatisticsObserverTurnedOn(){
+    return isStatisticsObserverTurnedOn;
 }
 
 vector<Player*> GameStarter::getPlayers(){
@@ -130,9 +134,9 @@ void GameStarter::turnObservers(){
     cin>>responseGameStatistics;
 
     if(phaseObserver == 'y')
-        isObserverTurnedOn[0] = true;
+        isPhaseObserverTurnedOn = true;
     if(responseGameStatistics == 'y')
-        isObserverTurnedOn[1] = true;
+        isStatisticsObserverTurnedOn = true;
 }
 
 void GameStarter::setUpGame(){
@@ -177,8 +181,8 @@ GameStarter& GameStarter::operator=(const GameStarter& rhs){
     if(this != &rhs){
         selectedMap = rhs.selectedMap;
         numberOfPlayers = rhs.numberOfPlayers;
-        isObserverTurnedOn[0] = rhs.isObserverTurnedOn[0];
-        isObserverTurnedOn[1] = rhs.isObserverTurnedOn[1];
+        isPhaseObserverTurnedOn = rhs.isPhaseObserverTurnedOn;
+        isStatisticsObserverTurnedOn = rhs.isStatisticsObserverTurnedOn;
         myGraph = rhs.myGraph;
     }
     return *this;
@@ -187,7 +191,7 @@ GameStarter& GameStarter::operator=(const GameStarter& rhs){
 //Overload insertion stream operator
 ostream& operator<<(ostream& output, GameStarter& obj){
     output << "Selected Map: "<<obj.selectedMap<<"\nNumber of Players: "<<obj.numberOfPlayers
-    <<"\nIs Phase Observer turned on? "<<obj.isObserverTurnedOn[0]<<"\nIs Statistics Observer turned on? "<<obj.isObserverTurnedOn[1]<<endl;
+    <<"\nIs Phase Observer turned on? "<<obj.isPhaseObserverTurnedOn<<"\nIs Statistics Observer turned on? "<<obj.isStatisticsObserverTurnedOn<<endl;
     return output;
 }
 
