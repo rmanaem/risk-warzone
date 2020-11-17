@@ -1,5 +1,6 @@
 #include "Cards.h"
 #include "Player.h"
+#include "Orders.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -96,10 +97,10 @@ void Card::setCardType(string cardType)
 
 //-------------- Others --------------//
 
-void Card::play(Deck *deck, Player *player)
+void Card::play(Deck *deck, Player *player, Map *map, GameStarter *gameStarter)
 {
     // Create order
-    player->issueOrder();
+    player->issueOrder(map, gameStarter);
     // Add card to deck
     deck->addCardToDeck(this);
     // Remove card from hand
