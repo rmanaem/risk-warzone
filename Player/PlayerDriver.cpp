@@ -75,7 +75,6 @@ int main()
 
    p1.toDefend();
    p1.toAttack(validMap);
-   p1.issueOrder();
    delete validMap;
 
    return 0;

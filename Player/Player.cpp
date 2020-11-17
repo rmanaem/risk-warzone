@@ -4,6 +4,7 @@
 #include "Player.h"
 #include <iostream>
 #include <algorithm>
+#include "GameEngine.h"
 #include <list>
 
 using namespace std;
@@ -48,7 +49,7 @@ Player &Player::operator=(const Player &e)
     for (int i = 0; i < e.territoriesOwned.size(); i++)
     {
         this->territoriesOwned.push_back(new Territory(*(e.territoriesOwned[i])));
-    };
+    }
     this->cards = new Hand(*(e.cards));
     this->orders = new OrdersList(*(e.orders));
     return *this;
@@ -153,58 +154,104 @@ std::vector<Territory *> Player::toAttack(Map *map)
 
 //-------------- issueOrder method --------------//
 /*
- Creates an order based on the player input and adds it to the player's OrdersList
+ Creates an order and adds it to the player's OrdersList
 */
-void Player::issueOrder()
-{
-    cout << "Player" << playerId << ", What order would you like to issue? \n0. Deploy \n1. Advance \n2. Bomb \n3. Blocakde \n4. Airlift \n5. Negotiate \n6. None" << endl;
-    int num;
-    cin >> num;
-    switch (num) {
-        case 0: {
-            Deploy *deployp = new Deploy;
-            (*(orders)).addOrder(deployp);
-            cout << "Adding order " << *(deployp) << " to the player's order list." << endl;
-            break;
-        }
-        case 1: {
-            Advance *advancep = new Advance;
-            (*(orders)).addOrder(advancep);
-            cout << "Adding order " << *(advancep) << " to the player's order list." << endl;
-            break;
-        }
-        case 2: {
-            Bomb *bombp = new Bomb;
-            (*(orders)).addOrder(bombp);
-            cout << "Adding order " << *(bombp) << " to the player's order list." << endl;
-            break;
-        }
-        case 3: {
-            Blockade *blockadep = new Blockade;
-            (*(orders)).addOrder(blockadep);
-            cout << "Adding order " << *(blockadep) << " to the player's order list." << endl;
-            break;
-        }
-        case 4: {
-            Airlift *airliftp = new Airlift;
-            (*(orders)).addOrder(airliftp);
-            cout << "Adding order " << *(airliftp) << " to the player's order list." << endl;
-            break;
-        }
-        case 5: {
-            Negotiate *negotiatep = new Negotiate;
-            (*(orders)).addOrder(negotiatep);
-            cout << "Adding order " << *(negotiatep) << " to the player's order list." << endl;
-            break;
-        }
-        case 6: {
-            cout << "No order added." << endl;
-            break;
-        }
-        default:{
-            throw logic_error("Invalid input");
+void Player::issueOrder(Map *map, GameStarter *gameStarter) {
+    // Generating random number
+    srand(unsigned(time(0)));
+
+    // boolean for checking if an order has been issued or not
+    bool done = false;
+
+    // Collecting valid territories for advance order
+    vector<Territory*> advanceTerritories;
+    for (Territory *t : territoriesOwned) {
+        advanceTerritories.push_back(t);
+    }
+    for (Territory *t : toAttack(map)) {
+        advanceTerritories.push_back(t);
+    }
+
+    // Collecting the type of cards in players hand
+    vector<string> cardsInHand;
+    for (Card *c : cards->getHandCards()) {
+        cardsInHand.push_back(c->getCardTypeString());
+    }
+
+    // Collecting players from
+    vector<Player *> players = gameStarter->getPlayers();
+
+    cout << "Issuing order for player " << playerId << endl;
+
+    // Issuing a deploy order under condition that the player reinforcement pool is not empty
+    if(!done) {
+        while (reinforcementPool != 0) {
+            cout << "Issuing DEPLOY order" << endl;
+            Deploy *deploy = new Deploy(this, territoriesOwned[rand() % territoriesOwned.size() + 1],
+                                        (rand() % reinforcementPool) + 1);
+            orders->getOrdersList().push_back(deploy);
+            done = true;
         }
     }
+
+    // Issuing an airlift order under the condition that the player has an airlift card in their hand
+    if (!done) {
+        for (Card *c : cards->getHandCards()) {
+            if (c->getCardTypeString() == "AIRLIFT") {
+                cout << "Issuing an AIRLIFT order" << endl;
+                Territory *source = territoriesOwned[rand() % territoriesOwned.size() + 1];
+                Airlift *airlift = new Airlift(this, source, territoriesOwned[rand() % territoriesOwned.size() + 1],
+                                               source->getNumberOfArmies());
+                done = true;
+                break;
+            }
+        }
+    }
+
+    // Issuing a blockade order under the condition that player has a blockade card in their hand
+    if (!done) {
+        for (Card *c : cards->getHandCards()) {
+            if (c->getCardTypeString() == "BLOCKADE") {
+                cout << "Issuing an BLOCKADE order" << endl;
+                Blockade *blockade = new Blockade(this, territoriesOwned[rand() % territoriesOwned.size() + 1]);
+                done = true;
+                break;
+            }
+        }
+    }
+
+    // Issuing a bomb order under the condition that player has a bomb card in their hand
+    if (!done) {
+        for (Card *c : cards->getHandCards()) {
+            if (c->getCardTypeString() == "BOMB") {
+                cout << "Issuing a BOMB" << endl;
+                Bomb *bomb = new Bomb(this, toAttack(map)[rand() % (toAttack(map).size()) + 1]);
+                done = true;
+                break;
+            }
+        }
+    }
+
+    // Issuing a negotiate order under the condition that player has a negotiate card in their hand
+    if (!done) {
+        for (Card *c : cards->getHandCards()) {
+            if (c->getCardTypeString() == "NEGOTIATE") {
+                cout << "Issuing a NEGOTIATE" << endl;
+                Negotiate *negotiate = new Negotiate(this, players[rand() % players.size() + 1]);
+                done = true;
+                break;
+            }
+        }
+    }
+
+    // Issuing an advance order
+    if (!done) {
+        cout << "Issuing an ADVANCE order" << endl;
+        Advance *advance = new Advance(this, territoriesOwned[rand() % territoriesOwned.size()+1],advanceTerritories[rand() % advanceTerritories.size()+1], (rand() % reinforcementPool) + 1);
+        orders->getOrdersList().push_back(advance);
+        done = true;
+    }
+
     cout << *(orders);
 }
 
@@ -212,14 +259,14 @@ void Player::issueOrder()
 std::ostream &operator<<(std::ostream &out, const Player &e)
 {
     out << "Player" << e.playerId << ":" << endl;
-    out << "Player4 has this collection of territories: {";
+    out << "Player" << e.playerId << " has this collection of territories: {";
     for (Territory *t : e.territoriesOwned)
     {
         out << *(t);
     }
     out << "}" << endl;
-    out << "Player4 has this hand of cards: ";
+    out << "Player" << e.playerId <<  " has this hand of cards: ";
     (*(e.cards)).print();
-    out << "Player4 has this list of orders: " << *(e.orders);
+    out << "Player" << e.playerId << " has this list of orders: " << *(e.orders);
     return out;
 }
