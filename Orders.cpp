@@ -1,7 +1,10 @@
 #include "Orders.h"
+#include "Player.h"
+//#include "Map.h"
 #include <string>
 #include <iostream>
 #include <type_traits>
+#include <cmath>
 using namespace std;
 
 
@@ -20,6 +23,8 @@ Order::Order(const Order &order){
     cout << "Copy constructor for Order class has been called" << endl;
 }
 
+Order::~Order(){}
+
 //-------------- Getters --------------//
 string Order::getOrderType(){
     return orderType;
@@ -36,8 +41,6 @@ Order& Order::operator =(const Order &order){
     this->orderType = order.orderType;
     return *this;
 }
-
-
 
 //----------------------------OrdersList Class----------------------------//
 //-------------- Constructors --------------//
@@ -157,14 +160,23 @@ OrdersList& OrdersList::operator =(const OrdersList &ordList){
 //-------------- Constructors --------------//
 Deploy::Deploy(){
     this->orderType = "DEPLOY";
+    this->p = NULL;
+    this->target = NULL;
+    this->numToDeploy = 0;
 }
 
-Deploy::Deploy(string orderType){
-    this->orderType = orderType;
+Deploy::Deploy(Player *player, Territory *territory, int numArmies){
+    this->orderType = "DEPLOY";
+    this->p = player;
+    this->target = territory;
+    this->numToDeploy = numArmies;
 }
 
 Deploy::Deploy(const Deploy &dep) : Order(dep) {
     this->orderType = dep.orderType;
+    this->p = dep.p;
+    this->target = dep.target;
+    this->numToDeploy = dep.numToDeploy;
     cout << "Copy constructor for Deploy class has been called" << endl;
 }
 
@@ -173,25 +185,47 @@ string Deploy::getOrderType(){
     return orderType;
 }
 
+Player* Deploy::getPlayer(){
+    return p;
+}
+
+Territory* Deploy::getTarget() {
+    return target;
+}
+
+int Deploy::getNumToDeploy() {
+    return numToDeploy;
+}
+
 //-------------- Other Methods --------------//
 //Validate if Deploy is a valid order
 bool Deploy::validate(){
-
-    //Check if Deploy is a subclass of Order
-    if (is_base_of<Order, Deploy>::value) {
+    Territory* targAddress = 0;
+    for(int i = 0; i < p->getTerritoriesOwned().size(); i++){
+        targAddress = 0;
+        if(p->getTerritoriesOwned()[i] == target){
+            targAddress = p->getTerritoriesOwned()[i];
+            break;
+        }
+    }
+    //Check that player is deploying a valid number of armies to a territory that they own
+    if ((targAddress == target) && (numToDeploy <= p->getNbArmies()) && (target != NULL)) {
         return true;
     }
-    else
+    else {
         return false;
+    }
 }
 
 //Execute the order
 void Deploy::execute(){
-    if(validate() == true){
+    if(validate()){
+        target->setNumberOfArmies(target->getNumberOfArmies() + numToDeploy);
+        p->setNbArmies(p->getNbArmies() - numToDeploy);
         cout << "Deploy executed" << endl;
     }
     else{
-        cout << "Error executing Deploy command" << endl;
+        cout << "Invalid Deploy Order" << endl;
     }
 
 }
@@ -205,6 +239,9 @@ ostream& operator <<(ostream &strm, Deploy &dep){
 Deploy& Deploy::operator =(const Deploy &dep){
     Order::operator =(dep);
     this->orderType = dep.orderType;
+    this->p = dep.p;
+    this->target = dep.target;
+    this->numToDeploy = dep.numToDeploy;
     return *this;
 }
 
@@ -214,14 +251,26 @@ Deploy& Deploy::operator =(const Deploy &dep){
 //-------------- Constructors --------------//
 Advance::Advance(){
     this->orderType = "ADVANCE";
+    this->p = NULL;
+    this->source = NULL;
+    this->target = NULL;
+    this->numToAdvance = 0;
 }
 
-Advance::Advance(string orderType){
-    this->orderType = orderType;
+Advance::Advance(Player *player, Territory *sTerritory, Territory *tTerritory, int numArmies){
+    this->orderType = "ADVANCE";
+    this->p = player;
+    this->source = sTerritory;
+    this->target = tTerritory;
+    this->numToAdvance = numArmies;
 }
 
 Advance::Advance(const Advance &adv) : Order(adv) {
     this->orderType = adv.orderType;
+    this->p = adv.p;
+    this->source = adv.source;
+    this->target = adv.target;
+    this->numToAdvance = adv.numToAdvance;
     cout << "Copy constructor for Advance class has been called" << endl;
 }
 
@@ -230,25 +279,104 @@ string Advance::getOrderType(){
     return orderType;
 }
 
+Player* Advance::getPlayer() {
+    return p;
+}
+
+Territory* Advance::getSource() {
+    return source;
+}
+
+Territory* Advance::getTarget(){
+    return target;
+}
+
+int Advance::getNumToAdvance() {
+    return numToAdvance;
+}
+
 //-------------- Other Methods --------------//
 //Validate if Advance is a valid order
 bool Advance::validate(){
 
-    //Check if Advance is a subclass of Order
-    if (is_base_of<Order, Advance>::value) {
-        return true;
+    Territory* sourceAddress = 0;
+    for(int i = 0; i < p->getTerritoriesOwned().size(); i++){
+        sourceAddress = 0;
+        if((p->getTerritoriesOwned()[i] == source) && (source != NULL)){
+            sourceAddress = p->getTerritoriesOwned()[i];
+            break;
+        }
     }
-    else
+    //Check that player is advancing a valid number of armies from a territory that they own
+    if(source != NULL) {
+        if ((sourceAddress == source) && (numToAdvance <= source->getNumberOfArmies())) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    else {
         return false;
+    }
+
 }
 
 //Execute the order
 void Advance::execute(){
-    if(validate() == true){
+    if(validate()){
+        Territory* targetAddress = 0;
+        for(int i = 0; i < p->getTerritoriesOwned().size(); i++){
+            targetAddress = 0;
+            if(p->getTerritoriesOwned()[i] == target){
+                targetAddress = p->getTerritoriesOwned()[i];
+                break;
+            }
+        }
+        /*
+         * else simulate attack (to take over territory maybe need to pass a second player into Advance() to remove
+         * the territory from their list. and then change territories owner id but i dont like this because it
+         * requires knowing who owns the territory to attack)
+         * might need to pass a player in territory to know who to remove it from
+         */
+        //this means the target is not in the player issuing the order's owned territories
+        if(targetAddress == NULL){
+            cout << "ATTACK\n";
+            int attackersKilled = round(static_cast<double>(target->getNumberOfArmies() * 0.7));
+            int defendersKilled = round(static_cast<double>(numToAdvance * 0.6));
+
+            //Attackers win and take control of the territory
+            if((numToAdvance - attackersKilled) > (target->getNumberOfArmies() - defendersKilled)){
+                cout << "Territory Conquered!\n";
+                target->setNumberOfArmies(numToAdvance - attackersKilled);
+                source->setNumberOfArmies(source->getNumberOfArmies() - numToAdvance);
+
+                //Change ownership id of the territory, remove the territory from defenders list, and add the territory to the attackers list
+                target->setOwnerId(p->getPlayerId());
+
+            }
+            //Defenders win and keep control of the territory
+            else{
+                target->setNumberOfArmies(target->getNumberOfArmies() - defendersKilled);
+                if((source->getNumberOfArmies() - attackersKilled) >= 0){
+                    source->setNumberOfArmies(source->getNumberOfArmies() - attackersKilled);
+                }
+                else{
+                    source->setNumberOfArmies(0);
+                }
+
+            }
+
+        }
+        else {
+            target->setNumberOfArmies(target->getNumberOfArmies() + numToAdvance);
+            source->setNumberOfArmies(source->getNumberOfArmies() - numToAdvance);
+        }
         cout << "Advance executed" << endl;
     }
     else{
-        cout << "Error executing Advance command" << endl;
+        cout << "Invalid Advance Order" << endl;
     }
 
 }
@@ -262,6 +390,7 @@ ostream& operator <<(ostream &strm, Advance &adv){
 Advance& Advance::operator =(const Advance &adv){
     Order::operator =(adv);
     this->orderType = adv.orderType;
+    cout << "Assignment operator called";
     return *this;
 }
 
@@ -271,14 +400,20 @@ Advance& Advance::operator =(const Advance &adv){
 //-------------- Constructors --------------//
 Bomb::Bomb(){
     this->orderType = "BOMB";
+    this->p = NULL;
+    this->target = NULL;
 }
 
-Bomb::Bomb(string orderType){
-    this->orderType = orderType;
+Bomb::Bomb(Player* player, Territory* tTerritory){
+    this->orderType = "BOMB";
+    this->p = player;
+    this->target = tTerritory;
 }
 
 Bomb::Bomb(const Bomb &bomb) : Order(bomb) {
     this->orderType = bomb.orderType;
+    this->p = bomb.p;
+    this->target = bomb.target;
     cout << "Copy constructor for Bomb class has been called" << endl;
 }
 
@@ -287,25 +422,45 @@ string Bomb::getOrderType(){
     return orderType;
 }
 
+Player* Bomb::getPlayer() {
+    return p;
+}
+
+Territory* Bomb::getTarget() {
+    return target;
+}
+
 //-------------- Other Methods --------------//
 //Validate if Bomb is a valid order
 bool Bomb::validate(){
+    Territory* targAddress = 0;
+    for(int i = 0; i < p->getTerritoriesOwned().size(); i++){
+        targAddress = 0;
+        if((p->getTerritoriesOwned()[i] == target) && (target != NULL)){
+            targAddress = p->getTerritoriesOwned()[i];
+            break;
+        }
+    }
 
-    //Check if Bomb is a subclass of Order
-    if (is_base_of<Order, Bomb>::value) {
+    //check that the player issuing the order is not targeting their own territory
+    if (targAddress != target) {
         return true;
     }
-    else
+    else {
         return false;
+    }
+
 }
 
 //Execute the order
 void Bomb::execute(){
-    if(validate() == true){
+    if(validate()){
+        int halfArmies = round(static_cast<double>(target->getNumberOfArmies())/2);
+        target->setNumberOfArmies(halfArmies);
         cout << "Bomb executed" << endl;
     }
     else{
-        cout << "Error executing Bomb command" << endl;
+        cout << "Invalid Bomb Order" << endl;
     }
 
 }
@@ -319,6 +474,8 @@ ostream& operator <<(ostream &strm, Bomb &bomb){
 Bomb& Bomb::operator =(const Bomb &bomb){
     Order::operator =(bomb);
     this->orderType = bomb.orderType;
+    this->p = bomb.p;
+    this->target = bomb.target;
     return *this;
 }
 
@@ -328,14 +485,20 @@ Bomb& Bomb::operator =(const Bomb &bomb){
 //-------------- Constructors --------------//
 Blockade::Blockade(){
     this->orderType = "BLOCKADE";
+    this->p = NULL;
+    this->target = NULL;
 }
 
-Blockade::Blockade(string orderType){
-    this->orderType = orderType;
+Blockade::Blockade(Player* player, Territory* tTerritory){
+    this->orderType = "BLOCKADE";
+    this->p = player;
+    this->target = tTerritory;
 }
 
 Blockade::Blockade(const Blockade &block) : Order(block) {
     this->orderType = block.orderType;
+    this->p = block.p;
+    this->target = block.target;
     cout << "Copy constructor for Blockade class has been called" << endl;
 }
 
@@ -344,25 +507,51 @@ string Blockade::getOrderType(){
     return orderType;
 }
 
+Player* Blockade::getPlayer() {
+    return p;
+}
+
+Territory* Blockade::getTarget() {
+    return target;
+}
+
 //-------------- Other Methods --------------//
 //Validate if Blockade is a valid order
 bool Blockade::validate(){
+    Territory* targAddress = 0;
+    for(int i = 0; i < p->getTerritoriesOwned().size(); i++){
+        targAddress = 0;
+        if((p->getTerritoriesOwned()[i] == target) && (target != NULL)){
+            targAddress = p->getTerritoriesOwned()[i];
+            break;
+        }
+    }
 
-    //Check if Blockade is a subclass of Order
-    if (is_base_of<Order, Blockade>::value) {
+    //check that the player issuing the order owns the territory
+    if (targAddress == target && target != NULL) {
         return true;
     }
-    else
+    else {
         return false;
+    }
 }
 
 //Execute the order
 void Blockade::execute(){
-    if(validate() == true){
+    if(validate()){
+        //Double the number of armies on the target territory
+        target->setNumberOfArmies(target->getNumberOfArmies() * 2);
+
+        //Transfer ownership of the target territory to the neutral player
+        target->setOwnerId(0);
+        vector<Territory*> newOwnedTer = p->getTerritoriesOwned();
+        newOwnedTer.erase(remove(newOwnedTer.begin(), newOwnedTer.end(), target), newOwnedTer.end());
+        p->setTerritoriesOwned(newOwnedTer);
+
         cout << "Blockade executed" << endl;
     }
     else{
-        cout << "Error executing Blockade command" << endl;
+        cout << "Invalid Blockade Order" << endl;
     }
 
 }
@@ -376,6 +565,8 @@ ostream& operator <<(ostream &strm, Blockade &block){
 Blockade& Blockade::operator =(const Blockade &block){
     Order::operator =(block);
     this->orderType = block.orderType;
+    this->p = block.p;
+    this->target = block.target;
     return *this;
 }
 
@@ -385,14 +576,26 @@ Blockade& Blockade::operator =(const Blockade &block){
 //-------------- Constructors --------------//
 Airlift::Airlift(){
     this->orderType = "AIRLIFT";
+    this->p = NULL;
+    this->source = NULL;
+    this->target = NULL;
+    this->numToAirlift = 0;
 }
 
-Airlift::Airlift(string orderType){
-    this->orderType = orderType;
+Airlift::Airlift(Player *player, Territory *sTerritory, Territory *tTerritory, int numAirlift){
+    this->orderType = "AIRLIFT";
+    this->p = player;
+    this->source = sTerritory;
+    this->target = tTerritory;
+    this->numToAirlift = numAirlift;
 }
 
 Airlift::Airlift(const Airlift &air) : Order(air) {
     this->orderType = air.orderType;
+    this->p = air.p;
+    this->source = air.source;
+    this->target = air.target;
+    this->numToAirlift = air.numToAirlift;
     cout << "Copy constructor for Airlift class has been called" << endl;
 }
 
@@ -401,25 +604,67 @@ string Airlift::getOrderType(){
     return orderType;
 }
 
+Player* Airlift::getPlayer() {
+    return p;
+}
+
+Territory* Airlift::getSource() {
+    return source;
+}
+
+Territory* Airlift::getTarget() {
+    return target;
+}
+
+int Airlift::getNumToAirlift() {
+    return numToAirlift;
+}
+
 //-------------- Other Methods --------------//
 //Validate if Airlift is a valid order
 bool Airlift::validate(){
 
-    //Check if Airlift is a subclass of Order
-    if (is_base_of<Order, Airlift>::value) {
-        return true;
+    Territory* sourceAddress = 0;
+    for(int i = 0; i < p->getTerritoriesOwned().size(); i++){
+        sourceAddress = 0;
+        if((p->getTerritoriesOwned()[i] == source) && (source != NULL)){
+            sourceAddress = p->getTerritoriesOwned()[i];
+            break;
+        }
     }
-    else
+    Territory* targAddress = 0;
+    for(int i = 0; i < p->getTerritoriesOwned().size(); i++){
+        targAddress = 0;
+        if((p->getTerritoriesOwned()[i] == target) && (target != NULL)){
+            targAddress = p->getTerritoriesOwned()[i];
+            break;
+        }
+    }
+
+    //Check that player is airlifting a valid number of armies from and to territories they own
+    if(source != NULL) {
+        if ((sourceAddress == source) && (targAddress == target) && (numToAirlift <= source->getNumberOfArmies())) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    else {
         return false;
+    }
+
 }
 
 //Execute the order
 void Airlift::execute(){
-    if(validate() == true){
+    if(validate()){
+        source->setNumberOfArmies(source->getNumberOfArmies() - numToAirlift);
+        target->setNumberOfArmies(target->getNumberOfArmies() + numToAirlift);
         cout << "Airlift executed" << endl;
     }
     else{
-        cout << "Error executing Airlift command" << endl;
+        cout << "Invalid Airlift Order" << endl;
     }
 
 }
@@ -433,6 +678,10 @@ ostream& operator <<(ostream &strm, Airlift &air){
 Airlift& Airlift::operator =(const Airlift &air){
     Order::operator =(air);
     this->orderType = air.orderType;
+    this->p = air.p;
+    this->source = air.source;
+    this->target = air.target;
+    this->numToAirlift = air.numToAirlift;
     return *this;
 }
 
@@ -472,7 +721,7 @@ bool Negotiate::validate(){
 
 //Execute the order
 void Negotiate::execute(){
-    if(validate() == true){
+    if(validate()){
         cout << "Negotiate executed" << endl;
     }
     else{

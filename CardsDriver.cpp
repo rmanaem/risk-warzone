@@ -1,8 +1,8 @@
 
 #include "Cards.h"
-#include "Player.h"
+#include "Player/Player.h"
 #include "Orders.h"
-#include "Map.h"
+#include "Map/Map.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -61,7 +61,7 @@ int main()
         Deck *deckp = new Deck(vdeck1);
 
         // Initializing a Player using the initalized data memebers
-        Player *p1 = new Player(4, territoryv1, handp, olp);
+        Player *p1 = new Player(4, 1, territoryv1, handp, olp);
         
         // Displaying deck and hand
         cout << "Before anything happens" << endl;
