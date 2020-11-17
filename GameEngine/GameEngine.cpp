@@ -170,6 +170,7 @@ StartUp::~StartUp() {
 //-------------- Assignment operator --------------//
 StartUp &StartUp::operator=(const StartUp &e) {
     this->gameStart = new GameStarter(*(e.gameStart));
+    return *this;
 }
 
 //-------------- Accessor methods --------------//
