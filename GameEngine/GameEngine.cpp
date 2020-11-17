@@ -253,5 +253,5 @@ void::StartUp::startUpPhase() {
 
 //-------------- Stream insertion Operator --------------//
 ostream &operator<<(ostream &out, const StartUp &e) {
-    out << "This is a startup phase object" << endl;
+    out << "This is a startup phase object: " << e.gameStart << endl;
 }
