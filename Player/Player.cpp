@@ -12,9 +12,8 @@ using namespace std;
 //============================ Player Class ============================/
 
 //-------------- Constructors --------------//
-Player::Player() : playerId(0)
+Player::Player()
 {
-
 }
 
 Player::Player(int playerId, int reinforcementPool, std::vector<Territory *> territoriesOwned, Hand *cards, OrdersList *orders) : playerId(playerId), reinforcementPool(reinforcementPool), territoriesOwned(territoriesOwned), cards(cards), orders(orders)
@@ -26,7 +25,7 @@ Player::Player(const Player &e) : playerId(e.playerId), reinforcementPool(e.rein
     for (int i = 0; i < e.territoriesOwned.size(); i++)
     {
         this->territoriesOwned.push_back(new Territory(*(e.territoriesOwned[i])));
-    };
+    }
 }
 
 //-------------- Destructor --------------//
@@ -117,7 +116,7 @@ std::vector<Territory *> Player::toDefend()
     for (Territory *t : territoriesOwned)
     {
         cout << *(t);
-    };
+    }
     cout << "}" << endl;
     return territoriesOwned;
 }
@@ -256,7 +255,7 @@ void Player::issueOrder(Map *map, GameStarter *gameStarter) {
     for (Territory *t : player2.toAttack(map)) {
         advanceTerritories2.push_back(t);
     }
-    
+
     if (!done) {
         cout << "Issuing an ADVANCE order" << endl;
         Advance *advance = new Advance(this, player2, territoriesOwned[rand() % territoriesOwned.size()],advanceTerritories2[rand() % advanceTerritories2.size()], (rand() % reinforcementPool) + 1);
