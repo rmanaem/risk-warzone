@@ -255,15 +255,3 @@ void::StartUp::startUpPhase() {
 ostream &operator<<(ostream &out, const StartUp &e) {
     out << "This is a startup phase object" << endl;
 }
-
-//int main(){
-//    GameStarter x = GameStarter();
-//    x.setUpGame();
-//    cout<<"Size: "<<x.getPlayers().front()->getPlayerId()<<endl;
-//    cout<<"Size: "<<x.getPlayers().back()->getPlayerId()<<endl;
-//    //cout<<x.getSelectedMap();
-//    //cout<<x.getSelectedNumberOfPlayers();
-//    // cout<<x.getIsObserverTurnedOn()[0];
-//    // cout<<x.getIsObserverTurnedOn()[1];
-//    return 0;
-//}
