@@ -335,8 +335,6 @@ void Advance::execute(){
             }
         }
         /*
-         * Attacking armies * 0.6 = number of defending armies killed
-         * Defending armies * 0.7 = number of attacking armies killed
          * else simulate attack (to take over territory maybe need to pass a second player into Advance() to remove
          * the territory from their list. and then change territories owner id but i dont like this because it
          * requires knowing who owns the territory to attack)
@@ -344,23 +342,34 @@ void Advance::execute(){
          */
         //this means the target is not in the player issuing the order's owned territories
         if(targetAddress == NULL){
-            cout << "ATTACK";
-            int attackersKilled = (int)(target->getNumberOfArmies() * 0.7);
-            int defendersKilled = (int)(numToAdvance * 0.6);
+            cout << "ATTACK\n";
+            int attackersKilled = round(static_cast<double>(target->getNumberOfArmies() * 0.7));
+            int defendersKilled = round(static_cast<double>(numToAdvance * 0.6));
 
             //Attackers win and take control of the territory
-            if(defendersKilled >= target->getNumberOfArmies()){
+            if((numToAdvance - attackersKilled) > (target->getNumberOfArmies() - defendersKilled)){
+                cout << "Territory Conquered!\n";
                 target->setNumberOfArmies(numToAdvance - attackersKilled);
                 source->setNumberOfArmies(source->getNumberOfArmies() - numToAdvance);
-                //CHANGE OWNERSHIP OF THE TERRITORY, set the id, remove from old players list and add to new players list
+
+                //Change ownership id of the territory, remove the territory from defenders list, and add the territory to the attackers list
+                target->setOwnerId(p->getPlayerId());
+
             }
             //Defenders win and keep control of the territory
             else{
+                target->setNumberOfArmies(target->getNumberOfArmies() - defendersKilled);
+                if((source->getNumberOfArmies() - attackersKilled) >= 0){
+                    source->setNumberOfArmies(source->getNumberOfArmies() - attackersKilled);
+                }
+                else{
+                    source->setNumberOfArmies(0);
+                }
 
             }
 
         }
-        else{
+        else {
             target->setNumberOfArmies(target->getNumberOfArmies() + numToAdvance);
             source->setNumberOfArmies(source->getNumberOfArmies() - numToAdvance);
         }
@@ -530,20 +539,11 @@ bool Blockade::validate(){
 //Execute the order
 void Blockade::execute(){
     if(validate()){
-        int index = 0;
-        for(int i = 0; i < p->getTerritoriesOwned().size(); i++){
-            if((p->getTerritoriesOwned()[i] == target) && (target != NULL)){
-                break;
-            }
-            index++;
-        }
         //Double the number of armies on the target territory
         target->setNumberOfArmies(target->getNumberOfArmies() * 2);
 
-        //Remove the owners id from this territory
-        target->setOwnerId(0);
-
         //Transfer ownership of the target territory to the neutral player
+        target->setOwnerId(0);
         vector<Territory*> newOwnedTer = p->getTerritoriesOwned();
         newOwnedTer.erase(remove(newOwnedTer.begin(), newOwnedTer.end(), target), newOwnedTer.end());
         p->setTerritoriesOwned(newOwnedTer);
@@ -583,7 +583,7 @@ Airlift::Airlift(){
 }
 
 Airlift::Airlift(Player *player, Territory *sTerritory, Territory *tTerritory, int numAirlift){
-    this->orderType = "ADVANCE";
+    this->orderType = "AIRLIFT";
     this->p = player;
     this->source = sTerritory;
     this->target = tTerritory;
