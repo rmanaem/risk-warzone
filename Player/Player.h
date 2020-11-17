@@ -1,8 +1,9 @@
 #pragma once
 
-#include "../Map/Map.h"
-#include "../Orders.h"
-#include "../Cards.h"
+#include "Map.h"
+#include "Orders.h"
+#include "Cards.h"
+#include "GameEngine.h"
 #include <iostream>
 #include <vector>
 
@@ -58,7 +59,7 @@ public:
     std::vector<Territory *> toAttack(Map *map);
 
     //-------------- issueOrder method --------------//
-    void issueOrder();
+    void issueOrder(Map *map, GameStarter *gameStarter);
 
     //-------------- Stream insertion Operator --------------//
     friend std::ostream &operator<<(std::ostream &out, const Player &e);
