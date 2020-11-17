@@ -12,7 +12,7 @@ using namespace std;
 //-------------- Constructors --------------//
 Card::Card()
 {
-    this->cardType = SPY;
+    this->cardType = BOMB;
 }
 
 Card::Card(CardType cardType)
@@ -44,32 +44,27 @@ Card::Card(int intCardType)
     {
     case 0:
     {
-        this->cardType = SPY;
+        this->cardType = BOMB;
     }
     break;
     case 1:
     {
-        this->cardType = BOMB;
+        this->cardType = REINFORCEMENT;
     }
     break;
     case 2:
     {
-        this->cardType = REINFORCEMENT;
+        this->cardType = BLOCKADE;
     }
     break;
     case 3:
     {
-        this->cardType = BLOCKADE;
+        this->cardType = AIRLIFT;
     }
     break;
     case 4:
     {
-        this->cardType = AIRLIFT;
-    }
-    break;
-    case 5:
-    {
-        this->cardType = DIPLOMACY;
+        this->cardType = NEGOTIATE;
     }
     break;
     default:
@@ -90,32 +85,27 @@ string Card::getCardTypeString()
     {
     case 0:
     {
-        cardTypeString = "SPY";
+        cardTypeString = "BOMB";
     }
     break;
     case 1:
     {
-        cardTypeString = "BOMB";
+        cardTypeString = "REINFORCEMENT";
     }
     break;
     case 2:
     {
-        cardTypeString = "REINFORCEMENT";
+        cardTypeString = "BLOCKADE";
     }
     break;
     case 3:
     {
-        cardTypeString = "BLOCKADE";
+        cardTypeString = "AIRLIFT";
     }
     break;
     case 4:
     {
-        cardTypeString = "AIRLIFT";
-    }
-    break;
-    case 5:
-    {
-        cardTypeString = "DIPLOMACY";
+        cardTypeString = "NEGOTIATE";
     }
     break;
     default:
