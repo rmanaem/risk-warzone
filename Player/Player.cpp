@@ -14,6 +14,7 @@ using namespace std;
 //-------------- Constructors --------------//
 Player::Player() : playerId(0)
 {
+
 }
 
 Player::Player(int playerId, int reinforcementPool, std::vector<Territory *> territoriesOwned, Hand *cards, OrdersList *orders) : playerId(playerId), reinforcementPool(reinforcementPool), territoriesOwned(territoriesOwned), cards(cards), orders(orders)
@@ -46,6 +47,7 @@ Player::~Player()
 Player &Player::operator=(const Player &e)
 {
     this->playerId = e.playerId;
+    this-> reinforcementPool = e.reinforcementPool;
     for (int i = 0; i < e.territoriesOwned.size(); i++)
     {
         this->territoriesOwned.push_back(new Territory(*(e.territoriesOwned[i])));
@@ -187,8 +189,8 @@ void Player::issueOrder(Map *map, GameStarter *gameStarter) {
     if(!done) {
         while (reinforcementPool != 0) {
             cout << "Issuing DEPLOY order" << endl;
-            Deploy *deploy = new Deploy(this, territoriesOwned[rand() % territoriesOwned.size() + 1],
-                                        (rand() % reinforcementPool) + 1);
+            Deploy *deploy = new Deploy(this, territoriesOwned[rand() % territoriesOwned.size()],
+                                        (rand() % reinforcementPool));
             orders->getOrdersList().push_back(deploy);
             done = true;
         }
@@ -199,8 +201,8 @@ void Player::issueOrder(Map *map, GameStarter *gameStarter) {
         for (Card *c : cards->getHandCards()) {
             if (c->getCardTypeString() == "AIRLIFT") {
                 cout << "Issuing an AIRLIFT order" << endl;
-                Territory *source = territoriesOwned[rand() % territoriesOwned.size() + 1];
-                Airlift *airlift = new Airlift(this, source, territoriesOwned[rand() % territoriesOwned.size() + 1],
+                Territory *source = territoriesOwned[rand() % territoriesOwned.size()];
+                Airlift *airlift = new Airlift(this, source, territoriesOwned[rand() % territoriesOwned.size()],
                                                source->getNumberOfArmies());
                 done = true;
                 break;
@@ -213,7 +215,7 @@ void Player::issueOrder(Map *map, GameStarter *gameStarter) {
         for (Card *c : cards->getHandCards()) {
             if (c->getCardTypeString() == "BLOCKADE") {
                 cout << "Issuing an BLOCKADE order" << endl;
-                Blockade *blockade = new Blockade(this, territoriesOwned[rand() % territoriesOwned.size() + 1]);
+                Blockade *blockade = new Blockade(this, territoriesOwned[rand() % territoriesOwned.size()]);
                 done = true;
                 break;
             }
@@ -225,7 +227,7 @@ void Player::issueOrder(Map *map, GameStarter *gameStarter) {
         for (Card *c : cards->getHandCards()) {
             if (c->getCardTypeString() == "BOMB") {
                 cout << "Issuing a BOMB" << endl;
-                Bomb *bomb = new Bomb(this, toAttack(map)[rand() % (toAttack(map).size()) + 1]);
+                Bomb *bomb = new Bomb(this, toAttack(map)[rand() % (toAttack(map).size())]);
                 done = true;
                 break;
             }
@@ -237,7 +239,7 @@ void Player::issueOrder(Map *map, GameStarter *gameStarter) {
         for (Card *c : cards->getHandCards()) {
             if (c->getCardTypeString() == "NEGOTIATE") {
                 cout << "Issuing a NEGOTIATE" << endl;
-                Negotiate *negotiate = new Negotiate(this, players[rand() % players.size() + 1]);
+                Negotiate *negotiate = new Negotiate(this, players[rand() % players.size()]);
                 done = true;
                 break;
             }
@@ -245,9 +247,19 @@ void Player::issueOrder(Map *map, GameStarter *gameStarter) {
     }
 
     // Issuing an advance order
+    // Creating a player2 which is the target for the advance order issued by player
+    Player * player2 = gameStarter->getPlayers()[rand() % gameStarter->getPlayers().size()];
+    vector<Territory*> advanceTerritories2;
+    for (Territory *t : player2.territoriesOwned) {
+        advanceTerritories2.push_back(t);
+    }
+    for (Territory *t : player2.toAttack(map)) {
+        advanceTerritories2.push_back(t);
+    }
+    
     if (!done) {
         cout << "Issuing an ADVANCE order" << endl;
-        Advance *advance = new Advance(this, territoriesOwned[rand() % territoriesOwned.size()+1],advanceTerritories[rand() % advanceTerritories.size()+1], (rand() % reinforcementPool) + 1);
+        Advance *advance = new Advance(this, player2, territoriesOwned[rand() % territoriesOwned.size()],advanceTerritories2[rand() % advanceTerritories2.size()], (rand() % reinforcementPool) + 1);
         orders->getOrdersList().push_back(advance);
         done = true;
     }
@@ -259,14 +271,16 @@ void Player::issueOrder(Map *map, GameStarter *gameStarter) {
 std::ostream &operator<<(std::ostream &out, const Player &e)
 {
     out << "Player" << e.playerId << ":" << endl;
-    out << "Player" << e.playerId << " has this collection of territories: {";
+    out << "Reinforcement pool: " << e.reinforcementPool << endl;
+    out << "Territories owned: " << "{ ";
     for (Territory *t : e.territoriesOwned)
     {
         out << *(t);
     }
     out << "}" << endl;
-    out << "Player" << e.playerId <<  " has this hand of cards: ";
-    (*(e.cards)).print();
-    out << "Player" << e.playerId << " has this list of orders: " << *(e.orders);
+    out << "Hand of cards: ";
+    *(e.cards).print();
+    out << "List of orders: ";
+    *(e.orders);
     return out;
 }
