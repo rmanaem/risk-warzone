@@ -1,8 +1,8 @@
 #include <iostream>
-using namespace std;
 #include "./Map.h"
 #include <vector>
 #include <stack>
+using namespace std;
 
 /*
 Quick instruction:

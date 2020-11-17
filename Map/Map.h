@@ -1,7 +1,6 @@
-#define Map_h
 #include <iostream>
-using namespace std;
 #include <vector>
+using namespace std;
 
 #pragma once
 

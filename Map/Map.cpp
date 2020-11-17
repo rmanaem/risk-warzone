@@ -1,8 +1,8 @@
 #include <iostream>
-using namespace std;
 #include <vector>
 #include "./Map.h"
 #include <stack>
+using namespace std;
 
 //Overload insertion stream operator
 ostream& operator<<(ostream& output, Continent& obj){
