@@ -153,7 +153,7 @@ void GameStarter::setUpGame(){
     Deck *deckp = new Deck(vdeck1);
 }
 
-vector<string> getCountriesInContinent(Map* map, Continent* continent){
+vector<string> GamePlayer::getCountriesInContinent(Map* map, Continent* continent){
     vector<string> teritories;
     for(Node* territory : map->getV()){
         if( territory->getData().getContinent()->getContinentName() == continent->getContinentName()){
@@ -162,14 +162,14 @@ vector<string> getCountriesInContinent(Map* map, Continent* continent){
     }
     return teritories;
 }
-vector<string> playerTerritories(vector<Territory*> terriroies){
+vector<string> GamePlayer::playerTerritories(vector<Territory*> terriroies){
     vector<string> names;
     for(Territory* territory : terriroies){
         names.push_back(territory->getTerritoryName());
     }
     return names;
 }
-bool hasAllTerritories(Player* player, Map* map, Continent* continent) {
+bool GamePlayer::hasAllTerritories(Player* player, Map* map, Continent* continent) {
     vector<string> cTerritories=getCountriesInContinent(map, continent);
     vector<string> pTerritories=playerTerritories(player->getTerritoriesOwned());
     bool contain= false;
@@ -184,7 +184,7 @@ bool hasAllTerritories(Player* player, Map* map, Continent* continent) {
     return contain;
 }
 
-void reinforcementPhase(GameStarter x) {
+void GamePlayer::reinforcementPhase(GameStarter x) {
     cout << "**Reinforcement Phase**" << endl;
     vector<Player*> players= x.getPlayers();
     Map* map=x.getMyGraph();
@@ -213,8 +213,9 @@ void reinforcementPhase(GameStarter x) {
 }
 
 
-void issueOrdersPhase(GameStarter x) {
+void GamePlayer::issueOrdersPhase(GameStarter x) {
     cout << "**Issue Order Phase**" << endl;
+
     vector<Player*> players= x.getPlayers();
     // Contains whether a player is done with their turn or not. True if not done.
     std::map<int, bool> playerTurns = std::map<int, bool>();
@@ -225,7 +226,7 @@ void issueOrdersPhase(GameStarter x) {
     }
     // Everyone has played.
 }
-void executeDeployOrders(vector<Player*> players) {
+void GamePlayer::executeDeployOrders(vector<Player*> players) {
     cout<<"executing all Deploy orders" <<endl;
     int j=0;
     for (Player* player : players) {
@@ -244,12 +245,11 @@ void executeDeployOrders(vector<Player*> players) {
 }
 }
 
-void executeAirLiftOrders(vector<Player*> players) {
+void GamePlayer::executeAirLiftOrders(vector<Player*> players) {
     cout<<"executing all AirLift orders" <<endl;
     for (Player* player : players) {
         cout << "Searching for AirLift order of player " << j << "..."<<endl;
         vector<Order*> playerOrders=player->getOrders();
-        player->getOrders
         int i=0;
         for(Order* order: playerOrders){
             if(order->getOrderType()=="Airlift") {
@@ -262,12 +262,11 @@ void executeAirLiftOrders(vector<Player*> players) {
     }
 }
 
-void executeBlockadeOrders(vector<Player*> players) {
+void GamePlayer::executeBlockadeOrders(vector<Player*> players) {
     cout<<"executing all Blockade orders" <<endl;
     for (Player* player : players) {
         cout << "Searching for Blockade order of player " << j << "..."<<endl;
         vector<Order*> playerOrders=player->getOrders();
-        player->getOrders
         int i=0;
         for(Order* order: playerOrders){
             if(order->getOrderType()=="Blockade") {
@@ -280,23 +279,22 @@ void executeBlockadeOrders(vector<Player*> players) {
     }
 }
 
-void executeAllOrders(vector<Player*> players) {
+void GamePlayer::executeAllOrders(vector<Player*> players) {
     cout<<"executing all other orders" <<endl;
     for (Player* player : players) {
         cout << "Searching for orders of player " << j << "..."<<endl;
-        vector<Order*> playerOrders=player->getOrders();
-        player->getOrders
+        //vector<Order*> playerOrders=player->getOrders();
         int i=0;
-        for(Order* order: playerOrders){
+        for(Order* order: player->getOrders()){
             cout<< "executing "<< order->getOrderType() <<" order for player "<<i<<"..."<<endl;
-//                execute(order);
-                order->deleteOrder(i);
+                order->execute();
+                playerOrders->deleteOrder(i);
             i++;
         }
     }
 }
 
-void executeOrderPhase(GameStarter x){
+void GamePlayer::executeOrderPhase(GameStarter x){
     vector<Player*> players = x.getPlayers();
     executeDeployOrders(players);
     executeAirLiftOrders(players);
@@ -304,7 +302,7 @@ void executeOrderPhase(GameStarter x){
     executeAllOrders(players);
     }
 }
-void checkTerritoriesOwned(GameStarter x){
+void GamePlayer::checkTerritoriesOwned(GameStarter x){
     vector<Player*> players = x.getPlayers();
     for (Player* player : players) {
         cout << "Checking if player "<<player->setPlayerId()<< " has territories." <<endl;
@@ -315,10 +313,17 @@ void checkTerritoriesOwned(GameStarter x){
         }
     }
 }
+void GamePlayer::setCurrentTurn(currentTurn){
+    this->currenTurn= currentTUrn;
+}
+int GamePlayer::getCurrentTurn(){
+    return currentTurn;
+}
 //-------------- Main Game Loop --------------//
-void mainGameLoop(GameStarter x) {
+void GamePlayer::mainGameLoop(GameStarter x) {
     vector<Player*> players= x.getPlayers();
     cout << "Let the game begin!" << endl;
+    int turn =1;
     while(true){
         if(players.size()>1){
             reinforcementPhase(x);
@@ -328,9 +333,11 @@ void mainGameLoop(GameStarter x) {
         }
         else {
             cout << "The game has ended!";
-            cout << "The winnder is " <<players.front()->getPlayerId();
-            break
-        };
+            cout << "The winner is " <<players.front()->getPlayerId();
+            break;
+        }
+        p.setCurrentTurn(turn);
+        turn++;
     }
 
 }
@@ -338,8 +345,10 @@ void mainGameLoop(GameStarter x) {
 int main(){
     GameStarter x = GameStarter();
     x.setUpGame();
+    x.get
     cout<<"am heeere"<<endl;
-    mainGameLoop(x);
+    GamePlayer p=GamePlayer();
+    p.mainGameLoop(x);
     cout<<"Size: "<<x.getPlayers().front()->getPlayerId()<<endl;
     cout<<"Size: "<<x.getPlayers().back()->getPlayerId()<<endl;
 
