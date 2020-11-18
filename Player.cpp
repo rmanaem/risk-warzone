@@ -16,7 +16,7 @@ Player::Player()
 {
 }
 
-Player::Player(int playerId, int reinforcementPool, std::vector<Player*> unattackablePlayers, nbArmies(nbArmies), std::vector<Territory *> territoriesOwned, Hand *cards, OrdersList *orders) : playerId(playerId), reinforcementPool(reinforcementPool), unattackablePlayers(unattackablePlayers), territoriesOwned(territoriesOwned), cards(cards), orders(orders), Phase phase::None
+Player::Player(int playerId, int reinforcementPool, std::vector<Player*> unattackablePlayers, nbArmies(nbArmies), std::vector<Territory *> territoriesOwned, Hand *cards, OrdersList *orders) : playerId(playerId), reinforcementPool(reinforcementPool), unattackablePlayers(unattackablePlayers), territoriesOwned(territoriesOwned), cards(cards), orders(orders), phase(Phase::None)
 {
 }
 

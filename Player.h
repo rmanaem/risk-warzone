@@ -36,7 +36,7 @@ private:
 public:
     //-------------- Constructors --------------//
     Player();
-    Player(int playerId, int reinforcementPool, std::vector<Player*> unattackablePlayers ,std::vector<Territory *> territoriesOwned, Hand *cards, OrdersList *orders);
+    Player(int playerId, int reinforcementPool, std::vector<Player*> unattackablePlayers, int nbArmies, std::vector<Territory *> territoriesOwned, Hand *cards, OrdersList *orders);
     Player(const Player &e);
 
     //-------------- Destructor --------------//
