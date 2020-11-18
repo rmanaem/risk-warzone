@@ -249,16 +249,16 @@ void Player::issueOrder(Map *map, GameStarter *gameStarter) {
     // Creating a player2 which is the target for the advance order issued by player
     Player * player2 = gameStarter->getPlayers()[rand() % gameStarter->getPlayers().size()];
     vector<Territory*> advanceTerritories2;
-    for (Territory *t : player2.territoriesOwned) {
+    for (Territory *t : player2->territoriesOwned) {
         advanceTerritories2.push_back(t);
     }
-    for (Territory *t : player2.toAttack(map)) {
+    for (Territory *t : player2->toAttack(map)) {
         advanceTerritories2.push_back(t);
     }
 
     if (!done) {
         cout << "Issuing an ADVANCE order" << endl;
-        Advance *advance = new Advance(this, player2, territoriesOwned[rand() % territoriesOwned.size()],advanceTerritories2[rand() % advanceTerritories2.size()], (rand() % reinforcementPool) + 1);
+        Advance *advance = new Advance(this, player2, territoriesOwned[rand() % territoriesOwned.size()],advanceTerritories[rand() % advanceTerritories2.size()], (rand() % reinforcementPool) + 1);
         orders->getOrdersList().push_back(advance);
         done = true;
     }
@@ -278,8 +278,8 @@ std::ostream &operator<<(std::ostream &out, const Player &e)
     }
     out << "}" << endl;
     out << "Hand of cards: ";
-    *(e.cards).print();
-    out << "List of orders: ";
+    (e.cards)->print();
+    out << "List of orders: " << *(e.orders);
     *(e.orders);
     return out;
 }

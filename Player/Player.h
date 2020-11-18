@@ -10,6 +10,7 @@
 //============================ Forward declarations  ============================//
 class Card;
 class Hand;
+class GameStarter;
 
 //============================ Player Class ============================//
 class Player
