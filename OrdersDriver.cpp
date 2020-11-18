@@ -1,6 +1,7 @@
 #include "Orders.h"
 #include "Map.h"
 #include "Cards.h"
+#include "GameEngine.h"
 #include <iostream>
 #include <vector>
 #include <string>
@@ -169,7 +170,7 @@ int main()
           delete brazil;
       }
 
-      //delete all the orders because they werent put in the orderlist so they werent taken care of by the destructor
+      //delete all the orders because they weren't put in the orderlist so they werent taken care of by the destructor
       delete deployOrder;
       delete deployOrder2;
       delete advanceOrder;
@@ -178,12 +179,6 @@ int main()
       delete blockadeOrder;
       delete airliftOrder;
       delete negotiateOrder;
-
-      //delete the players
-      delete p1;
-      delete p2;
-
-
 
     return 0;
 }

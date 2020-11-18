@@ -52,6 +52,7 @@ OrdersList::OrdersList(vector<Order*> ordList){
 OrdersList::OrdersList(const OrdersList &ordList){
     cout << "Copy constructor for OrdersList class has been called" << endl;
     for(int i=0; i<ordList.oList.size(); i++){
+
         if(ordList.oList[i]->getOrderType() == "DEPLOY"){
              this->oList.push_back(new Deploy());
         }
