@@ -1,10 +1,10 @@
-#include "../Map/Map.h"
-#include "../Orders.h"
-#include "../Cards.h"
-#include "./Player.h"
+#include "Map.h"
+#include "Orders.h"
+#include "Cards.h"
+#include "Player.h"
 #include <iostream>
 #include <algorithm>
-#include "../GameEngine/GameEngine.h"
+#include "GameEngine.h"
 #include <list>
 
 using namespace std;
@@ -16,7 +16,7 @@ Player::Player()
 {
 }
 
-Player::Player(int playerId, int reinforcementPool, std::vector<Territory *> territoriesOwned, Hand *cards, OrdersList *orders) : playerId(playerId), reinforcementPool(reinforcementPool), territoriesOwned(territoriesOwned), cards(cards), orders(orders)
+Player::Player(int playerId, int reinforcementPool, std::vector<Player*> unattackablePlayers, std::vector<Territory *> territoriesOwned, Hand *cards, OrdersList *orders) : playerId(playerId), reinforcementPool(reinforcementPool), unattackablePlayers(unattackablePlayers), territoriesOwned(territoriesOwned), cards(cards), orders(orders)
 {
 }
 
@@ -25,6 +25,9 @@ Player::Player(const Player &e) : playerId(e.playerId), reinforcementPool(e.rein
     for (int i = 0; i < e.territoriesOwned.size(); i++)
     {
         this->territoriesOwned.push_back(new Territory(*(e.territoriesOwned[i])));
+    }
+    for (int i = 0; i < e.unattackablePlayers.size(); i++) {
+        this->unattackablePlayers.push_back(new Player(*(e.unattackablePlayers[i])));
     }
 }
 
@@ -36,6 +39,12 @@ Player::~Player()
         delete t;
         t = nullptr;
     }
+
+    for (Player *p : unattackablePlayers) {
+        delete p;
+        p = nullptr;
+    }
+
     delete cards;
     cards = nullptr;
     delete orders;
@@ -51,6 +60,9 @@ Player &Player::operator=(const Player &e)
     {
         this->territoriesOwned.push_back(new Territory(*(e.territoriesOwned[i])));
     }
+    for (int i = 0; i < e.unattackablePlayers.size(); i++) {
+        this->unattackablePlayers.push_back(new Player(*(e.unattackablePlayers[i])));
+    }
     this->cards = new Hand(*(e.cards));
     this->orders = new OrdersList(*(e.orders));
     return *this;
@@ -64,6 +76,10 @@ int Player::getPlayerId()
 
 int Player::getReinforcementPool() {
     return reinforcementPool;
+}
+
+vector<Player *> Player::getUnattackablePlayers() {
+    return unattackablePlayers;
 }
 
 std::vector<Territory *> Player::getTerritoriesOwned()
@@ -89,6 +105,10 @@ void Player::setPlayerId(int playerId)
 
 void Player::setReinforcementPool(int reinforcementPool) {
     this->reinforcementPool = reinforcementPool;
+}
+
+void Player::setUnattackablePlayers(std::vector<Player *> unattackablePlayers) {
+    this->unattackablePlayers = unattackablePlayers;
 }
 
 void Player::setTerritoriesOwned(std::vector<Territory *> territoriesOwned)
@@ -234,31 +254,22 @@ void Player::issueOrder(Map *map, GameStarter *gameStarter) {
     }
 
     // Issuing a negotiate order under the condition that player has a negotiate card in their hand
-//    if (!done) {
-//        for (Card *c : cards->getHandCards()) {
-//            if (c->getCardTypeString() == "NEGOTIATE") {
-//                cout << "Issuing a NEGOTIATE" << endl;
-//                Negotiate *negotiate = new Negotiate(this, players[rand() % players.size()]);
-//                done = true;
-//                break;
-//            }
-//        }
-//    }
+    if (!done) {
+        for (Card *c : cards->getHandCards()) {
+            if (c->getCardTypeString() == "NEGOTIATE") {
+                cout << "Issuing a NEGOTIATE" << endl;
+                Negotiate *negotiate = new Negotiate(this, players[rand() % players.size()]);
+                done = true;
+                break;
+            }
+        }
+    }
 
     // Issuing an advance order
     // Creating a player2 which is the target for the advance order issued by player
-    Player * player2 = gameStarter->getPlayers()[rand() % gameStarter->getPlayers().size()];
-    vector<Territory*> advanceTerritories2;
-    for (Territory *t : player2->territoriesOwned) {
-        advanceTerritories2.push_back(t);
-    }
-    for (Territory *t : player2->toAttack(map)) {
-        advanceTerritories2.push_back(t);
-    }
-
     if (!done) {
         cout << "Issuing an ADVANCE order" << endl;
-        Advance *advance = new Advance(this, player2, territoriesOwned[rand() % territoriesOwned.size()],advanceTerritories2[rand() % advanceTerritories2.size()], (rand() % reinforcementPool) + 1);
+        Advance *advance = new Advance(this, gameStarter->getPlayers()[rand() % gameStarter->getPlayers().size()], territoriesOwned[rand() % territoriesOwned.size()], advanceTerritories[rand() % advanceTerritories.size()], (rand() % reinforcementPool) + 1);
         orders->getOrdersList().push_back(advance);
         done = true;
     }
@@ -278,8 +289,8 @@ std::ostream &operator<<(std::ostream &out, const Player &e)
     }
     out << "}" << endl;
     out << "Hand of cards: ";
-    //*(e.cards)->print();
-    out << "List of orders: ";
+    (e.cards)->print();
+    out << "List of orders: " << *(e.orders);
     *(e.orders);
     return out;
 }
