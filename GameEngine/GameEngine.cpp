@@ -203,7 +203,9 @@ void::StartUp::startUpPhase() {
     while (!mapNodes.empty()) {
         for (Player *p: gameStart->getPlayers()){
             if (!mapNodes.empty()) {
-                p->getTerritoriesOwned().push_back(mapNodes.back()->getDataPtr());
+                vector<Territory*> territories = p->getTerritoriesOwned();
+                territories.push_back(mapNodes.back()->getDataPtr());
+                p->setTerritoriesOwned(territories);
                 mapNodes.pop_back();
             }
         }
