@@ -8,28 +8,48 @@
 
 using namespace std;
 
+// Pre-declaring classes because we need them
 class GameStarter;
 class Player;
 class Subject;
 class Order;
 class Card;
+
+
+// Current phase
+enum Phase {Reinforcement, IssueOrders, ExecuteOrders, None};
+
+//============================ Observer Class ============================//
 class Observer {
 public:
+    //-------------- Constructor --------------//
     Observer();
+
+    //-------------- Destructor --------------//
     ~Observer();
+
+    //-------------- Others --------------//
     virtual void update() = 0;
 };
 
+//============================ Subject Class ============================//
 class Subject {
 public:
+    //-------------- Constructors --------------//
+    // Default
     Subject();
+    // Parameterized
     Subject(list<Observer*>* observers);
+    // Copy
+    Subject(const Subject &initSubject);
+
+    //-------------- Destructor --------------//
     ~Subject();
+
+    //-------------- Others --------------//
     virtual void Attach(Observer* obs);
     void Detach(Observer* obs);
     void Notify();
-
-    Subject(const Subject &initSubject);
     Subject &operator=(const Subject &subject);
     friend std::ostream &operator<<(std::ostream &stream, const Subject &subject);
 
@@ -39,17 +59,24 @@ private:
     list<Observer*>* observers;
 };
 
-enum Phase {Reinforcement, IssueOrders, ExecuteOrders, None};
-
+//============================ GameStatisticsObserver Class ============================//
 class GameStatisticsObserver : public Observer {
 public:
+    //-------------- Constructors --------------//
+    // Default
     GameStatisticsObserver();
+    // Parameterized
     GameStatisticsObserver(int nbTerritories, GameStarter* gameStarter);
+    // Copy
+    GameStatisticsObserver(const GameStatisticsObserver &initGameStatisticsObserver);
+
+    //-------------- Destructor --------------//
+    ~GameStatisticsObserver();
+
+    //-------------- Others --------------//
     void update();
     void addPlayer(Player* player);
     void Start();
-
-    GameStatisticsObserver(const GameStatisticsObserver &initGameStatisticsObserver);
     GameStatisticsObserver &operator=(const GameStatisticsObserver &gameStatisticsObserver);
     friend std::ostream &operator<<(std::ostream &stream, const GameStatisticsObserver &gameStatisticsObserver);
 
@@ -60,15 +87,27 @@ private:
     GameStarter* gameStarter;
 };
 
+
+//============================ PhaseObserver Class ============================//
 class PhaseObserver : public Observer {
 public:
+    //-------------- Constructor --------------//
+    // Default
     PhaseObserver();
+    // Parameterized
     PhaseObserver(GameStarter* gameStarter);
-    void update();
-    void addPlayer(Player* player);
+    // Copy
+    PhaseObserver(const PhaseObserver &initPhaseObserver);
+
+    //-------------- Destructor --------------//
+    ~PhaseObserver();
+
+    //-------------- Getter --------------//
     Phase getPhase();
 
-    PhaseObserver(const PhaseObserver &initPhaseObserver);
+    //-------------- Others --------------//
+    void update();
+    void addPlayer(Player* player);
     PhaseObserver &operator=(const PhaseObserver &phaseObserver);
     friend std::ostream &operator<<(std::ostream &stream, const PhaseObserver &phaseObserver);
 

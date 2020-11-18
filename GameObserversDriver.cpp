@@ -116,13 +116,11 @@ int main() {
     p1.Attach(&ph);
     p2.Attach(&ph);
 
-
     gso.addPlayer(&p1);
     gso.addPlayer(&p2);
     ph.addPlayer(&p1);
     ph.addPlayer(&p2);
 
-    //gs.setUpGame();
     gs.setSelectedNumberOfPlayers(2);
     gs.setPlayers(players);
 
@@ -131,8 +129,7 @@ int main() {
     p1.addArmiesToReinforcementPool(100);
     p2.addArmiesToReinforcementPool(200);
     p1.issueOrder(validMap, &gs);
-    //p2.issueOrder(validMap, &gs);
-
+    p2.issueOrder(validMap, &gs);
 
     return 0;
 }
