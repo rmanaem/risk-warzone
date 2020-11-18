@@ -6,7 +6,7 @@
 #include <iterator>
 #include <vector>
 #include "Player.h"
-#include "Map.h"
+#include "MapLoader/MapLoader.h"
 
 using namespace std;
 
@@ -14,19 +14,31 @@ class GameStarter{
 private:
     string selectedMap;
     int numberOfPlayers;
-    bool isObserverTurnedOn[2];//isObserverTurnedOn[0] for Phase Observer. isObserverTurnedOn[1] for Game Statistics Observer
+    bool isPhaseObserverTurnedOn;
+    bool isStatisticsObserverTurnedOn;
     vector<Player*> players;
     Map* myGraph;
+
 public:
     //-------------- constructors --------------//
     GameStarter();
+    GameStarter(const GameStarter& original);
+
+    //-------------- Destructor --------------//
+    ~GameStarter();
 
     //-------------- getters --------------//
     string getSelectedMap();
     int getSelectedNumberOfPlayers();
-    bool* getIsObserverTurnedOn();
+    bool getIsPhaseObserverTurnedOn();
+    bool getIsStatisticsObserverTurnedOn();
     vector<Player*> getPlayers();
     Map* getMyGraph();
+
+    //-------------- setters --------------//
+    void setSelectedMap(string selectedMap);
+    void setSelectedNumberOfPlayers(int numberOfPlayers);
+    void setPlayers(vector<Player*> players);
 
     //-------------- getting user input --------------//
     void selectMap();
@@ -36,39 +48,11 @@ public:
     //-------------- set up the game --------------//
     void setUpGame();
 
+    //-------------- Overloads --------------//
+    //overload assignment operator
+    GameStarter& operator=(const GameStarter& rhs);
+    friend ostream& operator<<(ostream& output, GameStarter& obj);//to access private attributes
 };
 
-
-//============================ StartUp Class ============================//
-class StartUp{
-
-private:
-    //-------------- Data members --------------//
-    GameStarter * gameStart;
-
-public:
-    //-------------- constructors --------------//
-    StartUp();
-    StartUp(GameStarter * gameStart);
-    StartUp(const StartUp &e);
-
-    //-------------- Destructor --------------//
-    ~StartUp();
-
-    //-------------- Assignment operator --------------//
-    StartUp &operator=(const StartUp &e);
-
-    //-------------- Accessor methods --------------//
-    GameStarter *getGameStart();
-
-    //-------------- Mutators methods--------------//
-    void setGameStart(GameStarter * gameStart);
-
-    //-------------- game startup phase --------------//
-    void startUpPhase();
-
-    //-------------- Stream insertion Operator --------------//
-    friend ostream &operator<<(ostream &out, const StartUp &e);
-
-};
-
+//overload stream insertion operator
+ostream& operator<<(ostream& output, GameStarter& obj);

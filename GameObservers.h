@@ -1,11 +1,12 @@
-
 #pragma once
-using namespace std;
+
 #include <algorithm>
 #include <iostream>
 #include <list>
 #include <string>
 #include <vector>
+
+using namespace std;
 
 class Player;
 class Subject;
@@ -19,16 +20,18 @@ public:
     Observer(const Observer &initObserver);
     Observer &operator=(const Observer &observer);
     friend std::ostream &operator<<(std::ostream &stream, const Observer &observer);
+protected:
+   //GameStarter *gameStarter;
 };
 
 class Subject {
 public:
     Subject();
+    Subject(list<Observer*>* observers);
     ~Subject();
     virtual void Attach(Observer* obs);
     void Detach(Observer* obs);
     void Notify();
-    int getId();
 
     Subject(const Subject &initSubject);
     Subject &operator=(const Subject &subject);
@@ -44,9 +47,11 @@ enum Phase { Reinforcement = 0, IssueOrders = 1, ExecuteOrders = 2, None };
 
 class GameStatisticsObserver : public Observer {
 public:
+    GameStatisticsObserver();
+    GameStatisticsObserver(int nbTerritories);
+    GameStatisticsObserver(vector<Player *> players);
     void update();
     void addPlayer(Player* player);
-    GameStatisticsObserver(int nbTerritories);
     void Start();
 
     GameStatisticsObserver(const GameStatisticsObserver &initGameStatisticsObserver);
@@ -62,6 +67,7 @@ private:
 class PhaseObserver : public Observer {
 public:
     PhaseObserver();
+    PhaseObserver(vector<Player *> players);
     void update();
     void addPlayer(Player* player);
     Phase getPhase();

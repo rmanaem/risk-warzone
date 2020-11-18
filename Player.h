@@ -68,7 +68,6 @@ public:
     void addArmiesToReinforcementPool(int numberOfArmies);
 
     //-------------- issueOrder method --------------//
-    void issueOrder();
     void issueOrder(Map *map, GameStarter *gameStarter);
 
     //-------------- Stream insertion Operator --------------//

@@ -1,21 +1,41 @@
 #include <iostream>
-#include "./GameEngine.h"
+#include "GameEngine.h"
 #include <list>
 #include <algorithm>
 #include <iterator>
 #include <vector>
 #include "Player.h"
 #include "MapLoader/MapLoader.h"
-
+#include "Map.h"
 using namespace std;
 
+//-------------- Constructors --------------//
 GameStarter::GameStarter(){
     selectedMap = "";
     numberOfPlayers = 0;
-    isObserverTurnedOn[0] = false;//Phase Observer
-    isObserverTurnedOn[1] = false;//Game Statistics Observer
+    isPhaseObserverTurnedOn = false;
+    isStatisticsObserverTurnedOn = false;
 }
 
+GameStarter::GameStarter(const GameStarter& original){//copy constructor
+    selectedMap = original.selectedMap;
+    numberOfPlayers = original.numberOfPlayers;
+    isPhaseObserverTurnedOn = original.isPhaseObserverTurnedOn;
+    isStatisticsObserverTurnedOn = original.isStatisticsObserverTurnedOn;
+    myGraph = new Map(*original.myGraph);//call Map copy constructor
+}
+
+//-------------- Destructors --------------//
+GameStarter::~GameStarter(){
+    //de-allocate palyerss
+    for(int i=0;i<players.size();i++){
+        delete players[i];
+    }
+
+    delete myGraph;
+}
+
+//-------------- Getters --------------//
 string GameStarter::getSelectedMap(){
     return selectedMap;
 }
@@ -24,8 +44,12 @@ int GameStarter::getSelectedNumberOfPlayers(){
     return numberOfPlayers;
 }
 
-bool* GameStarter::getIsObserverTurnedOn(){
-    return isObserverTurnedOn;
+bool GameStarter::getIsPhaseObserverTurnedOn(){
+    return isPhaseObserverTurnedOn;
+}
+
+bool GameStarter::getIsStatisticsObserverTurnedOn(){
+    return isStatisticsObserverTurnedOn;
 }
 
 vector<Player*> GameStarter::getPlayers(){
@@ -40,7 +64,7 @@ void GameStarter::selectMap(){
     int mapNum;
     cout<<"Available maps:"<<endl;
 
-    //!!!!!!!!!!!!!! dummy should by replace with list_dir from MapLoaderDriver
+    //list all maps available in ./MapLoader/Maps/ directory
     list<string> listOfMaps = list_dir("./MapLoader/Maps/");
 
     int count = 1;
@@ -64,7 +88,7 @@ void GameStarter::selectMap(){
 
         if(mapNum>=1 && mapNum<=listOfMaps.size()){
             isInputCorrect = true;
-        }else{//hanldes invalid inputs (i.e. 0, x>listOfMaps.size() and non-int input)
+        }else{//handles invalid inputs (i.e. 0, x>listOfMaps.size() and non-int input)
             if(cin.fail()){
                 cin.clear();
                 cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -99,6 +123,19 @@ void GameStarter::selectNumOfPlayers(){
     numberOfPlayers = tempNumOfPlayers;
 }
 
+
+//--------------------- setters ---------------------//
+void GameStarter::setSelectedMap(string selectedMap) {
+    this->selectedMap = selectedMap;
+};
+void GameStarter::setSelectedNumberOfPlayers(int numberOfPlayers) {
+    this->numberOfPlayers = numberOfPlayers;
+};
+
+void GameStarter::setPlayers(vector<Player *> players) {
+    this->players = players;
+}
+
 void GameStarter::turnObservers(){
     char responseGameStatistics;
     char phaseObserver;
@@ -110,9 +147,9 @@ void GameStarter::turnObservers(){
     cin>>responseGameStatistics;
 
     if(phaseObserver == 'y')
-        isObserverTurnedOn[0] = true;
+        isPhaseObserverTurnedOn = true;
     if(responseGameStatistics == 'y')
-        isObserverTurnedOn[1] = true;
+        isStatisticsObserverTurnedOn = true;
 }
 
 void GameStarter::setUpGame(){
@@ -134,7 +171,7 @@ void GameStarter::setUpGame(){
     //create players
     for(int i=0; i<numberOfPlayers;i++){
         players.push_back(new Player);
-        players.front()->setPlayerId(i);
+        players.front()->setPlayerId(i+1);
 
         players.front()->setCards(new Hand); //assign an empty hand of cards
         players.front()->setOrders(olp); //assign orders
@@ -151,119 +188,27 @@ void GameStarter::setUpGame(){
     Deck *deckp = new Deck(vdeck1);
 }
 
-
-
-//============================ StartUp Class ============================//
-
-//-------------- constructors --------------//
-StartUp::StartUp() {}
-StartUp::StartUp(GameStarter *gameStart) : gameStart(gameStart) {}
-StartUp::StartUp(const StartUp &e) : gameStart(new GameStarter(*(e.gameStart))) {}
-
-
-//-------------- Destructor --------------//
-StartUp::~StartUp() {
-    delete gameStart;
-    gameStart = nullptr;
-}
-
-//-------------- Assignment operator --------------//
-StartUp & StartUp::operator=(const StartUp &e) {
-//    this->gameStart = new(GameStarter(*e.gameStart));
-}
-
-//-------------- Accessor methods --------------//
-GameStarter*::StartUp::getGameStart() {
-    return gameStart;
-}
-
-//-------------- Mutators methods--------------//
-void::StartUp::setGameStart(GameStarter *gameStart) {
-    this->gameStart = gameStart;
-}
-
-//-------------- game startup phase --------------//
-void::StartUp::startUpPhase() {
-    cout << "Initiating start up phase..." << endl;
-
-    // Determining the order of the players
-    cout << "Determining the order of the players";
-    srand(unsigned(time(0)));
-    random_shuffle(gameStart->getPlayers().begin(), gameStart->getPlayers().end());
-    cout << "order of the players is now: " << endl;
-    for (Player *p : gameStart->getPlayers()) {
-        cout << "Player" << p->getPlayerId() << endl;
+//-------------- Overloads --------------//
+//overload assignment operator
+GameStarter& GameStarter::operator=(const GameStarter& rhs){
+    if(this != &rhs){
+        selectedMap = rhs.selectedMap;
+        numberOfPlayers = rhs.numberOfPlayers;
+        isPhaseObserverTurnedOn = rhs.isPhaseObserverTurnedOn;
+        isStatisticsObserverTurnedOn = rhs.isStatisticsObserverTurnedOn;
+        myGraph = rhs.myGraph;
     }
-
-    // Randomly assigning all the territories in the map
-    cout << "Randomly assigning territories to the players in a round-robin fashion" << endl;
-    vector<Node *> mapNodes = gameStart->getMyGraph()->getV();
-    random_shuffle(mapNodes.begin(), mapNodes.end());
-    while (!mapNodes.empty()) {
-        for (Player *p: gameStart->getPlayers()){
-            if (!mapNodes.empty()) {
-                p->getTerritoriesOwned().push_back(mapNodes.back()->getDataPtr());
-                mapNodes.pop_back();
-            }
-        }
-    }
-
-    // Using to defend method to show the assigned territories to players
-    for (Player *p : gameStart->getPlayers()) {
-        p->toDefend();
-    }
-
-    // Assigning initial number of armies to players based on the number of players
-    cout << "Assigning initial number of armies to players: " << endl;
-    switch (gameStart->getPlayers().size()) {
-        case 2: {
-            cout << "Each of the 2 players are assigned 40 armies" << endl;
-            for (Player *p : gameStart->getPlayers()) {
-                p->addArmiesToReinforcementPool(40);
-            }
-            break;
-        }
-        case 3: {
-            cout << "Each of the 3 players are assigned 35 armies" << endl;
-            for (Player *p : gameStart->getPlayers()) {
-                p->addArmiesToReinforcementPool(35);
-            }
-            break;
-        }
-        case 4: {
-            cout << "Each of the 4 players are assigned 30 armies" << endl;
-            for (Player *p : gameStart->getPlayers()) {
-                p->addArmiesToReinforcementPool(30);
-            }
-            break;
-        }
-        case 5: {
-            cout << "Each of the 5 players are assigned 25 armies" << endl;
-            for (Player *p : gameStart->getPlayers()) {
-                p->addArmiesToReinforcementPool(25);
-            }
-            break;
-        }
-        default: {
-            throw logic_error("Invalid number of players");
-        }
-    }
-
+    return *this;
 }
 
-//-------------- Stream insertion Operator --------------//
-ostream &operator<<(ostream &out, const StartUp &e) {
-    out << "This is a startup phase object" << endl;
+//Overload insertion stream operator
+ostream& operator<<(ostream& output, GameStarter& obj){
+    output << "Selected Map: "<<obj.selectedMap<<"\nNumber of Players: "<<obj.numberOfPlayers
+           <<"\nIs Phase Observer turned on? "<<obj.isPhaseObserverTurnedOn<<"\nIs Statistics Observer turned on? "<<obj.isStatisticsObserverTurnedOn<<endl;
+    return output;
 }
 
-//int main(){
-//    GameStarter x = GameStarter();
-//    x.setUpGame();
-//    cout<<"Size: "<<x.getPlayers().front()->getPlayerId()<<endl;
-//    cout<<"Size: "<<x.getPlayers().back()->getPlayerId()<<endl;
-//    //cout<<x.getSelectedMap();
-//    //cout<<x.getSelectedNumberOfPlayers();
-//    // cout<<x.getIsObserverTurnedOn()[0];
-//    // cout<<x.getIsObserverTurnedOn()[1];
-//    return 0;
-//}
+// int main(){
+
+//     return 0;
+// }

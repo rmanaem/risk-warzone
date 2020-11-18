@@ -103,6 +103,10 @@ int main() {
     Player p2(2,0, territoryv2, handp2, olp2);
     cout << p2;
 
+    vector<Player *> players;
+    players.push_back(&p1);
+    players.push_back(&p2);
+
     GameStarter gs = GameStarter();
     GameStatisticsObserver gso =
             GameStatisticsObserver(validMap->getV().size());
@@ -119,11 +123,16 @@ int main() {
     ph.addPlayer(&p1);
     ph.addPlayer(&p2);
 
+    //gs.setUpGame();
+    gs.setSelectedNumberOfPlayers(2);
+    gs.setPlayers(players);
+
     gso.Start();
+
     p1.addArmiesToReinforcementPool(100);
     p2.addArmiesToReinforcementPool(200);
     p1.issueOrder(validMap, &gs);
-    p2.issueOrder(validMap, &gs);
+    //p2.issueOrder(validMap, &gs);
 
 
     return 0;

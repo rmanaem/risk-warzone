@@ -1,6 +1,6 @@
 #include "Orders.h"
 #include "Player.h"
-//#include "Map.h"
+#include "Map.h"
 #include <string>
 #include <iostream>
 #include <type_traits>
@@ -33,7 +33,7 @@ string Order::getOrderType(){
     return orderType;
 }
 
-Phase Order::getPhase() {
+Phase* Order::getPhase() {
     this->phase = phase;
 }
 
@@ -226,7 +226,7 @@ bool Deploy::validate(){
 
 //Execute the order
 void Deploy::execute(){
-    phase = Phase::ExecuteOrders;
+    phase = GameStatisticsObserver;
     if(validate()){
         target->setNumberOfArmies(target->getNumberOfArmies() + numToDeploy);
         p->setNbArmies(p->getNbArmies() - numToDeploy);
