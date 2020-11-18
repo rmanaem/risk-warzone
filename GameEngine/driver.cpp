@@ -9,7 +9,6 @@
 #include <map>
 #include "../Player/Player.h"
 #include "../MapLoader/MapLoader.h"
-#include "../Map/Map.h"
 
 
 using namespace std;
@@ -21,9 +20,10 @@ int main(){
     x->setUpGame();
     StartUp object= StartUp(x);
     object.startUpPhase();
-    x->getPlayers();
+//    cout<<"am heeere" << x->getPlayers().size()<<endl;
+//    x->getPlayers()->pop_back();
+//    cout<<"am hyre" << x->getPlayers().size()<<endl;
 
-    cout<<"am heeere"<<endl;
     GamePlayer p=GamePlayer();
     p.mainGameLoop(x);
     cout<<"Size: "<<x->getPlayers().front()->getPlayerId()<<endl;

@@ -50,8 +50,8 @@ void::StartUp::startUpPhase() {
     cout << "Initiating start up phase..." << endl;
 
     // Determining the order of the players
-    cout << "Determining the order of the players";
-    srand(unsigned(time(0)));
+    cout << "Determining the order of the players" <<endl;
+    srand(time(0));
     random_shuffle(gameStart->getPlayers().begin(), gameStart->getPlayers().end());
     cout << "order of the players is now: " << endl;
     for (Player *p : gameStart->getPlayers()) {
@@ -61,13 +61,23 @@ void::StartUp::startUpPhase() {
     // Randomly assigning all the territories in the map
     cout << "Randomly assigning territories to the players in a round-robin fashion" << endl;
     vector<Node *> mapNodes = gameStart->getMyGraph()->getV();
-    random_shuffle(mapNodes.begin(), mapNodes.end());
+    //random_shuffle(mapNodes.begin(), mapNodes.end());
     while (!mapNodes.empty()) {
+        cout << "1" <<endl;
         for (Player *p: gameStart->getPlayers()){
+            cout << "2" <<endl;
             if (!mapNodes.empty()) {
-                p->getTerritoriesOwned().push_back(mapNodes.back()->getDataPtr());
+                cout << "3" <<endl;
+                vector<Territory*> territories = p->getTerritoriesOwned();
+                cout << "4" <<endl;
+                territories.push_back(mapNodes.back()->getDataPtr());
+                cout << "5" <<endl;
+                p->setTerritoriesOwned(territories);
+                cout << "6" <<endl;
                 mapNodes.pop_back();
+                cout << "7" <<endl;
             }
+            cout << "8" <<endl;
         }
     }
 

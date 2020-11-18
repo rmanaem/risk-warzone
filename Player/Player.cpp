@@ -1,10 +1,10 @@
-#include "Map.h"
-#include "Orders.h"
-#include "Cards.h"
+#include "../Map/Map.h"
+#include "../Orders.h"
+#include "../Cards.h"
 #include "Player.h"
 #include <iostream>
 #include <algorithm>
-#include "GameEngine.h"
+#include "../GameEngine/GameEngine.h"
 #include <list>
 
 using namespace std;
@@ -165,11 +165,12 @@ std::vector<Territory *> Player::toAttack(Map *map)
         }
     }
 
-    cout << "Player" << playerId << " has this collection of territories to attack: {";
-    for (Territory *t : territoriesToAttack) {
-        cout << *(t) << endl;
-    }
-    cout << "}" << endl;
+//    cout << "Player" << playerId << " has this collection of territories to attack: {";
+//    for (Territory *t : territoriesToAttack) {
+//        cout << *(t) << endl;
+//    }
+//    cout << "}" << endl;
+    cout << "toAttack" <<endl;
     return territoriesToAttack;
 }
 
@@ -205,18 +206,21 @@ void Player::issueOrder(Map *map, GameStarter *gameStarter) {
     cout << "Issuing order for player " << playerId << endl;
 
     // Issuing a deploy order under condition that the player reinforcement pool is not empty
-    if(!done) {
-        while (reinforcementPool != 0) {
+    int reinforcement = reinforcementPool;
+    while (reinforcement > 0) {
+
             cout << "Issuing DEPLOY order" << endl;
+            int randomReinforcement = rand() % reinforcement + 1;
+            cout<< "here" <<endl;
             Deploy *deploy = new Deploy(this, territoriesOwned[rand() % territoriesOwned.size()],
-                                        (rand() % reinforcementPool));
+                                        randomReinforcement);
+            reinforcement =  reinforcement - randomReinforcement;
             orders->getOrdersList().push_back(deploy);
             done = true;
-        }
+
     }
 
     // Issuing an airlift order under the condition that the player has an airlift card in their hand
-    if (!done) {
         for (Card *c : cards->getHandCards()) {
             if (c->getCardTypeString() == "AIRLIFT") {
                 cout << "Issuing an AIRLIFT order" << endl;
@@ -227,7 +231,7 @@ void Player::issueOrder(Map *map, GameStarter *gameStarter) {
                 break;
             }
         }
-    }
+
 
     // Issuing a blockade order under the condition that player has a blockade card in their hand
     if (!done) {

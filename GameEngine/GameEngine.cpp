@@ -118,6 +118,11 @@ void GameStarter::turnObservers(){
         isObserverTurnedOn[1] = true;
 }
 
+void GameStarter::setPlayers(vector<Player*> players){
+    this->players=players;
+}
+
+
 void GameStarter::setUpGame(){
     selectMap();//load the map
     myGraph = new Map(parseMap(selectedMap));
@@ -133,7 +138,7 @@ void GameStarter::setUpGame(){
     vo.push_back(d1);
     vo.push_back(a1);
     vo.push_back(b1);
-    OrdersList *olp = new OrdersList(vo);
+    OrdersList *olp = new OrdersList();
 
     //create players
     for(int i=0; i<numberOfPlayers;i++){

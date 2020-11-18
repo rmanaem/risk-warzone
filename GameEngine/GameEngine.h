@@ -37,6 +37,7 @@ class GameStarter{
 
     //-------------- set up the game --------------//
         void setUpGame();
+        void setPlayers(vector<Player*> players);
 
     //-------------- game startup phase --------------//
     void startupPhase();

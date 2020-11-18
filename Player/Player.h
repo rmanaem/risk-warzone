@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Map.h"
-#include "Orders.h"
-#include "Cards.h"
-#include "GameEngine.h"
+#include "../Map/Map.h"
+#include "../Orders.h"
+#include "../Cards.h"
+#include "../GameEngine/GameEngine.h"
 #include <iostream>
 #include <vector>
 

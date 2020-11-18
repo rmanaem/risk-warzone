@@ -282,6 +282,7 @@ private:
     Player* p;
     Player* p2;
 
+
 public:
     //-------------- Constructors --------------//
     Negotiate();
@@ -307,10 +308,3 @@ public:
     Negotiate& operator =(const Negotiate &neg);
 
 };
-
-
-
-
-
-
-
