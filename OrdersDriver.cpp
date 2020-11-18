@@ -1,7 +1,6 @@
 #include "Orders.h"
 #include "Map.h"
 #include "Cards.h"
-#include "GameEngine.h"
 #include <iostream>
 #include <vector>
 #include <string>
@@ -25,16 +24,6 @@ int main()
     validMap->connectTwoNodes(validMap->getV().end()[-1],validMap->getV()[1]);//peru --> brazil
 
 
-//    //Print out the territories of the map
-//    for(Node* territory : validMap->getV()){
-//        cout<<territory->getData().getTerritoryName() + " belongs to " + territory->getData().getContinent()->getContinentName()
-//            + " has the following edges:"<<endl;
-//        for(string edge : territory->getE()){
-//            cout<<edge<<"\t";
-//        }
-//        cout<<endl;
-//    }
-
     //Create vectors of territories
     vector<Territory *> ownedTer1;
     ownedTer1.push_back(venezuela);
@@ -44,10 +33,17 @@ int main()
     vector<Territory*> ownedTer2;
     ownedTer2.push_back(peru);
 
+    //Create vectors of unattackable players
+    vector<Player*> P1CantAttack;
+    vector<Player*> P2CantAttack;
+
     //Create some Cards and Hands containing those cards
     Card *card1 = new Card(0);
     Card *card2 = new Card(1);
     Card *card3 = new Card(3);
+    Card *card4 = new Card(2);
+    Card *card5 = new Card(4);
+    Card *card6 = new Card(5);
 
     vector<Card *> vcards1;
     vcards1.push_back(card1);
@@ -56,9 +52,9 @@ int main()
     Hand *handp1 = new Hand(vcards1);
 
     vector<Card *> vcards2;
-    vcards2.push_back(card1);
-    vcards2.push_back(card2);
-    vcards2.push_back(card3);
+    vcards2.push_back(card4);
+    vcards2.push_back(card5);
+    vcards2.push_back(card6);
     Hand *handp2 = new Hand(vcards2);
 
 
@@ -67,8 +63,8 @@ int main()
     OrdersList* ol2 = new OrdersList();
 
     //Create players
-    Player* p1 = new Player(1,5, ownedTer1, handp1, ol1);
-    Player* p2 = new Player(2, 8, ownedTer2, handp2, ol2);
+    Player* p1 = new Player(1,5, P1CantAttack, ownedTer1, handp1, ol1);
+    Player* p2 = new Player(2, 8, P2CantAttack, ownedTer2, handp2, ol2);
 
 
 
@@ -147,11 +143,47 @@ int main()
     }
 
 
-//    Negotiate* negotiateOrder = new Negotiate;
+    Negotiate* negotiateOrder = new Negotiate(p1, p2);
+    cout << "\nNegotiate is a valid Order: " << negotiateOrder->validate() << endl;
+
+    //Shows that the negotiate being executed prevents the attack from happening
+    Advance* advanceOrder2 = new Advance(p2, p1, venezuela, brazil, 2);
+    cout << "Advance is a valid Order before Negotiate: " << advanceOrder2->validate() << endl;
+    negotiateOrder->execute();
+    cout << "Advance is a valid Order after Negotiate: " << advanceOrder2->validate() << endl;
 
 
-      //DELETE ANY TERRITORIES WITH ID 0! because destructor deletes players owned territories,
-      //So any territories not owned by a player need to be deleted
+      //Delete any territories with id 0 because destructor deletes players owned territories,
+      //Territories with id 0 are not owned by any players
+      delete validMap;
+      if(venezuela->getOwnerId() == 0){
+          delete venezuela;
+      }
+      if(argentina->getOwnerId() == 0){
+          delete argentina;
+      }
+      if(peru->getOwnerId() == 0){
+          delete peru;
+      }
+      if(brazil->getOwnerId() == 0){
+          delete brazil;
+      }
+
+      //delete all the orders because they werent put in the orderlist so they werent taken care of by the destructor
+      delete deployOrder;
+      delete deployOrder2;
+      delete advanceOrder;
+      delete advanceOrder2;
+      delete bombOrder;
+      delete blockadeOrder;
+      delete airliftOrder;
+      delete negotiateOrder;
+
+      //delete the players
+      delete p1;
+      delete p2;
+
+
 
     return 0;
 }

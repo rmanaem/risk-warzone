@@ -52,7 +52,6 @@ OrdersList::OrdersList(vector<Order*> ordList){
 OrdersList::OrdersList(const OrdersList &ordList){
     cout << "Copy constructor for OrdersList class has been called" << endl;
     for(int i=0; i<ordList.oList.size(); i++){
-
         if(ordList.oList[i]->getOrderType() == "DEPLOY"){
              this->oList.push_back(new Deploy());
         }
@@ -322,8 +321,18 @@ bool Advance::validate(){
             break;
         }
     }
+    bool attackable = true;
+    if(p->getUnattackablePlayers().size() > 0) {
+        for (int i = 0; i < p->getUnattackablePlayers().size(); i++) {
+            if (p->getUnattackablePlayers()[i] == p2) {
+                attackable = false;
+                break;
+            }
+        }
+    }
+
     //Check that player is advancing a valid number of armies from a territory that they own
-    if(source != nullptr && target != nullptr) {
+    if(source != nullptr && target != nullptr && (attackable)) {
         if ((sourceAddress == source) && (targAddress == target) && (source != target) && (numToAdvance <= source->getNumberOfArmies())) {
             return true;
         }
@@ -375,6 +384,7 @@ void Advance::execute(){
                 vector<Territory*> winnerOwnedTer = p->getTerritoriesOwned();
                 winnerOwnedTer.push_back(target);
                 p->setTerritoriesOwned(winnerOwnedTer);
+
 
             }
             //Defenders win and keep control of the territory
@@ -752,20 +762,37 @@ Player* Negotiate::getPlayer2() {
 bool Negotiate::validate(){
 
     //Check if Negotiate is a subclass of Order
-    if (is_base_of<Order, Negotiate>::value) {
+    if (p != p2) {
         return true;
     }
-    else
+    else{
         return false;
+    }
 }
 
 //Execute the order
 void Negotiate::execute(){
     if(validate()){
         cout << "Negotiate executed" << endl;
+
+        //Add both these players to each others unattackable players lists
+        vector<Player*> noAttack;
+        for(Player* player : p->getUnattackablePlayers()){
+            noAttack.push_back(player);
+        }
+        noAttack.push_back(p2);
+        p->setUnattackablePlayers(noAttack);
+
+        vector<Player*> noAttack2;
+        for(Player* player : p2->getUnattackablePlayers()){
+            noAttack2.push_back(player);
+        }
+        noAttack2.push_back(p);
+        p2->setUnattackablePlayers(noAttack2);
+
     }
     else{
-        cout << "Error executing Negotiate command" << endl;
+        cout << "Invalid Negotiate Order" << endl;
     }
 
 }
