@@ -28,11 +28,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="88dc3081-9506-4a42-a872-9e1c759f011b" name="Default Changelist" comment="2">
+      <change afterPath="$PROJECT_DIR$/GameEngine/StartupPhase.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GameEngine/StartupPhase.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GameEngine/driver.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MainGameLoop/GamePlayer.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MainGameLoop/GamePlayer.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cards.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Cards.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cards.h" beforeDir="false" afterPath="$PROJECT_DIR$/Cards.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GameEngine/GameEngine.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/GameEngine/GameEngine.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Map/Map.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Map/Map.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameEngine/GameEngine.h" beforeDir="false" afterPath="$PROJECT_DIR$/GameEngine/GameEngine.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Map/Map.h" beforeDir="false" afterPath="$PROJECT_DIR$/Map/Map.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MapLoader/MapLoader.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/MapLoader/MapLoader.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MapLoader/MapLoader.h" beforeDir="false" afterPath="$PROJECT_DIR$/MapLoader/MapLoader.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Orders.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Orders.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Orders.h" beforeDir="false" afterPath="$PROJECT_DIR$/Orders.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Player/Player.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Player/Player.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Player/Player.h" beforeDir="false" afterPath="$PROJECT_DIR$/Player/Player.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,6 +68,13 @@
     <property name="cf.first.check.clang-format" value="false" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
+  <component name="RunManager">
+    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -66,6 +84,7 @@
       <option name="presentableId" value="Default" />
       <updated>1604501099847</updated>
       <workItem from="1604501104016" duration="2174000" />
+      <workItem from="1605650734229" duration="13996000" />
     </task>
     <servers />
   </component>
@@ -89,5 +108,9 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="184" y="112" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1440.900@0.0.1440.900" timestamp="1604501465554" />
+    <state x="458" y="201" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1605657086191">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="458" y="201" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1440.900@0.0.1440.900" timestamp="1605657086191" />
   </component>
 </project>

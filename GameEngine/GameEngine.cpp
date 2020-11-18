@@ -8,6 +8,7 @@
 #include "../Player/Player.h"
 #include "../MapLoader/MapLoader.h"
 #include "../Map/Map.h"
+#include "../Orders.h"
 
 using namespace std;
 
@@ -124,6 +125,7 @@ void GameStarter::setUpGame(){
     selectNumOfPlayers();
 
     // Creating order pointers and a vector of order pointers for the player
+    //Don't use defulat constructor
     Deploy *d1 = new Deploy;
     Advance *a1 = new Advance;
     Bomb *b1 = new Bomb;
@@ -153,204 +155,7 @@ void GameStarter::setUpGame(){
     Deck *deckp = new Deck(vdeck1);
 }
 
-vector<string> GamePlayer::getCountriesInContinent(Map* map, Continent* continent){
-    vector<string> teritories;
-    for(Node* territory : map->getV()){
-        if( territory->getData().getContinent()->getContinentName() == continent->getContinentName()){
-            teritories.push_back(territory->getData().getTerritoryName());
-        }
-    }
-    return teritories;
-}
-vector<string> GamePlayer::playerTerritories(vector<Territory*> terriroies){
-    vector<string> names;
-    for(Territory* territory : terriroies){
-        names.push_back(territory->getTerritoryName());
-    }
-    return names;
-}
-bool GamePlayer::hasAllTerritories(Player* player, Map* map, Continent* continent) {
-    vector<string> cTerritories=getCountriesInContinent(map, continent);
-    vector<string> pTerritories=playerTerritories(player->getTerritoriesOwned());
-    bool contain= false;
-    for(std::vector<string>::iterator it = cTerritories.begin(); it != cTerritories.end(); ++it) {
-        bool booll = find(pTerritories.begin(), pTerritories.end(), *it) != pTerritories.end();
-        if (!booll)
-        {
-            contain = false;
-        }
-        else{ contain = true; }
-    }
-    return contain;
-}
-
-void GamePlayer::reinforcementPhase(GameStarter x) {
-    cout << "**Reinforcement Phase**" << endl;
-    vector<Player*> players= x.getPlayers();
-    Map* map=x.getMyGraph();
-    int i=0;
-    for (Player* player : players) {
-        int reinforcement = 0;
-        int playerTerritories = player->getTerritoriesOwned().size();
-        reinforcement += playerTerritories / 3;
-        cout << "Player " << i << " has " << playerTerritories <<" Territories."<< endl;
-        for(Continent* continent : map->getListOfContinents()){
-            if(hasAllTerritories(player, map, continent)){
-                cout << "Player " << i << " has all the territories of the continent " << continent << " he will get the bonus of this territory." <<endl;
-                reinforcement+= continent->getBonus();
-            }
-        }
-        if(reinforcement<3){
-            cout << "player "<< i << " doesn't have enough territories " <<endl;
-            reinforcement=3;
-        }
-        int prev = player->getReinforcementPool();
-        player->setReinforcementPool(prev+reinforcement);
-        cout <<"previuos number of armies is" << player->getReinforcementPool()<<endl;
-        cout << "player has " << i << " has "<<player->getReinforcementPool() << "armies in his reinforcement pool." <<endl;
-        i++;
-    }
-}
 
 
-void GamePlayer::issueOrdersPhase(GameStarter x) {
-    cout << "**Issue Order Phase**" << endl;
 
-    vector<Player*> players= x.getPlayers();
-    // Contains whether a player is done with their turn or not. True if not done.
-    std::map<int, bool> playerTurns = std::map<int, bool>();
-    // Initializing the map
-    int i=0;
-    for (Player* player : players) {
-        player->issueOrder();
-    }
-    // Everyone has played.
-}
-void GamePlayer::executeDeployOrders(vector<Player*> players) {
-    cout<<"executing all Deploy orders" <<endl;
-    int j=0;
-    for (Player* player : players) {
-        cout << "Searching for deploy order of player " << j << "..."<<endl;
-        vector<Order*> playerOrders=player->getOrders();
-        int i=0;
-        for(Order* order: playerOrders){
-           if(order->getOrderType()=="Deploy") {
-               cout<< "executing deploy order for player "<<i<<"..."<<endl;
-//                execute(order);
-                    order->deleteOrder(i);
-           }
-           i++;
-    }
 
-}
-}
-
-void GamePlayer::executeAirLiftOrders(vector<Player*> players) {
-    cout<<"executing all AirLift orders" <<endl;
-    for (Player* player : players) {
-        cout << "Searching for AirLift order of player " << j << "..."<<endl;
-        vector<Order*> playerOrders=player->getOrders();
-        int i=0;
-        for(Order* order: playerOrders){
-            if(order->getOrderType()=="Airlift") {
-                cout<< "executing Airlift order for player "<<i<<"..."<<endl;
-//                execute(order);
-                order->deleteOrder(i);
-            }
-            i++;
-        }
-    }
-}
-
-void GamePlayer::executeBlockadeOrders(vector<Player*> players) {
-    cout<<"executing all Blockade orders" <<endl;
-    for (Player* player : players) {
-        cout << "Searching for Blockade order of player " << j << "..."<<endl;
-        vector<Order*> playerOrders=player->getOrders();
-        int i=0;
-        for(Order* order: playerOrders){
-            if(order->getOrderType()=="Blockade") {
-                cout<< "executing Blockade order for player "<<i<<"..."<<endl;
-//                execute(order);
-                order->deleteOrder(i);
-            }
-            i++;
-        }
-    }
-}
-
-void GamePlayer::executeAllOrders(vector<Player*> players) {
-    cout<<"executing all other orders" <<endl;
-    for (Player* player : players) {
-        cout << "Searching for orders of player " << j << "..."<<endl;
-        //vector<Order*> playerOrders=player->getOrders();
-        int i=0;
-        for(Order* order: player->getOrders()){
-            cout<< "executing "<< order->getOrderType() <<" order for player "<<i<<"..."<<endl;
-                order->execute();
-                playerOrders->deleteOrder(i);
-            i++;
-        }
-    }
-}
-
-void GamePlayer::executeOrderPhase(GameStarter x){
-    vector<Player*> players = x.getPlayers();
-    executeDeployOrders(players);
-    executeAirLiftOrders(players);
-    executeBlockadeOrders(players);
-    executeAllOrders(players);
-    }
-}
-void GamePlayer::checkTerritoriesOwned(GameStarter x){
-    vector<Player*> players = x.getPlayers();
-    for (Player* player : players) {
-        cout << "Checking if player "<<player->setPlayerId()<< " has territories." <<endl;
-        if(player->getTerritoriesOwned().size()<1){
-            cout << "Player " <<player->getPlayerId() << " doesn't have any territories.\n "
-                                                         "The player will be removed from the game"<<endl;
-            players.erase(myplayer.begin+player->getPlayerId());
-        }
-    }
-}
-void GamePlayer::setCurrentTurn(currentTurn){
-    this->currenTurn= currentTUrn;
-}
-int GamePlayer::getCurrentTurn(){
-    return currentTurn;
-}
-//-------------- Main Game Loop --------------//
-void GamePlayer::mainGameLoop(GameStarter x) {
-    vector<Player*> players= x.getPlayers();
-    cout << "Let the game begin!" << endl;
-    int turn =1;
-    while(true){
-        if(players.size()>1){
-            reinforcementPhase(x);
-            issueOrdersPhase(x);
-            executeOrderPhase(x);
-            checkTerritoriesOwned(x);
-        }
-        else {
-            cout << "The game has ended!";
-            cout << "The winner is " <<players.front()->getPlayerId();
-            break;
-        }
-        p.setCurrentTurn(turn);
-        turn++;
-    }
-
-}
-
-int main(){
-    GameStarter x = GameStarter();
-    x.setUpGame();
-    x.get
-    cout<<"am heeere"<<endl;
-    GamePlayer p=GamePlayer();
-    p.mainGameLoop(x);
-    cout<<"Size: "<<x.getPlayers().front()->getPlayerId()<<endl;
-    cout<<"Size: "<<x.getPlayers().back()->getPlayerId()<<endl;
-
-    return 0;
-}

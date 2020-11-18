@@ -1,6 +1,5 @@
 #include "Orders.h"
-#include "Player.h"
-//#include "Map.h"
+#include "./Player/Player.h"
 #include <string>
 #include <iostream>
 #include <type_traits>
@@ -55,7 +54,7 @@ OrdersList::OrdersList(const OrdersList &ordList){
     for(int i=0; i<ordList.oList.size(); i++){
 
         if(ordList.oList[i]->getOrderType() == "DEPLOY"){
-             this->oList.push_back(new Deploy());
+            this->oList.push_back(new Deploy());
         }
         else if(ordList.oList[i]->getOrderType() == "ADVANCE"){
             this->oList.push_back(new Advance());
@@ -160,8 +159,8 @@ OrdersList& OrdersList::operator =(const OrdersList &ordList){
 //-------------- Constructors --------------//
 Deploy::Deploy(){
     this->orderType = "DEPLOY";
-    this->p = NULL;
-    this->target = NULL;
+    this->p = nullptr;
+    this->target = nullptr;
     this->numToDeploy = 0;
 }
 
@@ -209,7 +208,7 @@ bool Deploy::validate(){
         }
     }
     //Check that player is deploying a valid number of armies to a territory that they own
-    if ((targAddress == target) && (numToDeploy <= p->getNbArmies()) && (target != NULL)) {
+    if ((targAddress == target) && (numToDeploy <= p->getReinforcementPool()) && (target != NULL)) {
         return true;
     }
     else {
@@ -221,7 +220,7 @@ bool Deploy::validate(){
 void Deploy::execute(){
     if(validate()){
         target->setNumberOfArmies(target->getNumberOfArmies() + numToDeploy);
-        p->setNbArmies(p->getNbArmies() - numToDeploy);
+        p->setReinforcementPool(p->getReinforcementPool() - numToDeploy);
         cout << "Deploy executed" << endl;
     }
     else{
@@ -251,15 +250,17 @@ Deploy& Deploy::operator =(const Deploy &dep){
 //-------------- Constructors --------------//
 Advance::Advance(){
     this->orderType = "ADVANCE";
-    this->p = NULL;
-    this->source = NULL;
-    this->target = NULL;
+    this->p = nullptr;
+    this->p2 = nullptr;
+    this->source = nullptr;
+    this->target = nullptr;
     this->numToAdvance = 0;
 }
 
-Advance::Advance(Player *player, Territory *sTerritory, Territory *tTerritory, int numArmies){
+Advance::Advance(Player *player, Player* player2, Territory *sTerritory, Territory *tTerritory, int numArmies){
     this->orderType = "ADVANCE";
     this->p = player;
+    this->p2 = player2;
     this->source = sTerritory;
     this->target = tTerritory;
     this->numToAdvance = numArmies;
@@ -268,6 +269,7 @@ Advance::Advance(Player *player, Territory *sTerritory, Territory *tTerritory, i
 Advance::Advance(const Advance &adv) : Order(adv) {
     this->orderType = adv.orderType;
     this->p = adv.p;
+    this->p2 = adv.p2;
     this->source = adv.source;
     this->target = adv.target;
     this->numToAdvance = adv.numToAdvance;
@@ -281,6 +283,10 @@ string Advance::getOrderType(){
 
 Player* Advance::getPlayer() {
     return p;
+}
+
+Player* Advance::getPlayer2() {
+    return p2;
 }
 
 Territory* Advance::getSource() {
@@ -299,17 +305,26 @@ int Advance::getNumToAdvance() {
 //Validate if Advance is a valid order
 bool Advance::validate(){
 
-    Territory* sourceAddress = 0;
+    Territory* sourceAddress = nullptr;
     for(int i = 0; i < p->getTerritoriesOwned().size(); i++){
-        sourceAddress = 0;
-        if((p->getTerritoriesOwned()[i] == source) && (source != NULL)){
+        sourceAddress = nullptr;
+        if((p->getTerritoriesOwned()[i] == source) && (source != nullptr)){
             sourceAddress = p->getTerritoriesOwned()[i];
             break;
         }
     }
+
+    Territory* targAddress = nullptr;
+    for(int i = 0; i < p2->getTerritoriesOwned().size(); i++){
+        targAddress = nullptr;
+        if((p2->getTerritoriesOwned()[i] == target) && (target != nullptr)){
+            targAddress = p2->getTerritoriesOwned()[i];
+            break;
+        }
+    }
     //Check that player is advancing a valid number of armies from a territory that they own
-    if(source != NULL) {
-        if ((sourceAddress == source) && (numToAdvance <= source->getNumberOfArmies())) {
+    if(source != nullptr && target != nullptr) {
+        if ((sourceAddress == source) && (targAddress == target) && (source != target) && (numToAdvance <= source->getNumberOfArmies())) {
             return true;
         }
         else {
@@ -326,23 +341,19 @@ bool Advance::validate(){
 //Execute the order
 void Advance::execute(){
     if(validate()){
-        Territory* targetAddress = 0;
+        cout << "Advance executed" << endl;
+        Territory* targetAddress = nullptr;
         for(int i = 0; i < p->getTerritoriesOwned().size(); i++){
-            targetAddress = 0;
+            targetAddress = nullptr;
             if(p->getTerritoriesOwned()[i] == target){
                 targetAddress = p->getTerritoriesOwned()[i];
                 break;
             }
         }
-        /*
-         * else simulate attack (to take over territory maybe need to pass a second player into Advance() to remove
-         * the territory from their list. and then change territories owner id but i dont like this because it
-         * requires knowing who owns the territory to attack)
-         * might need to pass a player in territory to know who to remove it from
-         */
+
         //this means the target is not in the player issuing the order's owned territories
-        if(targetAddress == NULL){
-            cout << "ATTACK\n";
+        if(targetAddress == nullptr && p != p2){
+            cout << "ATTACK TAKING PLACE\n";
             int attackersKilled = round(static_cast<double>(target->getNumberOfArmies() * 0.7));
             int defendersKilled = round(static_cast<double>(numToAdvance * 0.6));
 
@@ -352,12 +363,23 @@ void Advance::execute(){
                 target->setNumberOfArmies(numToAdvance - attackersKilled);
                 source->setNumberOfArmies(source->getNumberOfArmies() - numToAdvance);
 
-                //Change ownership id of the territory, remove the territory from defenders list, and add the territory to the attackers list
+                //Change ownership id of the territory
                 target->setOwnerId(p->getPlayerId());
 
+                //Remove the territory from defenders list
+                vector<Territory*> loserOwnedTer = p2->getTerritoriesOwned();
+                loserOwnedTer.erase(remove(loserOwnedTer.begin(), loserOwnedTer.end(), target), loserOwnedTer.end());
+                p2->setTerritoriesOwned(loserOwnedTer);
+
+                //Add the territory to the attackers list
+                vector<Territory*> winnerOwnedTer = p->getTerritoriesOwned();
+                winnerOwnedTer.push_back(target);
+                p->setTerritoriesOwned(winnerOwnedTer);
+
             }
-            //Defenders win and keep control of the territory
+                //Defenders win and keep control of the territory
             else{
+                cout << "Territory was successfully defended!\n";
                 target->setNumberOfArmies(target->getNumberOfArmies() - defendersKilled);
                 if((source->getNumberOfArmies() - attackersKilled) >= 0){
                     source->setNumberOfArmies(source->getNumberOfArmies() - attackersKilled);
@@ -373,7 +395,7 @@ void Advance::execute(){
             target->setNumberOfArmies(target->getNumberOfArmies() + numToAdvance);
             source->setNumberOfArmies(source->getNumberOfArmies() - numToAdvance);
         }
-        cout << "Advance executed" << endl;
+
     }
     else{
         cout << "Invalid Advance Order" << endl;
@@ -390,6 +412,11 @@ ostream& operator <<(ostream &strm, Advance &adv){
 Advance& Advance::operator =(const Advance &adv){
     Order::operator =(adv);
     this->orderType = adv.orderType;
+    this->p = adv.p;
+    this->p2 =adv.p2;
+    this->source = adv.source;
+    this->target = adv.target;
+    this->numToAdvance = adv.numToAdvance;
     cout << "Assignment operator called";
     return *this;
 }
@@ -691,14 +718,20 @@ Airlift& Airlift::operator =(const Airlift &air){
 //-------------- Constructors --------------//
 Negotiate::Negotiate(){
     this->orderType = "NEGOTIATE";
+    this->p = nullptr;
+    this->p2 = nullptr;
 }
 
-Negotiate::Negotiate(string orderType){
-    this->orderType = orderType;
+Negotiate::Negotiate(Player* player1, Player* player2){
+    this->orderType = "NEGOTIATE";
+    this->p = player1;
+    this->p2 = player2;
 }
 
 Negotiate::Negotiate(const Negotiate &neg) : Order(neg) {
     this->orderType = neg.orderType;
+    this->p = neg.p;
+    this->p2 = neg.p2;
     cout << "Copy constructor for Negotiate class has been called" << endl;
 }
 
@@ -707,6 +740,13 @@ string Negotiate::getOrderType(){
     return orderType;
 }
 
+Player* Negotiate::getPlayer() {
+    return p;
+}
+
+Player* Negotiate::getPlayer2() {
+    return p2;
+}
 //-------------- Other Methods --------------//
 //Validate if Negotiate is a valid order
 bool Negotiate::validate(){
@@ -739,6 +779,8 @@ ostream& operator <<(ostream &strm, Negotiate &neg){
 Negotiate& Negotiate::operator =(const Negotiate &neg){
     Order::operator =(neg);
     this->orderType = neg.orderType;
+    this->p = neg.p;
+    this->p2 = neg.p2;
     return *this;
 }
 

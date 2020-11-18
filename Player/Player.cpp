@@ -4,7 +4,7 @@
 #include "./Player.h"
 #include <iostream>
 #include <algorithm>
-#include "GameEngine.h"
+#include "../GameEngine/GameEngine.h"
 #include <list>
 
 using namespace std;
@@ -234,25 +234,25 @@ void Player::issueOrder(Map *map, GameStarter *gameStarter) {
     }
 
     // Issuing a negotiate order under the condition that player has a negotiate card in their hand
-    if (!done) {
-        for (Card *c : cards->getHandCards()) {
-            if (c->getCardTypeString() == "NEGOTIATE") {
-                cout << "Issuing a NEGOTIATE" << endl;
-                Negotiate *negotiate = new Negotiate(this, players[rand() % players.size()]);
-                done = true;
-                break;
-            }
-        }
-    }
+//    if (!done) {
+//        for (Card *c : cards->getHandCards()) {
+//            if (c->getCardTypeString() == "NEGOTIATE") {
+//                cout << "Issuing a NEGOTIATE" << endl;
+//                Negotiate *negotiate = new Negotiate(this, players[rand() % players.size()]);
+//                done = true;
+//                break;
+//            }
+//        }
+//    }
 
     // Issuing an advance order
     // Creating a player2 which is the target for the advance order issued by player
     Player * player2 = gameStarter->getPlayers()[rand() % gameStarter->getPlayers().size()];
     vector<Territory*> advanceTerritories2;
-    for (Territory *t : player2.territoriesOwned) {
+    for (Territory *t : player2->territoriesOwned) {
         advanceTerritories2.push_back(t);
     }
-    for (Territory *t : player2.toAttack(map)) {
+    for (Territory *t : player2->toAttack(map)) {
         advanceTerritories2.push_back(t);
     }
 
@@ -278,7 +278,7 @@ std::ostream &operator<<(std::ostream &out, const Player &e)
     }
     out << "}" << endl;
     out << "Hand of cards: ";
-    *(e.cards).print();
+    //*(e.cards)->print();
     out << "List of orders: ";
     *(e.orders);
     return out;

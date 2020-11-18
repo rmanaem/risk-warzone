@@ -1,9 +1,10 @@
-#define Map_h
-#include <iostream>
-using namespace std;
-#include <vector>
-
 #pragma once
+#ifndef MAP_H
+#define MAP_H
+#include <iostream>
+#include <vector>
+using namespace std;
+
 
 class Continent{
     private: 
@@ -128,3 +129,4 @@ ostream& operator<<(ostream& output, Continent& obj);
 ostream& operator<<(ostream& output, Territory& obj);
 ostream& operator<<(ostream& output, Node& obj);
 ostream& operator<<(ostream& output, Map& obj);
+#endif

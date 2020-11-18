@@ -1,15 +1,17 @@
+#ifndef PLAYER_H
+#define PLAYER_H
 #pragma once
-
-#include "Map.h"
-#include "Cards.h"
-#include "GameEngine.h"
 #include <iostream>
 #include <vector>
+#include "../Map/Map.h"
+#include "../Cards.h"
+#include "../GameEngine/GameEngine.h"
 
 //============================ Forward declarations  ============================//
 class Card;
 class Hand;
 class OrdersList;
+class GameStarter;
 
 //============================ Player Class ============================//
 class Player
@@ -64,3 +66,4 @@ public:
     //-------------- Stream insertion Operator --------------//
     friend std::ostream &operator<<(std::ostream &out, const Player &e);
 };
+#endif

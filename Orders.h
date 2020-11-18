@@ -1,5 +1,5 @@
 #pragma once
-#include "Map.h"
+#include "./Map/Map.h"
 #include <vector>
 #include <string>
 using namespace std;
@@ -17,7 +17,7 @@ private:
 public:
     //-------------- Constructors --------------//
     Order();
-    Order(string orderType);
+    explicit Order(string orderType);
     Order(const Order &order);
     virtual ~Order();
 
@@ -96,7 +96,7 @@ public:
     Deploy(const Deploy &dep);
 
     //-------------- Getters --------------//
-    string getOrderType();
+    string getOrderType() override;
 
     Player* getPlayer();
 
@@ -109,7 +109,7 @@ public:
     bool validate();
 
     //Method to execute the order
-    void execute();
+    void execute() override;
 
     //Stream insertion operator
     friend ostream& operator <<(ostream &strm, Deploy &dep);
@@ -127,6 +127,7 @@ private:
     //String describing the order type
     string orderType;
     Player *p;
+    Player *p2;
     Territory *source;
     Territory *target;
     int numToAdvance;
@@ -134,12 +135,13 @@ private:
 public:
     //-------------- Constructors --------------//
     Advance();
-    Advance(Player *p, Territory *source, Territory *target, int numToAdvance);
+    Advance(Player *p, Player* p2, Territory *source, Territory *target, int numToAdvance);
     Advance(const Advance &adv);
 
     //-------------- Getters --------------//
-    string getOrderType();
+    string getOrderType() override;
     Player* getPlayer();
+    Player* getPlayer2();
     Territory* getSource();
     Territory* getTarget();
     int getNumToAdvance();
@@ -149,7 +151,7 @@ public:
     bool validate();
 
     //Method to execute the order
-    void execute();
+    void execute() override;
 
     //Stream insertion operator
     friend ostream& operator <<(ostream &strm, Advance &adv);
@@ -175,7 +177,7 @@ public:
     Bomb(const Bomb &bomb);
 
     //-------------- Getters --------------//
-    string getOrderType();
+    string getOrderType() override;
     Player* getPlayer();
     Territory* getTarget();
 
@@ -184,7 +186,7 @@ public:
     bool validate();
 
     //Method to execute the order
-    void execute();
+    void execute() override;
 
     //Stream insertion operator
     friend ostream& operator <<(ostream &strm, Bomb &bomb);
@@ -211,7 +213,7 @@ public:
     Blockade(const Blockade &block);
 
     //-------------- Getters --------------//
-    string getOrderType();
+    string getOrderType() override;
     Player* getPlayer();
     Territory* getTarget();
 
@@ -220,7 +222,7 @@ public:
     bool validate();
 
     //Method to execute the order
-    void execute();
+    void execute() override;
 
     //Stream insertion operator
     friend ostream& operator <<(ostream &strm, Blockade &block);
@@ -249,7 +251,7 @@ public:
     Airlift(const Airlift &air);
 
     //-------------- Getters --------------//
-    string getOrderType();
+    string getOrderType() override;
     Player* getPlayer();
     Territory* getSource();
     Territory* getTarget();
@@ -260,7 +262,7 @@ public:
     bool validate();
 
     //Method to execute the order
-    void execute();
+    void execute() override;
 
     //Stream insertion operator
     friend ostream& operator <<(ostream &strm, Airlift &air);
@@ -277,22 +279,26 @@ class Negotiate : public Order {
 private:
     //String describing the order type
     string orderType;
+    Player* p;
+    Player* p2;
 
 public:
     //-------------- Constructors --------------//
     Negotiate();
-    Negotiate(string orderType);
+    Negotiate(Player* p, Player* p2);
     Negotiate(const Negotiate &neg);
 
     //-------------- Getters --------------//
-    string getOrderType();
+    string getOrderType() override;
+    Player* getPlayer();
+    Player* getPlayer2();
 
     //-------------- Other Methods --------------//
     //Method to validate if an order is valid
     bool validate();
 
     //Method to execute the order
-    void execute();
+    void execute() override;
 
     //Stream insertion operator
     friend ostream& operator <<(ostream &strm, Negotiate &neg);
