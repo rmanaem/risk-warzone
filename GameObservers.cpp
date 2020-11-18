@@ -19,19 +19,6 @@ Observer::Observer() {
 Observer::~Observer() {
 }
 
-Observer::Observer(const Observer &initObserver) {
-
-}
-
-Observer &Observer::operator=(const Observer &observer) {
-    cout << "Inside operator = of Observer" << endl;
-    return *this;
-}
-
-std::ostream &operator<<(std::ostream &stream, const Observer &observer) {
-    return stream << "Observer has no details" << endl;
-}
-
 //--------------- Subject ---------------//
 Subject::Subject() {
     static int i = 0;
@@ -50,10 +37,8 @@ Subject::~Subject() {
 }
 
 Subject::Subject(const Subject &initSubject) {
-    for (int i = 0; i < initSubject.observers->size(); i++)
-    {
-        //TODO fix this, virtual so we have issues
-        //this->observers->push_back(*(new Observer(initSubject.observers[i])));
+    for (int i = 0; i < initSubject.observers->size(); i++) {
+        this->observers->push_back(reinterpret_cast<Observer *const>(new Subject(&(initSubject.observers[i]))));
     }
     this->name = name;
     this->id = id;
@@ -62,8 +47,7 @@ Subject::Subject(const Subject &initSubject) {
 Subject &Subject::operator=(const Subject &subject) {
     cout << "Inside operator = of Subject" << endl;
     for (int i = 0; i < subject.observers->size(); i++) {
-        //TODO fix this, virtual so we have issues
-        //this->observers->push_back(*(new Observer(subject.observers[i])));
+        this->observers->push_back(reinterpret_cast<Observer *const>(new Subject(&(subject.observers[i]))));
     }
     this->name = name;
     this->id = id;
@@ -75,7 +59,7 @@ std::ostream &operator<<(std::ostream &stream, const Subject &subject) {
     stream << "Subject" << subject.id  << " has this collection of observers: ";
     for (Observer *o : *subject.observers)
     {
-        stream << *(o);
+        stream << (o);
     }
     return stream;
 }
@@ -96,8 +80,9 @@ void Subject::Notify() {
 }
 
 //--------------- GameStatisticsObserver ---------------//
-GameStatisticsObserver::GameStatisticsObserver(int nbTerritories) {
+GameStatisticsObserver::GameStatisticsObserver(int nbTerritories, GameStarter *gameStarter) {
     this->nbTerritories = nbTerritories;
+    this->gameStarter = gameStarter;
 }
 
 GameStatisticsObserver::GameStatisticsObserver(const GameStatisticsObserver &initGameStatisticsObserver) {
@@ -106,7 +91,7 @@ GameStatisticsObserver::GameStatisticsObserver(const GameStatisticsObserver &ini
         this->players.push_back(new Player(*(initGameStatisticsObserver.players[i])));
     }
     this->nbTerritories = nbTerritories;
-    this->gameStarted = gameStarted;
+    this->gameStarter = gameStarter;
 }
 
 GameStatisticsObserver &GameStatisticsObserver::operator=(const GameStatisticsObserver &gameStatisticsObserver) {
@@ -165,6 +150,11 @@ void GameStatisticsObserver::addPlayer(Player *player) {
 //--------------- PhaseObserver ---------------//
 
 PhaseObserver::PhaseObserver() {}
+
+PhaseObserver::PhaseObserver(GameStarter *gameStarter) {
+    this->gameStarter = gameStarter;
+}
+
 
 PhaseObserver::PhaseObserver(const PhaseObserver &initPhaseObserver) {
     for (int i = 0; i < initPhaseObserver.players.size(); i++)
@@ -249,7 +239,7 @@ void PhaseObserver::UpdateIssueOrders(Player *player) {
 }
 
 void PhaseObserver::UpdateReinforcements(Player *player) {
-    cout << "**************************************************\n"
+    cout <<"**************************************************\n"
            "Player with id " + int_to_str(player->getPlayerId()) + ": Reinforcements phase\n" +
            "Player currently has " + to_string(player->getReinforcementPool()) + " reinforcements"
            "**************************************************\n" << endl;

@@ -16,7 +16,7 @@ private:
     string orderType;
 protected:
     // The Phase observer needs to know the current phase
-    Phase *phase;
+    Phase phase;
 public:
     //-------------- Constructors --------------//
     Order();
@@ -27,7 +27,7 @@ public:
     //-------------- Getters --------------//
     //Make this getter 'virtual' to allow for polymorphism
     virtual string getOrderType();
-    Phase* getPhase();
+    //Phase* getPhase();
 
     //-------------- Other Methods --------------//
     //Stream insertion operator

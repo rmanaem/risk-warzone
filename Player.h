@@ -28,7 +28,7 @@ private:
     //ptr of type OrdersList that contains a vector of ptr of Orders that belong to Player
     OrdersList *orders;
     // The Phase observer needs to know the current phase
-    Phase phase = Phase::None;
+    Phase phase ;
 public:
     //-------------- Constructors --------------//
     Player();

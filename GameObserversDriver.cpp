@@ -108,9 +108,8 @@ int main() {
     players.push_back(&p2);
 
     GameStarter gs = GameStarter();
-    GameStatisticsObserver gso =
-            GameStatisticsObserver(validMap->getV().size());
-    PhaseObserver ph = PhaseObserver();
+    GameStatisticsObserver gso = GameStatisticsObserver(validMap->getV().size(), &gs);
+    PhaseObserver ph = PhaseObserver(&gs);
 
     p1.Attach(&gso);
     p2.Attach(&gso);

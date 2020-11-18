@@ -33,10 +33,6 @@ string Order::getOrderType(){
     return orderType;
 }
 
-Phase* Order::getPhase() {
-    this->phase = phase;
-}
-
 //-------------- Other Methods --------------//
 //Stream insertion operator overload
 ostream& operator <<(ostream &strm, Order &ord){
@@ -226,7 +222,7 @@ bool Deploy::validate(){
 
 //Execute the order
 void Deploy::execute(){
-    phase = GameStatisticsObserver;
+    phase = Phase::ExecuteOrders;
     if(validate()){
         target->setNumberOfArmies(target->getNumberOfArmies() + numToDeploy);
         p->setNbArmies(p->getNbArmies() - numToDeploy);

@@ -8,6 +8,7 @@
 
 using namespace std;
 
+class GameStarter;
 class Player;
 class Subject;
 class Order;
@@ -17,11 +18,6 @@ public:
     Observer();
     ~Observer();
     virtual void update() = 0;
-    Observer(const Observer &initObserver);
-    Observer &operator=(const Observer &observer);
-    friend std::ostream &operator<<(std::ostream &stream, const Observer &observer);
-protected:
-   //GameStarter *gameStarter;
 };
 
 class Subject {
@@ -43,13 +39,12 @@ private:
     list<Observer*>* observers;
 };
 
-enum Phase { Reinforcement = 0, IssueOrders = 1, ExecuteOrders = 2, None };
+enum Phase {Reinforcement, IssueOrders, ExecuteOrders, None};
 
 class GameStatisticsObserver : public Observer {
 public:
     GameStatisticsObserver();
-    GameStatisticsObserver(int nbTerritories);
-    GameStatisticsObserver(vector<Player *> players);
+    GameStatisticsObserver(int nbTerritories, GameStarter* gameStarter);
     void update();
     void addPlayer(Player* player);
     void Start();
@@ -62,12 +57,13 @@ private:
     vector<Player*> players;
     int nbTerritories;
     bool gameStarted = false;
+    GameStarter* gameStarter;
 };
 
 class PhaseObserver : public Observer {
 public:
     PhaseObserver();
-    PhaseObserver(vector<Player *> players);
+    PhaseObserver(GameStarter* gameStarter);
     void update();
     void addPlayer(Player* player);
     Phase getPhase();
@@ -81,5 +77,6 @@ private:
     void UpdateIssueOrders(Player* player);
     void UpdateExecuteOrders(Player* player);
     vector<Player*> players;
-    Phase currentPhase = Phase::None;
+    GameStarter* gameStarter;
+    Phase currentPhase;
 };
