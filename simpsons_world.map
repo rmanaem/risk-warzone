@@ -1,0 +1,104 @@
+; map: simpsons_world.map
+; map made with the map maker
+; yura.net Risk 1.0.9.7
+
+[files]
+pic simpsons_world_pic.jpg
+map simpsons_world_map.gif
+crd simpsons_world.cards
+
+[continents]
+Simpsons 7 #c4ff80
+Flanders 2 #d4ff80
+Springfield 5 #80ff95
+Escuela_Primaria_de_Springfield 5 #c4ff80
+TV_de_Springfield 3 #a380ff
+La_taberna_de_Moe 2 #ff80d9
+
+[countries]
+1 Homero_Simpson 1 553 122
+2 Marge_Simpson 1 496 50
+3 Bart_Simpson 1 588 193
+4 Lisa_Simpson 1 653 189
+5 Maggie_Simpson 1 577 60
+6 Abraham_Simpson 1 529 253
+7 Mona_Simpson 1 653 119
+8 Jacky_Bouvier 1 497 103
+9 Patty_Bouvier 1 569 256
+10 Selma_Bouvier 1 534 183
+11 Ayudante_de_Santa 1 619 51
+12 Bola_de_Nieve_II 1 626 251
+13 Ned_Flanders 2 599 303
+14 Maude_Flanders 2 554 410
+15 Rod_Flanders 2 595 350
+16 Todd_Flanders 2 531 322
+17 Montgomery_Burns 3 315 66
+18 Castulo_Smithers 3 349 85
+19 Alcalde_Diamante 3 452 82
+20 Dr._Julius_Hilbbert 3 213 155
+21 Profesor_Frink 3 455 150
+22 Jefe_Gorgori 3 347 163
+23 Apu_Nahasapeemapetilon 3 276 161
+24 Milhouse_Van_Houten 4 121 126
+25 Rafa_Gorgory 4 56 121
+26 Nelson_Rufino 4 152 89
+27 Jimbo_Jones 4 191 40
+28 Edna_Krabappel 4 26 251
+29 Jardinero_Willie 4 22 175
+30 Otto 4 128 20
+31 Doris 4 62 56
+32 Seymour_Skinner 4 123 172
+33 Krusty_el_payaso 5 289 269
+34 Mel_Patiño 5 353 398
+35 Kent_Brockman 5 316 251
+36 Troy_McClure 5 415 325
+37 El_hombre_abejorro 5 415 258
+38 Bob_Patiño 5 348 340
+39 Moe_Szyslak 6 108 292
+40 Barney_Gomes 6 28 367
+41 Lenny_Leonard 6 106 400
+42 Carl_Carlson 6 154 342
+
+[borders]
+1 2 5 11 7 4 3 10 8
+2 19 5 1 8
+3 7 1 8 10 9 12 4
+4 7 1 3 12 9
+5 2 11 7 1 8
+6 21 10 37 9
+7 5 11 1 4 3
+8 19 21 2 5 1 10 3
+9 10 3 4 6 12
+10 21 1 8 3 9 6
+11 31 5 7 1
+12 3 4 9 13
+13 12 15 16
+14 15 16
+15 13 16 14
+16 13 15 14
+17 20 18 23 22
+18 17 22 23 19 21
+19 22 18 2 8 21
+20 27 23 17 33
+21 22 18 19 37 10 6 8
+22 17 23 35 37 21 19 18
+23 20 17 22 33 35 18
+24 29 25 26 30 27
+25 29 24 31 30
+26 24 27
+27 30 24 20 26
+28 39 32 29
+29 28 32 24 25
+30 25 24 31 27
+31 25 30 11
+32 28 29
+33 42 20 23 38 35
+34 38 36
+35 23 22 37 38 33 36
+36 37 38 34 35
+37 22 21 6 35 36
+38 36 35 34 33
+39 42 40 28
+40 42 39 41
+41 42 40
+42 41 40 39 33

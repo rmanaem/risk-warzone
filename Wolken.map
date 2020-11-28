@@ -1,0 +1,85 @@
+; map: Wolken.map
+; map made with the map maker
+; yura.net Risk 1.0.9.7
+
+[files]
+pic Wolken_pic.jpg
+map Wolken_map.gif
+crd Wolken.cards
+
+[continents]
+Cirrus 4 white
+Cirrocumulus 4 #ff99cc
+Cirrostratus 3 #00cccc
+Cumulus 6 #ffff66
+Altostratus 7 #66ff66
+Stratocumulus 5 #cc33ff
+Stratus 2 #ff9966
+
+[countries]
+1 Wolke_1 1 16 43
+2 Wolke_2 1 67 50
+3 Wolke_3 1 122 108
+4 Wolke_4 1 149 38
+5 Wolke_5 2 142 230
+6 Wolke_6 2 109 196
+7 Wolke_7 2 76 249
+8 Wolke_8 2 52 155
+9 Wolke_9 3 25 404
+10 Wolke_10 3 72 375
+11 Wolke_11 3 119 358
+12 Wolke_12 4 296 100
+13 Wolke_13 4 338 151
+14 Wolke_14 4 383 138
+15 Wolke_15 4 394 73
+16 Wolke_16 4 428 44
+17 Wolke_17 4 493 26
+18 Wolke_18 5 201 325
+19 Wolke_19 5 245 284
+20 Wolke_20 5 287 249
+21 Wolke_21 5 333 236
+22 Wolke_22 5 366 269
+23 Wolke_23 6 468 282
+24 Wolke_24 6 490 177
+25 Wolke_25 6 487 333
+26 Wolke_26 6 553 255
+27 Wolke_27 6 553 343
+28 Wolke_28 6 608 325
+29 Wolke_29 6 602 379
+30 Wolke_30 6 653 386
+31 Wolke_31 7 382 359
+32 Wolke_32 7 380 407
+
+[borders]
+1 2
+2 4 1 3
+3 4 2 6
+4 3 2 12
+5 6 7 18
+6 5 8 3 7
+7 5 6
+8 6
+9 10
+10 9 11
+11 10 18
+12 13 4
+13 20 12 14 15
+14 13
+15 13 16
+16 15 17
+17 16 24
+18 11 19 5
+19 18 20
+20 19 21 13
+21 20 22
+22 21 23 31
+23 22 24 25 26
+24 23 17
+25 23 27 26
+26 23 27 25
+27 25 26 28 29
+28 27 29
+29 27 30 28
+30 29
+31 22 32
+32 31

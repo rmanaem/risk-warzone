@@ -1,0 +1,93 @@
+cmake_minimum_required(VERSION 3.17)
+project(Team22N_2__1_)
+
+set(CMAKE_CXX_STANDARD 17)
+
+include_directories(.)
+include_directories(GameEngine)
+include_directories(Map)
+include_directories(MapLoader)
+include_directories(Player)
+
+add_executable(Team22N_2__1_
+        GameEngine/driver.cpp
+        GameEngine/GameEngine.cpp
+        GameEngine/GameEngine.h
+        Map/Map.cpp
+        Map/Map.h
+        MapLoader/Maps/Andorra.map
+        MapLoader/Maps/astadt.map
+        MapLoader/Maps/austria-hungary.map
+        MapLoader/Maps/austria.map
+        MapLoader/Maps/berlin.map
+        MapLoader/Maps/bigeurope.map
+        MapLoader/Maps/caribbean.map
+        MapLoader/Maps/Castle.map
+        MapLoader/Maps/Catalunya.map
+        MapLoader/Maps/Chrono_Trigger.map
+        MapLoader/Maps/civilwar.map
+        MapLoader/Maps/cologne.map
+        MapLoader/Maps/Deutsches_Reich_1871.map
+        MapLoader/Maps/dortmund.map
+        MapLoader/Maps/eire.map
+        MapLoader/Maps/ennepe-ruhr-kreis.map
+        MapLoader/Maps/estlandr.map
+        MapLoader/Maps/estonia.map
+        MapLoader/Maps/europass.map
+        MapLoader/Maps/europe.map
+        MapLoader/Maps/Falkland-Islands.map
+        MapLoader/Maps/fletzmap.map
+        MapLoader/Maps/fortress.map
+        MapLoader/Maps/france.map
+        MapLoader/Maps/german-Empire1871.map
+        MapLoader/Maps/germany.map
+        MapLoader/Maps/germany2.map
+        MapLoader/Maps/google.map
+        MapLoader/Maps/GTA_SAN_AN.map
+        MapLoader/Maps/Gymnasium-Nottuln.map
+        MapLoader/Maps/haiti.map
+        MapLoader/Maps/Illes_Balears.map
+        MapLoader/Maps/Kerzell.map
+        MapLoader/Maps/kosova.map
+        MapLoader/Maps/mexico.map
+        MapLoader/Maps/middleearth.map
+        MapLoader/Maps/MiddleEast-Qatar.map
+        MapLoader/Maps/North_of_Italy.map
+        MapLoader/Maps/northern-europe.map
+        MapLoader/Maps/Nuremberg_Public_Transit.map
+        MapLoader/Maps/NYC.map
+        MapLoader/Maps/ohio.map
+        MapLoader/Maps/periodict.map
+        MapLoader/Maps/randland.map
+        MapLoader/Maps/rio_de_janeiro.map
+        MapLoader/Maps/Riskopoly.map
+        MapLoader/Maps/rub.map
+        MapLoader/Maps/saarland.map
+        MapLoader/Maps/serbia.map
+        MapLoader/Maps/Simpsons.map
+        MapLoader/Maps/simpsons_world.map
+        MapLoader/Maps/solar.map
+        MapLoader/Maps/spain.map
+        MapLoader/Maps/startrek.map
+        MapLoader/Maps/sudamerica.map
+        MapLoader/Maps/sudoku.map
+        MapLoader/Maps/SuperRiskopoly.map
+        MapLoader/Maps/swiss.map
+        MapLoader/Maps/Sylsia.map
+        MapLoader/Maps/trivia.map
+        MapLoader/Maps/union.map
+        MapLoader/Maps/usa8regions.map
+        MapLoader/Maps/Wolken.map
+        MapLoader/Maps/WoW.map
+        MapLoader/Maps/wuppertal.map
+        MapLoader/MapLoader.cpp
+        MapLoader/MapLoader.h
+        Player/Player.cpp
+        Player/Player.h
+        Cards.cpp
+        Cards.h
+        GameObservers.cpp
+        GameObservers.h
+        Orders.cpp
+        Orders.h
+        OrdersDriver.cpp PlayerStrategy.h PlayerStrategy.cpp PlayerStrategyDriver.cpp)

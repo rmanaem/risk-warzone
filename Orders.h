@@ -1,8 +1,11 @@
 #pragma once
+#include "./Map/Map.h"
 #include <vector>
 #include <string>
 using namespace std;
 
+//Forward Declarations;
+class Player;
 
 //----------------------------Order Class----------------------------//
 class Order {
@@ -14,8 +17,9 @@ private:
 public:
     //-------------- Constructors --------------//
     Order();
-    Order(string orderType);
+    explicit Order(string orderType);
     Order(const Order &order);
+    virtual ~Order();
 
     //-------------- Getters --------------//
     //Make this getter 'virtual' to allow for polymorphism
@@ -27,6 +31,9 @@ public:
 
     //Assignment operator
     virtual Order& operator =(const Order &order);
+
+    //Pure virtual execute function
+    virtual void execute() = 0;
 };
 
 
@@ -77,22 +84,32 @@ class Deploy : public Order {
 private:
     //String describing the order type
     string orderType;
+    Player *p;
+    Territory *target;
+    int numToDeploy;
 
 public:
+
     //-------------- Constructors --------------//
     Deploy();
-    Deploy(string orderType);
+    Deploy(Player *p, Territory *target, int numToDeploy);
     Deploy(const Deploy &dep);
 
     //-------------- Getters --------------//
-    string getOrderType();
+    string getOrderType() override;
+
+    Player* getPlayer();
+
+    Territory* getTarget();
+
+    int getNumToDeploy();
 
     //-------------- Other Methods --------------//
     //Method to validate if an order is valid
     bool validate();
 
     //Method to execute the order
-    void execute();
+    void execute() override;
 
     //Stream insertion operator
     friend ostream& operator <<(ostream &strm, Deploy &dep);
@@ -109,22 +126,32 @@ class Advance : public Order {
 private:
     //String describing the order type
     string orderType;
+    Player *p;
+    Player *p2;
+    Territory *source;
+    Territory *target;
+    int numToAdvance;
 
 public:
     //-------------- Constructors --------------//
     Advance();
-    Advance(string orderType);
+    Advance(Player *p, Player* p2, Territory *source, Territory *target, int numToAdvance);
     Advance(const Advance &adv);
 
     //-------------- Getters --------------//
-    string getOrderType();
+    string getOrderType() override;
+    Player* getPlayer();
+    Player* getPlayer2();
+    Territory* getSource();
+    Territory* getTarget();
+    int getNumToAdvance();
 
     //-------------- Other Methods --------------//
     //Method to validate if an order is valid
     bool validate();
 
     //Method to execute the order
-    void execute();
+    void execute() override;
 
     //Stream insertion operator
     friend ostream& operator <<(ostream &strm, Advance &adv);
@@ -140,22 +167,26 @@ class Bomb : public Order {
 private:
     //String describing the order type
     string orderType;
+    Player *p;
+    Territory *target;
 
 public:
     //-------------- Constructors --------------//
     Bomb();
-    Bomb(string orderType);
+    Bomb(Player* p, Territory* target);
     Bomb(const Bomb &bomb);
 
     //-------------- Getters --------------//
-    string getOrderType();
+    string getOrderType() override;
+    Player* getPlayer();
+    Territory* getTarget();
 
     //-------------- Other methods --------------//
     //Method to validate if an order is valid
     bool validate();
 
     //Method to execute the order
-    void execute();
+    void execute() override;
 
     //Stream insertion operator
     friend ostream& operator <<(ostream &strm, Bomb &bomb);
@@ -172,22 +203,26 @@ class Blockade : public Order {
 private:
     //String describing the order type
     string orderType;
+    Player* p;
+    Territory* target;
 
 public:
     //-------------- Constructors --------------//
     Blockade();
-    Blockade(string orderType);
+    Blockade(Player* p, Territory* target);
     Blockade(const Blockade &block);
 
     //-------------- Getters --------------//
-    string getOrderType();
+    string getOrderType() override;
+    Player* getPlayer();
+    Territory* getTarget();
 
     //-------------- Other Methods --------------//
     //Method to validate if an order is valid
     bool validate();
 
     //Method to execute the order
-    void execute();
+    void execute() override;
 
     //Stream insertion operator
     friend ostream& operator <<(ostream &strm, Blockade &block);
@@ -204,22 +239,30 @@ class Airlift : public Order {
 private:
     //String describing the order type
     string orderType;
+    Player *p;
+    Territory *source;
+    Territory *target;
+    int numToAirlift;
 
 public:
     //-------------- Constructors --------------//
     Airlift();
-    Airlift(string orderType);
+    Airlift(Player *p, Territory *source, Territory *target, int numToAirlift);
     Airlift(const Airlift &air);
 
     //-------------- Getters --------------//
-    string getOrderType();
+    string getOrderType() override;
+    Player* getPlayer();
+    Territory* getSource();
+    Territory* getTarget();
+    int getNumToAirlift();
 
     //-------------- Other Methods --------------//
     //Method to validate if an order is valid
     bool validate();
 
     //Method to execute the order
-    void execute();
+    void execute() override;
 
     //Stream insertion operator
     friend ostream& operator <<(ostream &strm, Airlift &air);
@@ -236,22 +279,27 @@ class Negotiate : public Order {
 private:
     //String describing the order type
     string orderType;
+    Player* p;
+    Player* p2;
+
 
 public:
     //-------------- Constructors --------------//
     Negotiate();
-    Negotiate(string orderType);
+    Negotiate(Player* p, Player* p2);
     Negotiate(const Negotiate &neg);
 
     //-------------- Getters --------------//
-    string getOrderType();
+    string getOrderType() override;
+    Player* getPlayer();
+    Player* getPlayer2();
 
     //-------------- Other Methods --------------//
     //Method to validate if an order is valid
     bool validate();
 
     //Method to execute the order
-    void execute();
+    void execute() override;
 
     //Stream insertion operator
     friend ostream& operator <<(ostream &strm, Negotiate &neg);
@@ -260,10 +308,3 @@ public:
     Negotiate& operator =(const Negotiate &neg);
 
 };
-
-
-
-
-
-
-

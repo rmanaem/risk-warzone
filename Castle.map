@@ -1,0 +1,104 @@
+; map: Castle.map
+; map made with the map maker
+; yura.net Risk 1.0.9.4
+
+[files]
+pic Castle_pic.jpg
+map Castle_map.gif
+crd Castle.cards
+
+[continents]
+Yellow 5 yellow
+Blue 5 blue
+Purple 3 magenta
+Brown 3 gray
+Red 2 red
+Green 6 green
+
+[countries]
+1 Alberton 1 70 265
+2 West_Bacon_Bridge 1 101 215
+3 Queen's_Town 1 87 342
+4 Endon 1 151 397
+5 Oakhill 1 20 393
+6 Nottingham 1 148 294
+7 Adler_Marsh 1 221 351
+8 Connover 1 315 327
+9 Great_Rowley 1 299 401
+10 North_Castle 2 305 175
+11 Upper_Castle 2 348 156
+12 South_Castle 2 339 218
+13 West_Garden 2 255 226
+14 Grand_Bridge 2 357 257
+15 Ingleshire 2 384 302
+16 Shortbend 2 489 251
+17 Easthope 3 25 134
+18 Nickleridge 3 195 176
+19 Westminister 3 74 167
+20 Ipshire 3 138 189
+21 Middle_Bank 4 553 208
+22 Crow_Hill 4 644 201
+23 Earls_Acre 4 593 142
+24 East_Bacon_Bridge 4 513 103
+25 Sheep_Meadow 4 572 61
+26 North_Pasture 4 632 78
+27 Bob_Haven 5 658 383
+28 Valleys_End 5 646 298
+29 Pattington_Field 5 579 398
+30 Anderton 5 566 345
+31 Monte 6 188 127
+32 Santiago 6 169 29
+33 Innerwood 6 175 72
+34 Chorley 6 256 38
+35 Aston 6 240 92
+36 Kings_Cross 6 307 98
+37 Sibberhold 6 370 72
+38 Yellowmoor 6 361 21
+39 Upton 6 425 21
+40 Middleton 6 424 98
+41 Junction_Pass 6 473 165
+42 Ironflatts 6 489 66
+
+[borders]
+1 2 6 3
+2 1 19 20 6
+3 1 6 4 5 7
+4 3 7 5
+5 3 4
+6 1 2 3 7
+7 3 4 6 8 9
+8 7 15 9
+9 7 8 15
+10 11 12 13 35 36
+11 10 12
+12 10 11 14 13
+13 10 12
+14 12 15 16
+15 8 14 16 9
+16 14 15 21
+17 19
+18 20 31 35
+19 17 2 20
+20 2 18 19 31
+21 16 23 22
+22 21 23 28
+23 21 22 24 25 26
+24 23 42 41
+25 23 26
+26 23 25
+27 28 30 29
+28 22 27 30 29
+29 27 30 28
+30 27 28 29
+31 18 20 33 35
+32 33 34
+33 31 32 34 35
+34 32 33 36 35 38 37
+35 10 18 31 33 34 36
+36 10 34 35 37
+37 34 36 39 38 40
+38 34 37 39
+39 37 38 40 42
+40 37 39 42 41
+41 24 40 42
+42 24 39 40 41

@@ -1,5 +1,6 @@
 #include "Cards.h"
-#include "Player.h"
+#include "./Player/Player.h"
+#include "Orders.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -12,10 +13,10 @@ using namespace std;
 //-------------- Constructors --------------//
 Card::Card()
 {
-    this->cardType = SPY;
+    this->cardType = "BOMB";
 }
 
-Card::Card(CardType cardType)
+Card::Card(string cardType)
 {
     this->cardType = cardType;
 }
@@ -37,105 +38,69 @@ std::ostream &operator<<(std::ostream &stream, const Card &card)
     return stream << "Card details: type " << card.cardType << endl;
 }
 
-// Set card type with position of cardType in enum
+// Set card type with numerical equivalence of cardType
+// where 0="BOMB", 1="REINFORCEMENT", 2="BLOCKADE", 3="AIRLIFT", 4="NEGOTIATE"
 Card::Card(int intCardType)
 {
     switch (intCardType)
     {
-    case 0:
-    {
-        this->cardType = SPY;
-    }
-    break;
-    case 1:
-    {
-        this->cardType = BOMB;
-    }
-    break;
-    case 2:
-    {
-        this->cardType = REINFORCEMENT;
-    }
-    break;
-    case 3:
-    {
-        this->cardType = BLOCKADE;
-    }
-    break;
-    case 4:
-    {
-        this->cardType = AIRLIFT;
-    }
-    break;
-    case 5:
-    {
-        this->cardType = DIPLOMACY;
-    }
-    break;
-    default:
-        throw logic_error("invalid nb");
+        case 0:
+        {
+            this->cardType = "BOMB";
+        }
+            break;
+        case 1:
+        {
+            this->cardType = "REINFORCEMENT";
+        }
+            break;
+        case 2:
+        {
+            this->cardType = "BLOCKADE";
+        }
+            break;
+        case 3:
+        {
+            this->cardType = "AIRLIFT";
+        }
+            break;
+        case 4:
+        {
+            this->cardType = "NEGOTIATE";
+        }
+            break;
+        default:
+            throw logic_error("Invalid nb");
     }
 }
 
 //-------------- Getters --------------//
-Card::CardType Card::getCardType()
-{
-    return cardType;
-}
 
 string Card::getCardTypeString()
 {
-    string cardTypeString;
-    switch (this->cardType)
-    {
-    case 0:
-    {
-        cardTypeString = "SPY";
-    }
-    break;
-    case 1:
-    {
-        cardTypeString = "BOMB";
-    }
-    break;
-    case 2:
-    {
-        cardTypeString = "REINFORCEMENT";
-    }
-    break;
-    case 3:
-    {
-        cardTypeString = "BLOCKADE";
-    }
-    break;
-    case 4:
-    {
-        cardTypeString = "AIRLIFT";
-    }
-    break;
-    case 5:
-    {
-        cardTypeString = "DIPLOMACY";
-    }
-    break;
-    default:
-        throw logic_error("invalid nb");
-    }
-    return cardTypeString;
+    return this->cardType;
 }
 
 //-------------- Setters --------------//
-void Card::setCardType(CardType cardType)
+void Card::setCardType(string cardType)
 {
-    this->cardType = cardType;
+    transform(cardType.begin(), cardType.end(), cardType.begin(), ::toupper);
+
+    if (cardType.compare("BOMB") == 0 || cardType.compare("REINFORCEMENT") == 0 || cardType.compare("BLOCKADE") == 0
+        || cardType.compare("AIRLIFT") == 0 || cardType.compare("NEGOTIATE") == 0) {
+        this->cardType = cardType;
+    }
+    else {
+        throw logic_error("Invalid card type");
+    }
 }
 
 //-------------- Others --------------//
 
-void Card::play(Deck *deck, Player *player)
+void Card::play(Deck *deck, Player *player, Map *map, GameStarter *gameStarter)
 {
     // Create order
-    player->issueOrder();
+    player->issueOrder(map, gameStarter);
     // Add card to deck
     deck->addCardToDeck(this);
     // Remove card from hand

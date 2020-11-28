@@ -1,0 +1,169 @@
+; Micah Barnes
+; Trivial Domination
+
+; Risk board Game Map a la Trivial Pursuit
+; Dimensions: 677 x 425 Pixels
+
+[files]
+pic trivia.jpg
+map trivia.gif
+crd trivia.cards
+
+[continents]
+Yellow-Pie 5 yellow
+Purple-Pie 5 purple
+Green-Pie 5 green
+Brown-Pie 5 brown
+Blue-Pie 5 blue
+Orange-Pie 5 orange
+Center 8 gray
+
+[countries]
+1 One 1 240 215
+2 Two 1 243 180
+3 Three 1 248 158
+4 Four 1 256 138
+5 Five 2 267 120
+6 Six 2 280 102
+7 Seven 2 298 85
+8 Eight 2 324 65
+9 Nine 2 354 50
+10 Ten 2 377 45
+11 Eleven 2 400 43
+12 Twleve 3 424 41
+13 Thirteen 3 450 45
+14 Fourteen 3 470 52
+15 Fifteen 3 502 66
+16 Sixteen 3 527 86
+17 Seventeen 3 544 101
+18 Eighteen 3 556 120
+19 Nineteen 4 569 138
+20 Twenty 4 577 159
+21 Twenty-one 4 583 178
+22 Twenty-two 4 586 216
+23 Twenty-three 4 584 248
+24 Twenty-four 4 575 269
+25 Twenty-five 4 568 290
+26 Twenty-six 5 556 309
+27 Twenty-seven 5 543 326
+28 Twenty-eight 5 526 343
+29 Twenty-nine 5 500 360
+30 Thirty 5 469 375
+31 Thirty-one 5 445 383
+32 Thirty-two 5 420 384
+33 Thirty-three 6 399 385
+34 Thirty-four 6 375 386
+35 Thirty-five 6 350 375
+36 Thirty-six 6 322 362
+37 Thirty-seven 6 294 341
+38 Thirty-eight 6 280 325
+39 Thirty-nine 6 267 308
+40 Forty 1 258 289
+41 Forty-one 1 247 269
+42 Forty-two 1 243 249
+43 Forty-three 1 274 215
+44 Forty-four 1 295 215
+45 Forty-five 1 320 215
+46 Forty-six 7 342 215
+47 Forty-seven 7 364 215
+48 Forty-eight 2 341 95
+49 Forty-nine 2 353 114
+50 Fifty 2 365 135
+51 Fifty-one 7 377 152
+52 Fifty-two 7 388 171
+53 Fifty-three 3 483 94
+54 Fifty-four 3 471 112
+55 Fifty-five 3 459 132
+56 Fifty-six 7 447 151
+57 Fifty-seven 7 437 171
+58 Fifty-eight 4 550 215
+59 Fifty-nine 4 526 215
+60 Sixty 4 504 215
+61 Sixty-one 7 479 215
+62 Sixty-two 7 455 215
+63 Sixty-three 5 484 333
+64 Sixty-four 5 470 314
+65 Sixty-five 5 459 293
+66 Sixty-six 7 449 275
+67 Sixty-seven 7 437 256
+68 Sixty-eight 6 339 331
+69 Sixty-nine 6 352 312
+70 Seventy 6 364 293
+71 Seventy-one 7 376 273
+72 Seventy-two 7 387 255
+73 Seventy-three 7 412 215
+
+[borders]
+1 2 42 43
+2 1 3
+3 2 4
+4 3 5
+5 4 6
+6 5 7
+7 6 8
+8 7 9 48
+9 8 10
+10 9 11
+11 10 12
+12 11 13
+13 12 14
+14 13 15
+15 14 16 53
+16 15 17
+17 16 18
+18 17 19
+19 18 20
+20 19 21
+21 20 22
+22 21 23 58
+23 22 24
+24 23 25
+25 24 26
+26 25 27
+27 26 28
+28 27 29
+29 28 30 63
+30 29 31
+31 30 32
+32 31 33
+33 32 34
+34 33 35
+35 34 36
+36 35 37 68
+37 36 38
+38 37 39
+39 38 40
+40 39 41
+41 40 42
+42 1 41
+43 1 44
+44 43 45
+45 44 46
+46 45 47
+47 46 73
+48 8 49
+49 48 50
+50 49 51
+51 50 52
+52 51 73
+53 15 54
+54 53 55
+55 54 56
+56 55 57
+57 56 73
+58 22 59
+59 58 60
+60 59 61
+61 60 62
+62 61 73
+63 29 64
+64 63 65
+65 64 66
+66 65 67
+67 66 73
+68 36 69
+69 68 70
+70 69 71
+71 70 72
+72 71 73
+73 47 52 57 62 67 72
