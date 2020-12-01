@@ -1,8 +1,8 @@
 #include <iostream>
-using namespace std;
 #include <vector>
 #include "./Map.h"
 #include <stack>
+using namespace std;
 
 //Overload insertion stream operator
 ostream& operator<<(ostream& output, Continent& obj){
@@ -30,6 +30,11 @@ Continent::Continent(string continentName){
     this->continentName = continentName;
 }
 
+Continent::Continent(string continentName, int bonus){
+    this->continentName = continentName;
+    this->bonus = bonus;
+}
+
 Continent::Continent(const Continent& original){ //copy constructor
     continentName = original.continentName;
 }
@@ -48,10 +53,17 @@ string Continent::getContinentName(){
     return continentName;
 }
 
+int Continent::getBonus(){
+    return bonus;
+}
 
 //-------------- Setters --------------//
 void Continent::setContinentName(string newContinentName){
     continentName = newContinentName;
+}
+
+void Continent::setBonus(int newBonus){
+    bonus = newBonus;
 }
 
 
@@ -319,8 +331,8 @@ void Map::validate(){
         exit(EXIT_FAILURE);
 }
 
-Continent* Map::createContinent(string name){
-    Continent* ptr = new Continent(name);
+Continent* Map::createContinent(string name, int bonus){
+    Continent* ptr = new Continent(name,bonus);
     listOfContinents.push_back(ptr);
     return ptr;
 }

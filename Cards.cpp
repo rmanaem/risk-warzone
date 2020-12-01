@@ -1,5 +1,5 @@
 #include "Cards.h"
-#include "Player.h"
+#include "./Player/Player.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -132,15 +132,15 @@ void Card::setCardType(CardType cardType)
 
 //-------------- Others --------------//
 
-void Card::play(Deck *deck, Player *player)
-{
-    // Create order
-    player->issueOrder();
-    // Add card to deck
-    deck->addCardToDeck(this);
-    // Remove card from hand
-    player->getCards()->removeCardFromHand(player->getCards()->getCardIndex(this));
-}
+//void Card::play(Deck *deck, Player *player)
+//{
+//    // Create order
+//    //player->issueOrder();
+//    // Add card to deck
+//    deck->addCardToDeck(this);
+//    // Remove card from hand
+//    player->getCards()->removeCardFromHand(player->getCards()->getCardIndex(this));
+//}
 
 //============================ Deck Class ============================//
 //-------------- Constructors --------------//

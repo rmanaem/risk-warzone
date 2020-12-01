@@ -36,6 +36,8 @@ list<string> list_dir(const char *path) {
     }
     //showlist(results);
     closedir(dir);
+    results.pop_front();
+    results.pop_front();
     return results;
 }
 
@@ -87,7 +89,7 @@ Map parseMap(std::string map) {
                 string continentId= theLine[1];
                 string continentColor=theLine[2];
                 if(continentName.length()>0){
-                    Continent* newConteinent= myGraph->createContinent(continentName);
+                    Continent* newConteinent= myGraph->createContinent(continentName, stoi(continentId));
                     continentts.push_back(newConteinent);
                 }
                 theLine.clear();
@@ -99,7 +101,7 @@ Map parseMap(std::string map) {
         if (line.find("[countries]") != std::string::npos) {
             string countries;
             while(getline(MyReadFile, countries)){
-                cout << "the countries -----" << countries<<endl;
+              //  cout << "the countries -----" << countries<<endl;
                 if (!(countries.find("[borders]") == -1 && countries[0] != '\r')) {line = countries; break;}
                 if (countries.length() == 0 || countries[0] == '\r' || countries.at(0) == ';') {
                     continue;
@@ -117,7 +119,7 @@ Map parseMap(std::string map) {
                 string distance2= countryLine[4];
             }
         }
-        cout << "________borders:_______ " << line <<endl;
+       // cout << "________borders:_______ " << line <<endl;
         //get borders:
         if (line.find("[borders]") != std::string::npos) {
             if (line.length() == 0 || line.at(0) == ';') {
@@ -174,7 +176,7 @@ Map parseMap(std::string map) {
     
     // Close the file
     MyReadFile.close();
-    cout << "++++end+++" <<endl;
+   // cout << "++++end+++" <<endl;
     myGraph->validate();
 
    
@@ -190,6 +192,6 @@ Map parseMap(std::string map) {
 //         }
 //         cout<<endl;
 //     }
-     cout<< "trump";
+ //    cout<< "trump";
 return *myGraph;
 }

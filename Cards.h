@@ -1,5 +1,5 @@
 #pragma once
-#include "Player.h"
+#include "./Player/Player.h"
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -44,7 +44,7 @@ public:
     void setCardType(CardType cardType);
 
     //-------------- Others --------------//
-    void play(Deck *deck, Player *player);
+    //void play(Deck *deck, Player *player);
 
 private:
     CardType cardType;
