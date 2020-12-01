@@ -186,10 +186,12 @@ Map parseMap(std::string map) {
         for(string border : iT->second){
             int firstIndex = findCountry(myGraph->getV(),iT->first);
             if(firstIndex == -1) {
-                break;}
+                cout << "file is invalid";
+                throw std::exception();}
             int secondIndex = findCountry(myGraph->getV(),border);
             if(secondIndex == -1) {
-                break;}
+                cout << "file is invalid";
+                throw std::exception();}
             if(!myGraph->areConnected(myGraph->getV()[firstIndex], myGraph->getV()[secondIndex])){
                 myGraph->connectTwoNodes(myGraph->getV()[firstIndex], myGraph->getV()[secondIndex]);
             }
