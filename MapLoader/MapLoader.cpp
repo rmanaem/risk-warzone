@@ -13,6 +13,25 @@
 #include "../Map/Map.h"
 using namespace std;
 
+//Constructor
+MapLoader::MapLoader() {}
+
+//Copy Constructor
+MapLoader::MapLoader(const MapLoader& original){}
+
+//Default COnstructor
+MapLoader::~MapLoader(){}
+
+MapLoader& MapLoader::operator=(const MapLoader& rhs){
+    return *this;
+}
+
+//-------------- Stream insertion Operator --------------//
+ostream &operator<<(ostream &out, const MapLoader &e) {
+    out << "";
+}
+
+// This function is used to show files in a directory
 void MapLoader::showlist(list <string> g)
 {
     g.pop_front();
@@ -23,6 +42,7 @@ void MapLoader::showlist(list <string> g)
     cout << '\n';
 }
 
+// This function is used to store names of file in a directory in a vector
 list<string> MapLoader::list_dir(const char *path) {
     list<string> results;
     struct dirent *entry;
@@ -41,6 +61,7 @@ list<string> MapLoader::list_dir(const char *path) {
     return results;
 }
 
+// This function is used to store word in a continent line in a vector.
 std::vector<string> MapLoader::stripLine(std::string line){
     vector<string> result;
     string word="";
@@ -57,6 +78,7 @@ std::vector<string> MapLoader::stripLine(std::string line){
     return result;
 }
 
+// This function is used to create a map from a  map text file
 Map MapLoader::parseMap(std::string map) {
     cout << "-----" <<map<<"----"<<endl;
     string line;
@@ -107,19 +129,16 @@ Map MapLoader::parseMap(std::string map) {
                     continue;
                 }
                 vector<string> countryLine=stripLine(countries);
-                string contryId= countryLine[0];
                 string countryName= countryLine[1];
                 string continentId= countryLine[2];
                 
                 Territory* newTerritory=new Territory(countryName, continentts[stoi(continentId)-1]);
-               // cout << "territory" << newTerritory.getTerritoryName() << " " << *continentts[stoi(continentId)-1] << "******" <<endl;
                 teritories.push_back(newTerritory);
                 myGraph->insertATerritory(*newTerritory);
-                string distance1= countryLine[3];
-                string distance2= countryLine[4];
+
             }
         }
-       // cout << "________borders:_______ " << line <<endl;
+
         //get borders:
         if (line.find("[borders]") != std::string::npos) {
             if (line.length() == 0 || line.at(0) == ';') {
@@ -140,8 +159,6 @@ Map MapLoader::parseMap(std::string map) {
                     }
                     else{
                         word = word + borders.at(i);
-                        
-                        //borrders[i]=word;
                     }
                 }
                 string country = countryBorder.front();
@@ -176,23 +193,22 @@ Map MapLoader::parseMap(std::string map) {
     
     // Close the file
     MyReadFile.close();
-   // cout << "++++end+++" <<endl;
+    cout << "++++end+++" <<endl;
     myGraph->validate();
 
    
-//    for(auto terriotryPointer: teritories){
-//        delete terriotryPointer;
-//        terriotryPointer=nullptr;
-//    }
-//     for(Node* territory : myGraph->getV()){
-//         cout<<territory->getData().getTerritoryName() + " belongs to " + territory->getData().getContinent()->getContinentName()
-//             + " has the following edges:"<<endl;
-//         for(string edge : territory->getE()){
-//             cout<<edge<<"\t";
-//         }
-//         cout<<endl;
-//     }
- //    cout<< "trump";
+    for(auto terriotryPointer: teritories){
+        delete terriotryPointer;
+        terriotryPointer=nullptr;
+    }
+     for(Node* territory : myGraph->getV()){
+         cout<<territory->getData().getTerritoryName() + " belongs to " + territory->getData().getContinent()->getContinentName()
+             + " has the following edges:"<<endl;
+         for(string edge : territory->getE()){
+             cout<<edge<<"\t";
+         }
+         cout<<endl;
+     }
 return *myGraph;
 }
 

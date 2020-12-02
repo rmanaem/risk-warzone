@@ -11,6 +11,18 @@ class MapLoader {
 
 
 public:
+    //Constructor
+    MapLoader();
+
+    //copy constructor
+    MapLoader(const MapLoader& original);
+
+    //assignment operator
+    MapLoader& operator=(const MapLoader& rhs);
+
+    //destructor
+    ~MapLoader();
+
     Map parseMap (std::string map);
     list<string> list_dir(const char *path);
     void showlist(list <string> g);

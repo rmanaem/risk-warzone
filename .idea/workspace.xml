@@ -28,33 +28,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="88dc3081-9506-4a42-a872-9e1c759f011b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/GameObservers.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/GameObservers.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MapLoader/ConquestMapLoader.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MapLoader/ConquestMapLoader.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MapLoader/conquestMaps.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MapLoader/conquestMaps/Africa.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MapLoader/conquestMaps/Alberta.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MapLoader/conquestMaps/Asia.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MapLoader/conquestMaps/Canada.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MapLoader/conquestMaps/generaltest.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CardsDriver.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/CardsDriver.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameEngine/GameEngine.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/GameEngine/GameEngine.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameEngine/GameEngine.h" beforeDir="false" afterPath="$PROJECT_DIR$/GameEngine/GameEngine.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameEngine/driver.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/GameEngine/driver.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Map/Map.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Map/Map.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Map/Map.h" beforeDir="false" afterPath="$PROJECT_DIR$/Map/Map.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Map/MapDriver.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MapLoader/MapLoader.dSYM/Contents/Info.plist" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MapLoader/MapLoader.dSYM/Contents/Resources/DWARF/MapLoader" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MapLoader/MapLoaderDriver" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MapLoader/MapLoaderDriver.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/MapLoader/conquestMapLoaderDriver.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MapLoader/MapLoaderDriver.dSYM/Contents/Info.plist" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MapLoader/MapLoaderDriver.dSYM/Contents/Resources/DWARF/MapLoaderDriver" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Orders.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Orders.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OrdersDriver.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/OrdersDriver.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Player/Player.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Player/Player.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Player/PlayerDriver.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Player/PlayerDriver.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MapLoader/ConquestMapLoader.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/MapLoader/ConquestMapLoader.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MapLoader/ConquestMapLoader.h" beforeDir="false" afterPath="$PROJECT_DIR$/MapLoader/ConquestMapLoader.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MapLoader/FileReaderAdapterDriver.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/MapLoader/FileReaderAdapterDriver.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MapLoader/MapLoader.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/MapLoader/MapLoader.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MapLoader/MapLoader.h" beforeDir="false" afterPath="$PROJECT_DIR$/MapLoader/MapLoader.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,6 +56,13 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="cf.first.check.clang-format" value="false" />
     <property name="nodejs_package_manager_path" value="npm" />
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
