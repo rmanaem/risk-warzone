@@ -52,7 +52,10 @@ list<string> MapLoader::list_dir(const char *path) {
 //      return;
 //   }
     while ((entry = readdir(dir)) != NULL) {
-        results.push_back( entry->d_name);
+
+        if(&entry->d_name[0]!=".") {
+            results.push_back(entry->d_name);
+        }
     }
     //showlist(results);
     closedir(dir);

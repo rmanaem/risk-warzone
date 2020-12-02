@@ -48,7 +48,10 @@ std::map<int, string> ConquestFileReader::selectMap(){
     //list all maps available in ./MapLoader/Maps/ directory
     list<string> listOfMaps;
     if(m==2){
-        listOfMaps = list_dir("./MapLoader/conquestMaps/");}
+        listOfMaps = list_dir("./MapLoader/conquestMaps/");
+        listOfMaps.pop_front();
+
+    }
     else{
         listOfMaps = list_dir("./MapLoader/Maps/");}
 
@@ -110,7 +113,7 @@ list<string> ConquestFileReader::list_dir(const char *path) {
 
 
     while ((entry = readdir(dir)) != NULL) {
-        results.push_back( entry->d_name);
+            results.push_back(entry->d_name);
     }
     closedir(dir);
     results.pop_front();

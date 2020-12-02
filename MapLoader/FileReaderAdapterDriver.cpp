@@ -1,8 +1,3 @@
-
-//
-// Created by Talal Bazerbachi on 2020-11-29.
-//
-
 #include <iostream>
 #include <dirent.h>
 #include <sys/types.h>
@@ -25,13 +20,13 @@ int main() {
 
         ConquestFileReaderAdapter* adapter = new ConquestFileReaderAdapter(*conquestLoader);
         myGraph = new Map(adapter->parseMap(selectedMap));
+        delete adapter;
     }
     else
         myGraph = new Map(loader->parseMap(selectedMap));
 
         delete myGraph;
         delete conquestLoader;
-        delete adapter;
         delete loader;
 
 
