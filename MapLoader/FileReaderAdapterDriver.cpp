@@ -33,6 +33,9 @@ int main() {
         myGraph = new Map(loader->parseMap(selectedMap));
 
         delete myGraph;
+        delete conquestLoader;
+        delete adapter;
+        delete loader;
 
     return 0;
 }
