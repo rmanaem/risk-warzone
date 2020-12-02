@@ -35,6 +35,62 @@ ostream &operator<<(ostream &out, const ConquestFileReader &e) {
     out << "";
 }
 
+//This function is used in the driver to let user choose which map he wants to use.
+std::map<int, string> ConquestFileReader::selectMap(){
+    int m;
+    cout << "do you want a conquest map or a regular map?" <<endl;
+    cout << "1) Regular Map" << endl;
+    cout <<"2) Conquest Map" << endl;
+    cin >> m;
+    int mapNum;
+    cout<<"Available maps:"<<endl;
+
+    //list all maps available in ./MapLoader/Maps/ directory
+    list<string> listOfMaps;
+    if(m==2){
+        listOfMaps = list_dir("./MapLoader/conquestMaps/");}
+    else{
+        listOfMaps = list_dir("./MapLoader/Maps/");}
+
+
+    int countt = 1;
+    for(std::list<std::string>::const_iterator i = listOfMaps.begin(); i != listOfMaps.end(); ++i)
+    {
+        cout<<countt<<"-"<<*i<<"\t";
+
+        //every 4 maps will be printed in a single line
+        if(countt%4 == 0 || countt == listOfMaps.size())
+            cout<<endl;
+
+        countt+=1;
+    }
+
+    cout<<"Which map would you like to load (enter its number): ";
+
+    bool isInputCorrect = false;
+    while(!isInputCorrect){
+        cin>>mapNum;
+
+        if(mapNum>=1 && mapNum<=listOfMaps.size()){
+            isInputCorrect = true;
+        }else{//handles invalid inputs (i.e. 0, x>listOfMaps.size() and non-int input)
+            if(cin.fail()){
+                cin.clear();
+                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            }
+            cout<<"Invalid input! Re-choose a map: ";
+        }
+    }
+
+    //find element from the list
+    list<string>::iterator it = std::next(listOfMaps.begin(), mapNum-1);
+    //selectedMap = *it;
+    std::map<int, string> graph;
+    graph.insert({m,*it});
+    return graph;
+}
+
+
 // This function is used to show files in a directory
 void ConquestFileReader::showlist(list <string> g)
 {

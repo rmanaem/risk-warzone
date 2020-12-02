@@ -56,12 +56,21 @@ Map* GameStarter::getMyGraph(){
     return myGraph;
 }
 
-void GameStarter::selectMap(){
+int GameStarter::selectMap(){
+    int m;
+    cout << "do you want a conquest map or a regular map?" <<endl;
+    cout << "1) Regular Map" << endl;
+    cout <<"2) Conquest Map" << endl;
+    cin >> m;
     int mapNum;
     cout<<"Available maps:"<<endl;
 
     //list all maps available in ./MapLoader/Maps/ directory
-    list<string> listOfMaps = list_dir("./MapLoader/Maps/");
+    list<string> listOfMaps;
+    if(m==1) {listOfMaps = list_dir("./MapLoader/Maps/")};
+    else if(m==2){listOfMaps = list_dir("./MapLoader/conquestMaps/")}
+    else{listOfMaps = list_dir("./MapLoader/Maps/")};
+
 
     int count = 1;
     for(std::list<std::string>::const_iterator i = listOfMaps.begin(); i != listOfMaps.end(); ++i)
@@ -95,6 +104,7 @@ void GameStarter::selectMap(){
     //find element from the list
     list<string>::iterator it = std::next(listOfMaps.begin(), mapNum-1);
     selectedMap = *it;
+    return m;
 }
 
 void GameStarter::selectNumOfPlayers(){
@@ -139,8 +149,15 @@ void GameStarter::setPlayers(vector<Player*> players){
 }
 
 void GameStarter::setUpGame(){
-    selectMap();//load the map
-    myGraph = new Map(parseMap(selectedMap));
+    int mapType=selectMap(); //load the map
+    MapLoader* loader;
+    if(mapType==2){
+        ConquestFileReader* conquestLoader;
+        ConquestFileReaderAdapter* adapter = new ConquestFileReaderAdapter(*conquestLoader);
+        myGraph = new Map(adapter->parseMap(selectedMap));
+    }
+    else
+    myGraph = new Map(loader->parseMap(selectedMap));
     selectNumOfPlayers();
 
     int id = 1;

@@ -35,7 +35,7 @@ public:
     Map* getMyGraph();
 
     //-------------- getting user input --------------//
-    void selectMap();
+    int selectMap();
     void selectNumOfPlayers();
     void turnObservers();
 
