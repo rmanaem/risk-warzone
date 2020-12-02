@@ -18,7 +18,7 @@
 #include "../Map/Map.h"
 using namespace std;
 
-void showlist(list <string> g)
+void ConquestMapLoader::showlist(list <string> g)
 {
     g.pop_front();
     g.pop_front();
@@ -28,7 +28,7 @@ void showlist(list <string> g)
     cout << '\n';
 }
 
-list<string> list_dir(const char *path) {
+list<string> ConquestMapLoader::list_dir(const char *path) {
     list<string> results;
     struct dirent *entry;
     DIR *dir = opendir(path);
@@ -46,7 +46,7 @@ list<string> list_dir(const char *path) {
     return results;
 }
 
-std::vector<string> stripLine(std::string line){
+std::vector<string> ConquestMapLoader::stripLine(std::string line){
     vector<string> result;
     string word="";
     for (unsigned i=0; i<line.length(); ++i) {
@@ -63,7 +63,7 @@ std::vector<string> stripLine(std::string line){
     return result;
 }
 
-std::vector<string> stripContinent(std::string line){
+std::vector<string> ConquestMapLoader::stripContinent(std::string line){
     vector<string> result;
     string word="";
     for (unsigned i=0; i<line.length(); ++i) {
@@ -80,7 +80,7 @@ std::vector<string> stripContinent(std::string line){
     return result;
 }
 //what's up here 
-int findCountry(vector<Node*> countries,string name){
+int ConquestMapLoader::findCountry(vector<Node*> countries,string name){
     int i=0;
     for(Node* territory : countries){
         if(territory->getData().getTerritoryName() == name){
@@ -92,7 +92,7 @@ int findCountry(vector<Node*> countries,string name){
     }
     return -1;
 }
-int findContinent(vector<Continent*> continents,string name){
+int ConquestMapLoader::findContinent(vector<Continent*> continents,string name){
     int i=0;
     for(Continent* continent : continents){
         if(continent->getContinentName() == name){ return
@@ -106,7 +106,7 @@ int findContinent(vector<Continent*> continents,string name){
     return -1;
 }
 
-std::vector<string> slice(std::vector<string> const &v, int m, int n)
+std::vector<string> ConquestMapLoader::slice(std::vector<string> const &v, int m, int n)
 {
 auto first = v.cbegin() + m;
 auto last = v.cbegin() + n + 1;
@@ -116,7 +116,7 @@ return vec;
 }
 
 
-Map parseMap(std::string map) {
+Map ConquestMapLoader::parseMap(std::string map) {
     cout << "-----" << "the map is " <<map<<"----"<<endl;
     string line;
     string title = "";

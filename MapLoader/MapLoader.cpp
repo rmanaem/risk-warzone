@@ -13,7 +13,7 @@
 #include "../Map/Map.h"
 using namespace std;
 
-void showlist(list <string> g)
+void MapLoader::showlist(list <string> g)
 {
     g.pop_front();
     g.pop_front();
@@ -23,7 +23,7 @@ void showlist(list <string> g)
     cout << '\n';
 }
 
-list<string> list_dir(const char *path) {
+list<string> MapLoader::list_dir(const char *path) {
     list<string> results;
     struct dirent *entry;
     DIR *dir = opendir(path);
@@ -41,7 +41,7 @@ list<string> list_dir(const char *path) {
     return results;
 }
 
-std::vector<string> stripLine(std::string line){
+std::vector<string> MapLoader::stripLine(std::string line){
     vector<string> result;
     string word="";
     for (unsigned i=0; i<line.length(); ++i) {
@@ -57,7 +57,7 @@ std::vector<string> stripLine(std::string line){
     return result;
 }
 
-Map parseMap(std::string map) {
+Map MapLoader::parseMap(std::string map) {
     cout << "-----" <<map<<"----"<<endl;
     string line;
     string title = "";

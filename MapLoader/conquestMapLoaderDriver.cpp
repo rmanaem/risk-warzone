@@ -7,7 +7,7 @@
 #include <sys/types.h>
 #include <list>
 #include <iterator>
-#include "MapLoader.h"
+#include "ConquestMapLoader.h"
 #include "../Map/Map.h"
 using namespace std;
 //Dear Mr. Hani this function is for debugging
@@ -16,14 +16,16 @@ using namespace std;
 
 
 int main() {
-
-    list<string> toBeParsed =list_dir("./MapLoader/conquestMaps/");
-    showlist(toBeParsed);
+    ConquestMapLoader loader;
+    list<string> toBeParsed =loader.list_dir("./MapLoader/conquestMaps/");
+    loader.showlist(toBeParsed);
 //    toBeParsed.pop_front();
 //     toBeParsed.pop_front();
     list <string> :: iterator it;
+
     for(it = toBeParsed.begin(); it != toBeParsed.end(); ++it){
-       Map graph = parseMap((*it));
+
+       Map graph = loader.parseMap((*it));
        Map* graphPntr = &graph;
        cout << graphPntr->getV().size() << endl;
     }
