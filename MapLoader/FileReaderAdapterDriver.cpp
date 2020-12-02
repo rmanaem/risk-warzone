@@ -28,6 +28,8 @@ int main() {
     //create an adapter that adapts a MapLoader to ConquestFileReader
     ConquestFileReaderAdapter* adapter = new ConquestFileReaderAdapter(*conquestLoader);
     Map* conquestMap = new Map(adapter->parseMap("Unconnected.map"));
+    delete adapter;
+    delete conquestMap;
 
 
     return 0;
