@@ -1,7 +1,6 @@
 //
 // Created by Talal Bazerbachi on 2020-11-25.
 //
-
 #include "ConquestMapLoader.h"
 #include <iostream>
 #include <fstream>
@@ -18,7 +17,7 @@
 #include "../Map/Map.h"
 using namespace std;
 
-void ConquestMapLoader::showlist(list <string> g)
+void ConquestFileReader::showlist(list <string> g)
 {
     g.pop_front();
     g.pop_front();
@@ -28,7 +27,7 @@ void ConquestMapLoader::showlist(list <string> g)
     cout << '\n';
 }
 
-list<string> ConquestMapLoader::list_dir(const char *path) {
+list<string> ConquestFileReader::list_dir(const char *path) {
     list<string> results;
     struct dirent *entry;
     DIR *dir = opendir(path);
@@ -46,7 +45,7 @@ list<string> ConquestMapLoader::list_dir(const char *path) {
     return results;
 }
 
-std::vector<string> ConquestMapLoader::stripLine(std::string line){
+std::vector<string> ConquestFileReader::stripLine(std::string line){
     vector<string> result;
     string word="";
     for (unsigned i=0; i<line.length(); ++i) {
@@ -63,7 +62,7 @@ std::vector<string> ConquestMapLoader::stripLine(std::string line){
     return result;
 }
 
-std::vector<string> ConquestMapLoader::stripContinent(std::string line){
+std::vector<string> ConquestFileReader::stripContinent(std::string line){
     vector<string> result;
     string word="";
     for (unsigned i=0; i<line.length(); ++i) {
@@ -80,7 +79,7 @@ std::vector<string> ConquestMapLoader::stripContinent(std::string line){
     return result;
 }
 //what's up here 
-int ConquestMapLoader::findCountry(vector<Node*> countries,string name){
+int ConquestFileReader::findCountry(vector<Node*> countries,string name){
     int i=0;
     for(Node* territory : countries){
         if(territory->getData().getTerritoryName() == name){
@@ -92,7 +91,7 @@ int ConquestMapLoader::findCountry(vector<Node*> countries,string name){
     }
     return -1;
 }
-int ConquestMapLoader::findContinent(vector<Continent*> continents,string name){
+int ConquestFileReader::findContinent(vector<Continent*> continents,string name){
     int i=0;
     for(Continent* continent : continents){
         if(continent->getContinentName() == name){ return
@@ -106,7 +105,7 @@ int ConquestMapLoader::findContinent(vector<Continent*> continents,string name){
     return -1;
 }
 
-std::vector<string> ConquestMapLoader::slice(std::vector<string> const &v, int m, int n)
+std::vector<string> ConquestFileReader::slice(std::vector<string> const &v, int m, int n)
 {
 auto first = v.cbegin() + m;
 auto last = v.cbegin() + n + 1;
@@ -116,7 +115,7 @@ return vec;
 }
 
 
-Map ConquestMapLoader::parseMap(std::string map) {
+Map ConquestFileReader::parseMapConquest(std::string map) {
     cout << "-----" << "the map is " <<map<<"----"<<endl;
     string line;
     string title = "";
@@ -187,11 +186,13 @@ Map ConquestMapLoader::parseMap(std::string map) {
             int firstIndex = findCountry(myGraph->getV(),iT->first);
             if(firstIndex == -1) {
                 cout << "file is invalid";
-                throw std::exception();}
+                exit(EXIT_FAILURE);//stops the application
+                }
             int secondIndex = findCountry(myGraph->getV(),border);
             if(secondIndex == -1) {
                 cout << "file is invalid";
-                throw std::exception();}
+                exit(EXIT_FAILURE);//stops the application
+                }
             if(!myGraph->areConnected(myGraph->getV()[firstIndex], myGraph->getV()[secondIndex])){
                 myGraph->connectTwoNodes(myGraph->getV()[firstIndex], myGraph->getV()[secondIndex]);
             }

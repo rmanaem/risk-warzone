@@ -13,11 +13,11 @@
 #include "../Map/Map.h"
 using namespace std;
 
-class ConquestMapLoader {
+class ConquestFileReader {
 
 
 public:
-    Map parseMap (std::string map);
+    Map parseMapConquest (std::string map);
     list<string> list_dir(const char *path);
     void showlist(list <string> g);
     int findCountry(vector<Node*> countries,string name);

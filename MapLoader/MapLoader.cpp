@@ -195,3 +195,13 @@ Map MapLoader::parseMap(std::string map) {
  //    cout<< "trump";
 return *myGraph;
 }
+
+//ConquestFileReaderAdapter class
+ConquestFileReaderAdapter::ConquestFileReaderAdapter(ConquestFileReader newFileReader){
+    conquestMapLoader = newFileReader;
+}
+
+//Conquest maps can be generated in the same manner
+Map ConquestFileReaderAdapter::parseMap(string map){
+    return conquestMapLoader.parseMapConquest(map);
+}

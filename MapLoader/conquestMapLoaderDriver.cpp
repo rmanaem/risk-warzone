@@ -8,25 +8,34 @@
 #include <list>
 #include <iterator>
 #include "ConquestMapLoader.h"
+#include "MapLoader.h"
 #include "../Map/Map.h"
 using namespace std;
-//Dear Mr. Hani this function is for debugging
-
-
-
 
 int main() {
-    ConquestMapLoader loader;
-    list<string> toBeParsed =loader.list_dir("./MapLoader/conquestMaps/");
-    loader.showlist(toBeParsed);
-//    toBeParsed.pop_front();
-//     toBeParsed.pop_front();
-    list <string> :: iterator it;
+    ConquestFileReader conquestLoader;
+    MapLoader dominationLoader;
 
-    for(it = toBeParsed.begin(); it != toBeParsed.end(); ++it){
+    //Domination Map Loader
+    dominationLoader.parseMap("./Maps/Andorra.map");
 
-       Map graph = loader.parseMap((*it));
-       Map* graphPntr = &graph;
-       cout << graphPntr->getV().size() << endl;
-    }
+    cout<<"--------- Using Adapter for conquest map ---------"<<endl;
+
+    ConquestFileReaderAdapter adapter(conquestLoader);
+    adapter.parseMap("./conquestMaps/Africa.map");
+
+
+//     list<string> toBeParsed =loader.list_dir("./MapLoader/conquestMaps/");
+//     loader.showlist(toBeParsed);
+// //    toBeParsed.pop_front();
+// //     toBeParsed.pop_front();
+//     list <string> :: iterator it;
+
+//     for(it = toBeParsed.begin(); it != toBeParsed.end(); ++it){
+
+//        Map graph = loader.parseMapConquest((*it));
+//        Map* graphPntr = &graph;
+//        cout << graphPntr->getV().size() << endl;
+//     }
+    return 0;
 }

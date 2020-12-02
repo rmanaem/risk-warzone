@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string>
 #include <iostream>
+#include "./ConquestMapLoader.h"
 #include "../Map/Map.h"
 using namespace std;
 
@@ -17,5 +18,11 @@ public:
 
 };
 
-
-
+class ConquestFileReaderAdapter : public MapLoader{
+    private:
+        //the ConquestFileReader is plugged into the adapter
+        ConquestFileReader conquestMapLoader;
+    public:
+        ConquestFileReaderAdapter(ConquestFileReader newFileReader);
+        Map parseMap(string map);
+};
