@@ -15,18 +15,6 @@
 using namespace std;
 
 int main() {
-//    ConquestFileReader* conquestLoader;
-//    MapLoader* dominationLoader;
-//
-//    //Domination Map Loader
-//    Map* dominationMap = new Map(dominationLoader->parseMap("astadt.map"));
-//
-//    cout<<"\n\n--------- Using Adapter for conquest map ---------\n"<<endl;
-//
-//    //create an adapter that adapts a MapLoader to ConquestFileReader
-//    ConquestFileReaderAdapter* adapter = new ConquestFileReaderAdapter(*conquestLoader);
-//
-//    Map* conquestMap = new Map(adapter->parseMap("Unconnected.map"));
     ConquestFileReader* conquestLoader;
     std::map<int, string> struc=conquestLoader->selectMap();
     int mapType=struc.begin()->first; //load the map
@@ -42,6 +30,9 @@ int main() {
         myGraph = new Map(loader->parseMap(selectedMap));
 
         delete myGraph;
+        delete conquestLoader;
+        delete adapter;
+        delete loader;
 
 
     return 0;
