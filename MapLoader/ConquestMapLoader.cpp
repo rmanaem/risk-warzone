@@ -17,6 +17,25 @@
 #include "../Map/Map.h"
 using namespace std;
 
+//Constructor
+ConquestFileReader::ConquestFileReader() {}
+
+//Copy Constructor
+ConquestFileReader::ConquestFileReader(const ConquestFileReader& original){}
+
+//Default COnstructor
+ConquestFileReader::~ConquestFileReader(){}
+
+ConquestFileReader& ConquestFileReader::operator=(const ConquestFileReader& rhs){
+    return *this;
+}
+
+//-------------- Stream insertion Operator --------------//
+ostream &operator<<(ostream &out, const ConquestFileReader &e) {
+    out << "";
+}
+
+// This function is used to show files in a directory
 void ConquestFileReader::showlist(list <string> g)
 {
     g.pop_front();
@@ -27,24 +46,23 @@ void ConquestFileReader::showlist(list <string> g)
     cout << '\n';
 }
 
+// This function is used to store names of file in a directory in a vector
 list<string> ConquestFileReader::list_dir(const char *path) {
     list<string> results;
     struct dirent *entry;
     DIR *dir = opendir(path);
 
-//   if (dir == NULL) {
-//      return;
-//   }
+
     while ((entry = readdir(dir)) != NULL) {
         results.push_back( entry->d_name);
     }
-    //showlist(results);
     closedir(dir);
     results.pop_front();
     results.pop_front();
     return results;
 }
 
+// This function is used to store word in a continent line in a vector.
 std::vector<string> ConquestFileReader::stripLine(std::string line){
     vector<string> result;
     string word="";
@@ -62,7 +80,8 @@ std::vector<string> ConquestFileReader::stripLine(std::string line){
     return result;
 }
 
-std::vector<string> ConquestFileReader::stripContinent(std::string line){
+// This function is used to store words in a Territory line in a vector list
+std::vector<string> ConquestFileReader::stripTeritory(std::string line){
     vector<string> result;
     string word="";
     for (unsigned i=0; i<line.length(); ++i) {
@@ -78,7 +97,8 @@ std::vector<string> ConquestFileReader::stripContinent(std::string line){
     }
     return result;
 }
-//what's up here 
+
+// This function is used to  return the index of a country in the countries  vector list.
 int ConquestFileReader::findCountry(vector<Node*> countries,string name){
     int i=0;
     for(Node* territory : countries){
@@ -91,6 +111,8 @@ int ConquestFileReader::findCountry(vector<Node*> countries,string name){
     }
     return -1;
 }
+
+// This function is used to  return the index of a continent in the continent  vector list.
 int ConquestFileReader::findContinent(vector<Continent*> continents,string name){
     int i=0;
     for(Continent* continent : continents){
@@ -105,6 +127,7 @@ int ConquestFileReader::findContinent(vector<Continent*> continents,string name)
     return -1;
 }
 
+//This function is used to return a vector from a vector list.
 std::vector<string> ConquestFileReader::slice(std::vector<string> const &v, int m, int n)
 {
 auto first = v.cbegin() + m;
@@ -114,7 +137,7 @@ std::vector<string> vec(first, last);
 return vec;
 }
 
-
+// This function is used to create a map from a conquest map text file
 Map ConquestFileReader::parseMapConquest(std::string map) {
     cout << "-----" << "the map is " <<map<<"----"<<endl;
     string line;
@@ -131,8 +154,7 @@ Map ConquestFileReader::parseMapConquest(std::string map) {
         if(line.length()==0 || line.length()==1){
             continue;
         }
-
-        //get continents:
+        //I first store all the continents in a vector list.
         if (line.find("[Continents]") != std::string::npos) {
             string continents;
             while(getline(MyReadFile, continents)){
@@ -144,7 +166,6 @@ Map ConquestFileReader::parseMapConquest(std::string map) {
                     continue;
                 }
                 vector<string> theLine= stripLine(continents);
-                cout << "the line is " << theLine[1];
                 string continentName= theLine[0];
                 string continentBonus= theLine[1];
                 if(continentName.length()>0){
@@ -155,8 +176,7 @@ Map ConquestFileReader::parseMapConquest(std::string map) {
             }
         }
 
-
-        //get coutntries:
+//        then I store all the territories in a vector list.
         if (line.find("[Territories]") != std::string::npos) {
             string countries;
             while(getline(MyReadFile, countries)){
@@ -165,21 +185,24 @@ Map ConquestFileReader::parseMapConquest(std::string map) {
                 }
 
 
-                vector<string> countryLine=stripContinent(countries);
+                vector<string> countryLine=stripTeritory(countries);
                 string countryName= countryLine[0];
-                string continent= countryLine[2];
+                string continent= countryLine[3];
+
+//                here I store the borders of a contry in a vector list.
                 vector<string> borders = slice(countryLine, 4, countryLine.size()-1);
+//                graph is a map that contains the name of a territory as a key and the borders as a value.
                 graph.insert({countryName, borders});
                 int ind = findContinent(continentts, continent);
                 Territory* newTerritory=new Territory(countryName, continentts[ind]);
-
                 teritories.push_back(newTerritory);
                 myGraph->insertATerritory(*newTerritory);
             }
         }
     }
-    std::map<string, vector<string>>::iterator iT;
 
+//    after all the territories and continents are stored, I loop through the map and connect all territories together.
+    std::map<string, vector<string>>::iterator iT;
     for ( iT = graph.begin(); iT != graph.end(); iT++ )
     {
         for(string border : iT->second){
@@ -199,8 +222,18 @@ Map ConquestFileReader::parseMapConquest(std::string map) {
         }
     }
 
+    //print returned map
+    for(Node* territory : myGraph->getV()){
+        cout<<territory->getData().getTerritoryName() + " belongs to " + territory->getData().getContinent()->getContinentName()
+              + " has the following edges:"<<endl;
+        for(string edge : territory->getE()){
+            cout<<edge<<"\t";
+        }
+        cout<<endl;
+    }
     // Close the file
     MyReadFile.close();
+    myGraph->validate();
     cout << "++++end+++" <<endl;
 
     return *myGraph;
