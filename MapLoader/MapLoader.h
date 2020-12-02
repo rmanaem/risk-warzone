@@ -23,6 +23,18 @@ class ConquestFileReaderAdapter : public MapLoader{
         //the ConquestFileReader is plugged into the adapter
         ConquestFileReader conquestMapLoader;
     public:
+        //Constructors
         ConquestFileReaderAdapter(ConquestFileReader newFileReader);
+        ConquestFileReaderAdapter(const ConquestFileReaderAdapter& original); //Copy constructor
+        //Destructor
+        ~ConquestFileReaderAdapter();
+        
         Map parseMap(string map);
+
+        //-------------- Overloads --------------//
+        ConquestFileReaderAdapter& operator=(const ConquestFileReaderAdapter& rhs); //overload copy constructor
+        friend ostream& operator<<(ostream& output, ConquestFileReaderAdapter& obj); //overload stream insertion operator
+
 };
+
+ostream& operator<<(ostream& output, ConquestFileReaderAdapter& obj); //overload stream insertion operator

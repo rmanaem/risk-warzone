@@ -197,11 +197,38 @@ return *myGraph;
 }
 
 //ConquestFileReaderAdapter class
+
+//-------------- Constructors --------------//
 ConquestFileReaderAdapter::ConquestFileReaderAdapter(ConquestFileReader newFileReader){
     conquestMapLoader = newFileReader;
+}
+
+ConquestFileReaderAdapter::ConquestFileReaderAdapter(const ConquestFileReaderAdapter& original){ //copy constructor
+    conquestMapLoader = original.conquestMapLoader;
+}
+
+//-------------- Destructor --------------//
+ConquestFileReaderAdapter::~ConquestFileReaderAdapter(){
+
 }
 
 //Conquest maps can be generated in the same manner
 Map ConquestFileReaderAdapter::parseMap(string map){
     return conquestMapLoader.parseMapConquest(map);
 }
+
+//-------------- Overloads --------------//
+//overload assignment operator
+ConquestFileReaderAdapter& ConquestFileReaderAdapter::operator=(const ConquestFileReaderAdapter& rhs){
+    if(this != &rhs){
+        conquestMapLoader = rhs.conquestMapLoader;
+    }
+    return *this;
+}
+
+//Overload insertion stream operator
+ostream& operator<<(ostream& output, ConquestFileReaderAdapter& obj){
+    output << "FileReaderAdapter" <<endl;
+    return output;
+}
+
