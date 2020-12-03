@@ -67,21 +67,27 @@ int GameStarter::selectMap(){
 
     //list all maps available in ./MapLoader/Maps/ directory
     list<string> listOfMaps;
-    if(m==1) {listOfMaps = list_dir("./MapLoader/Maps/")};
-    else if(m==2){listOfMaps = list_dir("./MapLoader/conquestMaps/")}
-    else{listOfMaps = list_dir("./MapLoader/Maps/")};
+    if(m==2){
+        MapLoader* loader;
+        listOfMaps = loader->list_dir("./MapLoader/conquestMaps/");
+        listOfMaps.pop_front();
+
+    }
+    else{
+        ConquestFileReader* reader;
+        listOfMaps = reader->list_dir("./MapLoader/Maps/");}
 
 
-    int count = 1;
+    int countt = 1;
     for(std::list<std::string>::const_iterator i = listOfMaps.begin(); i != listOfMaps.end(); ++i)
     {
-        cout<<count<<"-"<<*i<<"\t";
+        cout<<countt<<"-"<<*i<<"\t";
 
         //every 4 maps will be printed in a single line
-        if(count%4 == 0 || count == listOfMaps.size())
+        if(countt%4 == 0 || countt == listOfMaps.size())
             cout<<endl;
 
-        count++;
+        countt+=1;
     }
 
     cout<<"Which map would you like to load (enter its number): ";
@@ -104,6 +110,7 @@ int GameStarter::selectMap(){
     //find element from the list
     list<string>::iterator it = std::next(listOfMaps.begin(), mapNum-1);
     selectedMap = *it;
+
     return m;
 }
 
@@ -149,15 +156,21 @@ void GameStarter::setPlayers(vector<Player*> players){
 }
 
 void GameStarter::setUpGame(){
+    ConquestFileReader* conquestLoader;
+    //ask user about the map type
     int mapType=selectMap(); //load the map
     MapLoader* loader;
+
+    //check if conquest or domination
     if(mapType==2){
-        ConquestFileReader* conquestLoader;
+        //use the adapter
         ConquestFileReaderAdapter* adapter = new ConquestFileReaderAdapter(*conquestLoader);
         myGraph = new Map(adapter->parseMap(selectedMap));
+        delete adapter;
     }
-    else
-    myGraph = new Map(loader->parseMap(selectedMap));
+    else//original (i.e. domination) MapLoader
+        myGraph = new Map(loader->parseMap(selectedMap));
+
     selectNumOfPlayers();
 
     int id = 1;
