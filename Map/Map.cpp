@@ -1,8 +1,8 @@
 #include <iostream>
-using namespace std;
 #include <vector>
 #include "./Map.h"
 #include <stack>
+using namespace std;
 
 //Overload insertion stream operator
 ostream& operator<<(ostream& output, Continent& obj){
@@ -30,6 +30,11 @@ Continent::Continent(string continentName){
     this->continentName = continentName;
 }
 
+Continent::Continent(string continentName, int bonus){
+    this->continentName = continentName;
+    this->bonus = bonus;
+}
+
 Continent::Continent(const Continent& original){ //copy constructor
     continentName = original.continentName;
 }
@@ -48,10 +53,17 @@ string Continent::getContinentName(){
     return continentName;
 }
 
+int Continent::getBonus(){
+    return bonus;
+}
 
 //-------------- Setters --------------//
 void Continent::setContinentName(string newContinentName){
     continentName = newContinentName;
+}
+
+void Continent::setBonus(int newBonus){
+    bonus = newBonus;
 }
 
 
@@ -76,18 +88,22 @@ Territory::Territory(const Territory& original){//copy constructor
     ownerId = original.ownerId;
     numberOfArmies = original.numberOfArmies;
     continent = original.continent;//we want shallow copy
-} 
+}
 
 //-------------- Overloads --------------//
 //overload assignment operator
 Territory& Territory::operator=(const Territory& rhs){
-        if(this != &rhs){
-            territoryName = rhs.territoryName;
-            ownerId = rhs.ownerId;
-            numberOfArmies = rhs.numberOfArmies;
-            continent = rhs.continent; //shallow is wanted
+    if(this != &rhs){
+        territoryName = rhs.territoryName;
+        ownerId = rhs.ownerId;
+        numberOfArmies = rhs.numberOfArmies;
+        continent = rhs.continent; //shallow is wanted
     }
     return *this;
+}
+
+const bool &Territory::operator<(const Territory& r) const {
+    return numberOfArmies < r.numberOfArmies;
 }
 
 //-------------- Getters --------------//
@@ -130,7 +146,7 @@ Node::Node(Territory data){
     this->data = new Territory(data.getTerritoryName(), data.getContinent());
 }
 
-Node::Node(const Node& original){ //Copy construcotr
+Node::Node(const Node& original){ //Copy constructor
     data = new Territory(*original.data);
     E = original.E;
 }
@@ -319,8 +335,8 @@ void Map::validate(){
         exit(EXIT_FAILURE);
 }
 
-Continent* Map::createContinent(string name){
-    Continent* ptr = new Continent(name);
+Continent* Map::createContinent(string name, int bonus){
+    Continent* ptr = new Continent(name,bonus);
     listOfContinents.push_back(ptr);
     return ptr;
 }
