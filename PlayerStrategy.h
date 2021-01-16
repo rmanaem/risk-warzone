@@ -6,7 +6,6 @@
 class Territory;
 class GameStarter;
 
-
 //============================ PlayerStrategy Class ============================//
 /*  Represents a player's strategy that can be either
  *  human, neutral, defensive or aggressive
@@ -19,7 +18,7 @@ class PlayerStrategy
 public:
     //-------------- Constructors --------------//
     PlayerStrategy();
-    PlayerStrategy(const PlayerStrategy& other);
+    PlayerStrategy(const PlayerStrategy &other);
 
     //-------------- Destructor --------------//
     ~PlayerStrategy();
@@ -37,12 +36,11 @@ public:
     virtual string nameToString() = 0;
 
     //-------------- Assignment operator --------------//
-    PlayerStrategy& operator=(const PlayerStrategy& other);
+    PlayerStrategy &operator=(const PlayerStrategy &other);
 
     //-------------- Stream insertion Operator --------------//
-    friend std::ostream &operator<<(std::ostream &stream, PlayerStrategy &strategy);
+    friend std::ostream &operator<<(std::ostream &stream, const PlayerStrategy &strategy);
 };
-
 
 //============================ HumanPlayerStrategy Class ============================//
 /*  Represents a type of player strategy (is a subclass of PlayerStrategy)
@@ -53,7 +51,7 @@ class HumanPlayerStrategy : public PlayerStrategy
 public:
     //-------------- Constructors --------------//
     HumanPlayerStrategy();
-    HumanPlayerStrategy(const HumanPlayerStrategy& other);
+    HumanPlayerStrategy(const HumanPlayerStrategy &other);
 
     //-------------- Destructor --------------//
     ~HumanPlayerStrategy();
@@ -71,12 +69,11 @@ public:
     string nameToString();
 
     //-------------- Assignment operator --------------//
-    HumanPlayerStrategy& operator=(const HumanPlayerStrategy& other);
+    HumanPlayerStrategy &operator=(const HumanPlayerStrategy &other);
 
     //-------------- Stream insertion Operator --------------//
-    friend std::ostream &operator<<(std::ostream &stream, HumanPlayerStrategy &strategy);
+    friend std::ostream &operator<<(std::ostream &stream, const HumanPlayerStrategy &strategy);
 };
-
 
 //============================ AggressivePlayerStrategy Class ============================//
 /*  Represents a type of computer controlled player strategy (is a subclass of PlayerStrategy)
@@ -88,7 +85,7 @@ class AggressivePlayerStrategy : public PlayerStrategy
 public:
     //-------------- Constructors --------------//
     AggressivePlayerStrategy();
-    AggressivePlayerStrategy(const AggressivePlayerStrategy& other);
+    AggressivePlayerStrategy(const AggressivePlayerStrategy &other);
 
     //-------------- Destructor --------------//
     ~AggressivePlayerStrategy();
@@ -106,12 +103,11 @@ public:
     string nameToString();
 
     //-------------- Assignment operator --------------//
-    AggressivePlayerStrategy& operator=(const AggressivePlayerStrategy& other);
+    AggressivePlayerStrategy &operator=(const AggressivePlayerStrategy &other);
 
     //-------------- Stream insertion Operator --------------//
-    friend std::ostream &operator<<(std::ostream &stream, AggressivePlayerStrategy &strategy);
+    friend std::ostream &operator<<(std::ostream &stream, const AggressivePlayerStrategy &strategy);
 };
-
 
 //============================ BenevolentPlayerStrategy Class ============================//
 /*  Represents a type of computer controlled player strategy (is a subclass of PlayerStrategy)
@@ -123,7 +119,7 @@ class BenevolentPlayerStrategy : public PlayerStrategy
 public:
     //-------------- Constructors --------------//
     BenevolentPlayerStrategy();
-    BenevolentPlayerStrategy(const BenevolentPlayerStrategy& other);
+    BenevolentPlayerStrategy(const BenevolentPlayerStrategy &other);
 
     //-------------- Destructor --------------//
     ~BenevolentPlayerStrategy();
@@ -141,12 +137,11 @@ public:
     string nameToString();
 
     //-------------- Assignment operator --------------//
-    BenevolentPlayerStrategy& operator=(const BenevolentPlayerStrategy& other);
+    BenevolentPlayerStrategy &operator=(const BenevolentPlayerStrategy &other);
 
     //-------------- Stream insertion Operator --------------//
-    friend std::ostream &operator<<(std::ostream &stream, BenevolentPlayerStrategy &strategy);
+    friend std::ostream &operator<<(std::ostream &stream, const BenevolentPlayerStrategy &strategy);
 };
-
 
 //============================ NeutralPlayerStrategy Class ============================//
 /*  Represents a type of computer controlled player strategy (is a subclass of PlayerStrategy)
@@ -157,7 +152,7 @@ class NeutralPlayerStrategy : public PlayerStrategy
 public:
     //-------------- Constructors --------------//
     NeutralPlayerStrategy();
-    NeutralPlayerStrategy(const NeutralPlayerStrategy& other);
+    NeutralPlayerStrategy(const NeutralPlayerStrategy &other);
 
     //-------------- Destructor --------------//
     ~NeutralPlayerStrategy();
@@ -175,9 +170,8 @@ public:
     string nameToString();
 
     //-------------- Assignment operator --------------//
-    NeutralPlayerStrategy& operator=(const NeutralPlayerStrategy& other);
+    NeutralPlayerStrategy &operator=(const NeutralPlayerStrategy &other);
 
     //-------------- Stream insertion Operator --------------//
-    friend std::ostream &operator<<(std::ostream &stream, NeutralPlayerStrategy &strategy);
+    friend std::ostream &operator<<(std::ostream &stream, const NeutralPlayerStrategy &strategy);
 };
-
