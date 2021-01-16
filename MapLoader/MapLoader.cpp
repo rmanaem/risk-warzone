@@ -13,7 +13,26 @@
 #include "../Map/Map.h"
 using namespace std;
 
-void showlist(list <string> g)
+//Constructor
+MapLoader::MapLoader() {}
+
+//Copy Constructor
+MapLoader::MapLoader(const MapLoader& original){}
+
+//Default COnstructor
+MapLoader::~MapLoader(){}
+
+MapLoader& MapLoader::operator=(const MapLoader& rhs){
+    return *this;
+}
+
+//-------------- Stream insertion Operator --------------//
+ostream &operator<<(ostream &out, const MapLoader &e) {
+    out << "";
+}
+
+// This function is used to show files in a directory
+void MapLoader::showlist(list <string> g)
 {
     g.pop_front();
     g.pop_front();
@@ -23,7 +42,8 @@ void showlist(list <string> g)
     cout << '\n';
 }
 
-list<string> list_dir(const char *path) {
+// This function is used to store names of file in a directory in a vector
+list<string> MapLoader::list_dir(const char *path) {
     list<string> results;
     struct dirent *entry;
     DIR *dir = opendir(path);
@@ -32,14 +52,19 @@ list<string> list_dir(const char *path) {
 //      return;
 //   }
     while ((entry = readdir(dir)) != NULL) {
-        results.push_back( entry->d_name);
+
+            results.push_back(entry->d_name);
+
     }
     //showlist(results);
     closedir(dir);
+    results.pop_front();
+    results.pop_front();
     return results;
 }
 
-std::vector<string> stripLine(std::string line){
+// This function is used to store word in a continent line in a vector.
+std::vector<string> MapLoader::stripLine(std::string line){
     vector<string> result;
     string word="";
     for (unsigned i=0; i<line.length(); ++i) {
@@ -55,7 +80,8 @@ std::vector<string> stripLine(std::string line){
     return result;
 }
 
-Map parseMap(std::string map) {
+// This function is used to create a map from a  map text file
+Map MapLoader::parseMap(std::string map) {
     cout << "-----" <<map<<"----"<<endl;
     string line;
     string title = "";
@@ -87,7 +113,7 @@ Map parseMap(std::string map) {
                 string continentId= theLine[1];
                 string continentColor=theLine[2];
                 if(continentName.length()>0){
-                    Continent* newConteinent= myGraph->createContinent(continentName);
+                    Continent* newConteinent= myGraph->createContinent(continentName, stoi(continentId));
                     continentts.push_back(newConteinent);
                 }
                 theLine.clear();
@@ -99,25 +125,22 @@ Map parseMap(std::string map) {
         if (line.find("[countries]") != std::string::npos) {
             string countries;
             while(getline(MyReadFile, countries)){
-                cout << "the countries -----" << countries<<endl;
+              //  cout << "the countries -----" << countries<<endl;
                 if (!(countries.find("[borders]") == -1 && countries[0] != '\r')) {line = countries; break;}
                 if (countries.length() == 0 || countries[0] == '\r' || countries.at(0) == ';') {
                     continue;
                 }
                 vector<string> countryLine=stripLine(countries);
-                string contryId= countryLine[0];
                 string countryName= countryLine[1];
                 string continentId= countryLine[2];
                 
                 Territory* newTerritory=new Territory(countryName, continentts[stoi(continentId)-1]);
-               // cout << "territory" << newTerritory.getTerritoryName() << " " << *continentts[stoi(continentId)-1] << "******" <<endl;
                 teritories.push_back(newTerritory);
                 myGraph->insertATerritory(*newTerritory);
-                string distance1= countryLine[3];
-                string distance2= countryLine[4];
+
             }
         }
-        cout << "________borders:_______ " << line <<endl;
+
         //get borders:
         if (line.find("[borders]") != std::string::npos) {
             if (line.length() == 0 || line.at(0) == ';') {
@@ -138,8 +161,6 @@ Map parseMap(std::string map) {
                     }
                     else{
                         word = word + borders.at(i);
-                        
-                        //borrders[i]=word;
                     }
                 }
                 string country = countryBorder.front();
@@ -178,18 +199,54 @@ Map parseMap(std::string map) {
     myGraph->validate();
 
    
-//    for(auto terriotryPointer: teritories){
-//        delete terriotryPointer;
-//        terriotryPointer=nullptr;
-//    }
-//     for(Node* territory : myGraph->getV()){
-//         cout<<territory->getData().getTerritoryName() + " belongs to " + territory->getData().getContinent()->getContinentName()
-//             + " has the following edges:"<<endl;
-//         for(string edge : territory->getE()){
-//             cout<<edge<<"\t";
-//         }
-//         cout<<endl;
-//     }
-     cout<< "trump";
+    for(auto terriotryPointer: teritories){
+        delete terriotryPointer;
+        terriotryPointer=nullptr;
+    }
+     for(Node* territory : myGraph->getV()){
+         cout<<territory->getData().getTerritoryName() + " belongs to " + territory->getData().getContinent()->getContinentName()
+             + " has the following edges:"<<endl;
+         for(string edge : territory->getE()){
+             cout<<edge<<"\t";
+         }
+         cout<<endl;
+     }
 return *myGraph;
 }
+
+//ConquestFileReaderAdapter class
+
+//-------------- Constructors --------------//
+ConquestFileReaderAdapter::ConquestFileReaderAdapter(ConquestFileReader newFileReader){
+    conquestMapLoader = newFileReader;
+}
+
+ConquestFileReaderAdapter::ConquestFileReaderAdapter(const ConquestFileReaderAdapter& original){ //copy constructor
+    conquestMapLoader = original.conquestMapLoader;
+}
+
+//-------------- Destructor --------------//
+ConquestFileReaderAdapter::~ConquestFileReaderAdapter(){
+
+}
+
+//Conquest maps can be generated in the same manner
+Map ConquestFileReaderAdapter::parseMap(string map){
+    return conquestMapLoader.parseMapConquest(map);
+}
+
+//-------------- Overloads --------------//
+//overload assignment operator
+ConquestFileReaderAdapter& ConquestFileReaderAdapter::operator=(const ConquestFileReaderAdapter& rhs){
+    if(this != &rhs){
+        conquestMapLoader = rhs.conquestMapLoader;
+    }
+    return *this;
+}
+
+//Overload insertion stream operator
+ostream& operator<<(ostream& output, ConquestFileReaderAdapter& obj){
+    output << "FileReaderAdapter" <<endl;
+    return output;
+}
+
