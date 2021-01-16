@@ -5,7 +5,7 @@
 #include <iostream>
 #include <list>
 
-/* Create a player to test out functionality */
+/* Creating a player to test out functionality */
 
 using namespace std;
 
@@ -14,8 +14,8 @@ int main()
    // Creating a Map pointer
    Map *validMap = new Map();
 
-   //create the South America continent
-   Continent *southAmerica = validMap->createContinent("South America");
+   // Creating the South America continent
+   Continent *southAmerica = validMap->createContinent("South America", 10);
    Territory *venzuela = new Territory("Venzuela", southAmerica);
    Territory *brazil = new Territory("Brazil", southAmerica);
    Territory *argentina = new Territory("Argentina", southAmerica);
@@ -25,8 +25,8 @@ int main()
    validMap->connectTwoNodes(validMap->getV()[0], validMap->getV().end()[-1]); //venzuela --> peru
    validMap->connectTwoNodes(validMap->getV().end()[-1], validMap->getV()[1]); //peru --> brazil
 
-   //create the Africa continent
-   Continent *africa = validMap->createContinent("Africa");
+   // Create the Africa continent
+   Continent *africa = validMap->createContinent("Africa", 10);
    Territory *northAfrica = new Territory("North Africa", africa);
    Territory *egypt = new Territory("Egypt", africa);
    Territory *eastAfrica = new Territory("East Africa", africa);
@@ -40,7 +40,7 @@ int main()
    validMap->connectTwoNodes(validMap->getV()[7], validMap->getV().end()[-2]); //congo --> south africa
    validMap->connectTwoNodes(validMap->getV()[5], validMap->getV()[6]);        //egypt --> east africa
 
-   //connect between south america and africa
+   // Connecting between south america and africa
    validMap->connectTwoNodes(validMap->getV()[1], validMap->getV()[4]); //brazil --> north africa
 
    // Creating a vector of Territory pointers for the player
@@ -70,13 +70,18 @@ int main()
    vcards1.push_back(card3);
    Hand *handp = new Hand(vcards1);
 
+   // Creating a strategy for the player
+   HumanPlayerStrategy *humanStrat = new HumanPlayerStrategy;
+
+   // Creating a vector of unattackable players for each player
+   vector<Player *> unAtt1;
+
    // Initializing a Player using the initalized data memebers
-   Player p1(4, 0, territoryv1, handp, olp);
+   Player p1(1, 7, unAtt1, territoryv1, handp, olp, humanStrat);
    cout << p1;
 
    p1.toDefend();
    p1.toAttack(validMap);
-   p1.issueOrder();
    delete validMap;
 
    return 0;
