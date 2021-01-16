@@ -292,7 +292,6 @@ void ::StartUp::startUpPhase()
 
     // Determining the order of the players
     cout << "Determining the order of the players" << endl;
-    srand(time(0));
     auto rng = default_random_engine{};
     shuffle(gameStart->getPlayers().begin(), gameStart->getPlayers().end(), rng);
     cout << "Order of the players is now: " << endl;
@@ -408,7 +407,6 @@ ostream &operator<<(ostream &out, const GamePlayer &e)
 //This functio is used to delete the first element in a vector
 void GamePlayer::pop_front(std::vector<Order *> vec)
 {
-    assert(!vec.empty());
     vec.front() = std::move(vec.back());
     vec.pop_back();
 }
