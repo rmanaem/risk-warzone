@@ -1,3 +1,4 @@
+### C++ ###
 # Prerequisites
 *.d
 
@@ -10,6 +11,12 @@
 # Precompiled Headers
 *.gch
 *.pch
+
+# Linker files
+*.ilk
+
+# Debugger Files
+*.pdb
 
 # Compiled Dynamic libraries
 *.so
@@ -30,3 +37,16 @@
 *.exe
 *.out
 *.app
+
+### macOS ###
+# General
+.DS_Store
+
+### vscode ###
+*.vscode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace

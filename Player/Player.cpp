@@ -1,27 +1,36 @@
-#include "Map.h"
-#include "Orders.h"
-#include "Cards.h"
+#include "../Map/Map.h"
+#include "../Orders/Orders.h"
+#include "../Cards/Cards.h"
 #include "Player.h"
 #include <iostream>
+#include <algorithm>
+#include "../GameEngine/GameEngine.h"
+#include "../PlayerStrategy/PlayerStrategy.h"
 #include <list>
+
+using namespace std;
 
 //============================ Player Class ============================/
 
 //-------------- Constructors --------------//
-Player::Player() : playerId(0)
+Player::Player()
 {
 }
 
-Player::Player(int playerId, int nbArmies, std::vector<Territory *> territoriesOwned, Hand *cards, OrdersList *orders) : playerId(playerId), nbArmies(nbArmies), territoriesOwned(territoriesOwned), cards(cards), orders(orders)
+Player::Player(int playerId, int reinforcementPool, std::vector<Player *> unattackablePlayers, std::vector<Territory *> territoriesOwned, Hand *cards, OrdersList *orders, PlayerStrategy *strategy) : playerId(playerId), reinforcementPool(reinforcementPool), unattackablePlayers(unattackablePlayers), territoriesOwned(territoriesOwned), cards(cards), orders(orders), strategy(strategy)
 {
 }
 
-Player::Player(const Player &e) : playerId(e.playerId), nbArmies(e.nbArmies), cards(new Hand(*(e.cards))), orders(new OrdersList(*(e.orders)))
+Player::Player(const Player &e) : playerId(e.playerId), reinforcementPool(e.reinforcementPool), cards(new Hand(*(e.cards))), orders(new OrdersList(*(e.orders))), strategy(e.strategy)
 {
     for (int i = 0; i < e.territoriesOwned.size(); i++)
     {
         this->territoriesOwned.push_back(new Territory(*(e.territoriesOwned[i])));
-    };
+    }
+    for (int i = 0; i < e.unattackablePlayers.size(); i++)
+    {
+        this->unattackablePlayers.push_back(new Player(*(e.unattackablePlayers[i])));
+    }
 }
 
 //-------------- Destructor --------------//
@@ -31,23 +40,38 @@ Player::~Player()
     {
         delete t;
         t = nullptr;
-    };
+    }
+
+    for (Player *p : unattackablePlayers)
+    {
+        delete p;
+        p = nullptr;
+    }
+
     delete cards;
     cards = nullptr;
     delete orders;
     orders = nullptr;
+    delete strategy;
+    strategy = nullptr;
 }
 
 //-------------- Assignment operator --------------//
 Player &Player::operator=(const Player &e)
 {
     this->playerId = e.playerId;
+    this->reinforcementPool = e.reinforcementPool;
     for (int i = 0; i < e.territoriesOwned.size(); i++)
     {
         this->territoriesOwned.push_back(new Territory(*(e.territoriesOwned[i])));
-    };
+    }
+    for (int i = 0; i < e.unattackablePlayers.size(); i++)
+    {
+        this->unattackablePlayers.push_back(new Player(*(e.unattackablePlayers[i])));
+    }
     this->cards = new Hand(*(e.cards));
     this->orders = new OrdersList(*(e.orders));
+    this->strategy = e.strategy;
     return *this;
 }
 
@@ -57,8 +81,14 @@ int Player::getPlayerId()
     return playerId;
 }
 
-int Player::getNbArmies() {
-    return nbArmies;
+int Player::getReinforcementPool()
+{
+    return reinforcementPool;
+}
+
+vector<Player *> Player::getUnattackablePlayers()
+{
+    return unattackablePlayers;
 }
 
 std::vector<Territory *> Player::getTerritoriesOwned()
@@ -76,14 +106,25 @@ OrdersList *Player::getOrders()
     return orders;
 }
 
+PlayerStrategy *Player::getStrategy()
+{
+    return strategy;
+}
+
 //-------------- Mutator methods --------------//
 void Player::setPlayerId(int playerId)
 {
     this->playerId = playerId;
 }
 
-void Player::setNbArmies(int nbArmies) {
-    this->nbArmies = nbArmies;
+void Player::setReinforcementPool(int reinforcementPool)
+{
+    this->reinforcementPool = reinforcementPool;
+}
+
+void Player::setUnattackablePlayers(std::vector<Player *> unattackablePlayers)
+{
+    this->unattackablePlayers = unattackablePlayers;
 }
 
 void Player::setTerritoriesOwned(std::vector<Territory *> territoriesOwned)
@@ -101,130 +142,55 @@ void Player::setOrders(OrdersList *orders)
     this->orders = orders;
 }
 
-//-------------- toDefent method --------------//
+void Player::setStrategy(PlayerStrategy *strategy)
+{
+    cout << "Set Player" << this->playerId << " to " + strategy->nameToString() << endl;
+    this->strategy = strategy;
+}
+
+//-------------- toDefend method --------------//
 /*
  Returns a collection of territories that the player can defend
 */
 std::vector<Territory *> Player::toDefend()
 {
-    cout << "Player" << playerId << " has this collection of territories to defend: {";
-    for (Territory *t : territoriesOwned)
-    {
-        cout << *(t);
-    };
-    cout << "}\n";
-    return territoriesOwned;
+    return strategy->toDefend(this);
 }
 
 //-------------- toAttack method --------------//
 /*
- (for the time being)Returns an arbitrary collection of territories
+ Returns the collection of territories a player can attack
 */
 std::vector<Territory *> Player::toAttack(Map *map)
 {
-    vector<Territory*> territoriesToAttack;
-    vector<Node*> ownedTerritoriesNodes;
-    for (Node *n : map->getV()) {
-        for(Territory *t : territoriesOwned) {
-            if (n->getDataPtr() == t) {
-                ownedTerritoriesNodes.push_back(n);
-            }
-
-        }
-
-    }
-    for (Node *n : map->getV()) {
-        for (Node *pn : ownedTerritoriesNodes) {
-            if (map->areConnected(n, pn)) {
-                territoriesToAttack.push_back(n->getDataPtr());
-            }
-        }
-    }
-
-    cout << "Player" << playerId << " has this collection of territories to attack: {";
-    for (Territory *t : territoriesToAttack) {
-        cout << *t << endl;
-    }
-    cout << "}\n";
-    return territoriesToAttack;
+    return strategy->toAttack(this, map);
 }
 
 //-------------- issueOrder method --------------//
 /*
- Creates an order based on the player input and adds it to the player's OrdersList
+ Creates an order and adds it to the player's OrdersList
 */
-void Player::issueOrder()
+void Player::issueOrder(Map *map, GameStarter *gameStarter)
 {
-    cout << "Player" << playerId << ", What order would you like to issue? \n0. Deploy \n1. Advance \n2. Bomb \n3. Blocakde \n4. Airlift \n5. Negotiate \n6. None \n";
-    int num;
-    cin >> num;
-    switch (num)
-    {
-    case 0:
-    {
-        Deploy *deployp = new Deploy;
-        (*(orders)).addOrder(deployp);
-        cout << "Adding order " << *(deployp) << " to the player's order list \n";
-        break;
-    }
-    case 1:
-    {
-        Advance *advancep = new Advance;
-        (*(orders)).addOrder(advancep);
-        cout << "Adding order " << *(advancep) << " to the player's order list \n";
-        break;
-    }
-    case 2:
-    {
-        Bomb *bombp = new Bomb;
-        (*(orders)).addOrder(bombp);
-        cout << "Adding order " << *(bombp) << " to the player's order list \n";
-        break;
-    }
-    case 3:
-    {
-        Blockade *blockadep = new Blockade;
-        (*(orders)).addOrder(blockadep);
-        cout << "Adding order " << *(blockadep) << " to the player's order list \n";
-        break;
-    }
-    case 4:
-    {
-        Airlift *airliftp = new Airlift;
-        (*(orders)).addOrder(airliftp);
-        cout << "Adding order " << *(airliftp) << " to the player's order list \n";
-        break;
-    }
-    case 5:
-    {
-        Negotiate *negotiatep = new Negotiate;
-        (*(orders)).addOrder(negotiatep);
-        cout << "Adding order " << *(negotiatep) << " to the player's order list \n";
-        break;
-    }
-    case 6:
-        cout << "No order added.\n";
-        break;
-    default:
-    {
-        throw logic_error("Invalid input");
-    }
-    }
-    cout << *(orders);
+
+    return strategy->issueOrder(this, map, gameStarter);
 }
 
 //-------------- Stream insertion operator --------------//
 std::ostream &operator<<(std::ostream &out, const Player &e)
 {
-    out << "Player" << e.playerId << ":\n";
-    out << "Player4 has this collection of territories: {";
+    out << "Player" << e.playerId << ":" << endl;
+    out << "Reinforcement pool: " << e.reinforcementPool << endl;
+    out << "Territories owned: "
+        << "{ ";
     for (Territory *t : e.territoriesOwned)
     {
         out << *(t);
     }
-    out << "}\n";
-    out << "Player4 has this hand of cards: ";
-    (*(e.cards)).print();
-    out << "Player4 has this list of orders: " << *(e.orders);
+    out << "}" << endl;
+    out << "Hand of cards: ";
+    (e.cards)->print();
+    out << "List of orders: " << *(e.orders);
+    *(e.orders);
     return out;
 }

@@ -1,0 +1,21 @@
+[Map]
+author=Giselle Martel
+warn=yes
+image=
+wrap=no
+scroll=horizontal
+
+[Continents]
+Europe=1
+
+
+[Territories]
+Germany,1,1,Europe,Italy,France,Netherlands,Belgium
+Netherlands,1,1,Europe,Germany,Belgium
+Belgium,1,1,Europe,France,Germany,Netherlands
+France,1,1,Europe,Germany,Belgium,Spain,Italy
+Spain,1,1,Europe,Italy,Portugal,France
+Portugal,1,1,Europe,Italy,Spain
+Italy,1,1,Europe,Spain,France,Portugal,Germany
+
+
