@@ -38,6 +38,10 @@
 *.out
 *.app
 
+### macOS ###
+# General
+.DS_Store
+
 ### vscode ###
 *.vscode
 .vscode/*
