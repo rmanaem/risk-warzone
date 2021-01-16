@@ -1,6 +1,6 @@
 #include "Cards.h"
-#include "./Player/Player.h"
-#include "Orders.h"
+#include "../Player/Player.h"
+#include "../Orders/Orders.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -44,33 +44,33 @@ Card::Card(int intCardType)
 {
     switch (intCardType)
     {
-        case 0:
-        {
-            this->cardType = "BOMB";
-        }
-            break;
-        case 1:
-        {
-            this->cardType = "REINFORCEMENT";
-        }
-            break;
-        case 2:
-        {
-            this->cardType = "BLOCKADE";
-        }
-            break;
-        case 3:
-        {
-            this->cardType = "AIRLIFT";
-        }
-            break;
-        case 4:
-        {
-            this->cardType = "NEGOTIATE";
-        }
-            break;
-        default:
-            throw logic_error("Invalid nb");
+    case 0:
+    {
+        this->cardType = "BOMB";
+    }
+    break;
+    case 1:
+    {
+        this->cardType = "REINFORCEMENT";
+    }
+    break;
+    case 2:
+    {
+        this->cardType = "BLOCKADE";
+    }
+    break;
+    case 3:
+    {
+        this->cardType = "AIRLIFT";
+    }
+    break;
+    case 4:
+    {
+        this->cardType = "NEGOTIATE";
+    }
+    break;
+    default:
+        throw logic_error("Invalid nb");
     }
 }
 
@@ -86,11 +86,12 @@ void Card::setCardType(string cardType)
 {
     transform(cardType.begin(), cardType.end(), cardType.begin(), ::toupper);
 
-    if (cardType.compare("BOMB") == 0 || cardType.compare("REINFORCEMENT") == 0 || cardType.compare("BLOCKADE") == 0
-        || cardType.compare("AIRLIFT") == 0 || cardType.compare("NEGOTIATE") == 0) {
+    if (cardType.compare("BOMB") == 0 || cardType.compare("REINFORCEMENT") == 0 || cardType.compare("BLOCKADE") == 0 || cardType.compare("AIRLIFT") == 0 || cardType.compare("NEGOTIATE") == 0)
+    {
         this->cardType = cardType;
     }
-    else {
+    else
+    {
         throw logic_error("Invalid card type");
     }
 }

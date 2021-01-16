@@ -1,5 +1,5 @@
 #include <iostream>
-#include "./GameEngine.h"
+#include "GameEngine.h"
 #include <list>
 #include <algorithm>
 #include <iterator>
@@ -8,14 +8,14 @@
 #include "../Player/Player.h"
 #include "../MapLoader/MapLoader.h"
 
-
 using namespace std;
 
-int main(){
+int main()
+{
 
-    GameStarter* x = new GameStarter();
+    GameStarter *x = new GameStarter();
     x->setUpGame();
-    StartUp object= StartUp(x);
+    StartUp object = StartUp(x);
     object.startUpPhase();
 
     GamePlayer p = GamePlayer();

@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "Orders.h"
+#include "../Orders/Orders.h"
 
 // Declare them empty because they are used before they are properly declared
 class Territory;

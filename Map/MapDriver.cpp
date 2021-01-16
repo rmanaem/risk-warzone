@@ -1,5 +1,5 @@
 #include <iostream>
-#include "./Map.h"
+#include "Map.h"
 #include <vector>
 #include <stack>
 

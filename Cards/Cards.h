@@ -1,6 +1,6 @@
 #pragma once
-#include "./Player/Player.h"
-#include "./GameEngine/GameEngine.h"
+#include "../Player/Player.h"
+#include "../GameEngine/GameEngine.h"
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -18,7 +18,6 @@ class GameStarter;
 class Card
 {
 public:
-
     //-------------- Constructors --------------//
     Card();
     Card(string cardType);

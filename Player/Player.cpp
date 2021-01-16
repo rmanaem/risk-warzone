@@ -1,11 +1,11 @@
 #include "../Map/Map.h"
-#include "../Orders.h"
-#include "../Cards.h"
+#include "../Orders/Orders.h"
+#include "../Cards/Cards.h"
 #include "Player.h"
 #include <iostream>
 #include <algorithm>
 #include "../GameEngine/GameEngine.h"
-#include "../PlayerStrategy.h"
+#include "../PlayerStrategy/PlayerStrategy.h"
 #include <list>
 
 using namespace std;

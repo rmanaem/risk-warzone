@@ -1,13 +1,14 @@
 #pragma once
 
 #include "GameObservers.h"
-#include "./Player/Player.h"
+#include "../Player/Player.h"
 #include <sstream>
 
 using namespace std;
 
 // Convert int to string
-string int_to_str(int x) {
+string int_to_str(int x)
+{
     stringstream ss;
     ss << x;
     return ss.str();
@@ -16,17 +17,20 @@ string int_to_str(int x) {
 //============================ Observer Class ============================//
 
 // Default constructor
-Observer::Observer() {
+Observer::Observer()
+{
 }
 
 //Destructor
-Observer::~Observer() {
+Observer::~Observer()
+{
 }
 
 //============================ Subject Class ============================//
 
 // Default constructor
-Subject::Subject() {
+Subject::Subject()
+{
     static int i = 0;
     id = i;
     name = to_string(i);
@@ -35,13 +39,16 @@ Subject::Subject() {
 }
 
 // Parameterized constructor
-Subject::Subject(list<Observer*>* observers) {
+Subject::Subject(list<Observer *> *observers)
+{
     this->observers = observers;
 };
 
 // Copy constructor
-Subject::Subject(const Subject &initSubject) {
-    for (int i = 0; i < initSubject.observers->size(); i++) {
+Subject::Subject(const Subject &initSubject)
+{
+    for (int i = 0; i < initSubject.observers->size(); i++)
+    {
         this->observers->push_back(reinterpret_cast<Observer *const>(new Subject(&(initSubject.observers[i]))));
     }
     this->name = name;
@@ -49,7 +56,8 @@ Subject::Subject(const Subject &initSubject) {
 }
 
 // Default destructor
-Subject::~Subject() {
+Subject::~Subject()
+{
     for (Observer *t : *observers)
     {
         delete t;
@@ -58,9 +66,11 @@ Subject::~Subject() {
 }
 
 // Assignment operator
-Subject &Subject::operator=(const Subject &subject) {
+Subject &Subject::operator=(const Subject &subject)
+{
     cout << "Inside operator = of Subject" << endl;
-    for (int i = 0; i < subject.observers->size(); i++) {
+    for (int i = 0; i < subject.observers->size(); i++)
+    {
         this->observers->push_back(reinterpret_cast<Observer *const>(new Subject(&(subject.observers[i]))));
     }
     this->name = name;
@@ -69,9 +79,10 @@ Subject &Subject::operator=(const Subject &subject) {
 }
 
 // Stream insertion operator
-std::ostream &operator<<(std::ostream &stream, const Subject &subject) {
+std::ostream &operator<<(std::ostream &stream, const Subject &subject)
+{
     stream << "Subject details: id " << subject.id << ", name " << subject.name << endl;
-    stream << "Subject" << subject.id  << " has this collection of observers: ";
+    stream << "Subject" << subject.id << " has this collection of observers: ";
     for (Observer *o : *subject.observers)
     {
         stream << (o);
@@ -80,19 +91,23 @@ std::ostream &operator<<(std::ostream &stream, const Subject &subject) {
 }
 
 // Attaches observer to Subject
-void Subject::Attach(Observer *obs) {
+void Subject::Attach(Observer *obs)
+{
     observers->push_back(obs);
 }
 
 // Detaches observer from Subject
-void Subject::Detach(Observer *obs) {
+void Subject::Detach(Observer *obs)
+{
     observers->remove(obs);
 }
 
 // Notifies Subject that there was a change
-void Subject::Notify() {
+void Subject::Notify()
+{
     list<Observer *>::iterator it = observers->begin();
-    for (; it != observers->end(); ++it) {
+    for (; it != observers->end(); ++it)
+    {
         (*it)->update();
     }
 }
@@ -100,18 +115,21 @@ void Subject::Notify() {
 //============================ GameStatisticsObserver Class ============================//
 
 // Default constructor
-GameStatisticsObserver::GameStatisticsObserver() {
+GameStatisticsObserver::GameStatisticsObserver()
+{
     this->nbTerritories = 0;
 }
 
 // Parameterized constructor
-GameStatisticsObserver::GameStatisticsObserver(int nbTerritories, GameStarter *gameStarter) {
+GameStatisticsObserver::GameStatisticsObserver(int nbTerritories, GameStarter *gameStarter)
+{
     this->nbTerritories = nbTerritories;
     this->gameStarter = gameStarter;
 }
 
 // Copy constructor
-GameStatisticsObserver::GameStatisticsObserver(const GameStatisticsObserver &initGameStatisticsObserver) {
+GameStatisticsObserver::GameStatisticsObserver(const GameStatisticsObserver &initGameStatisticsObserver)
+{
     for (int i = 0; i < initGameStatisticsObserver.players.size(); i++)
     {
         this->players.push_back(new Player(*(initGameStatisticsObserver.players[i])));
@@ -121,7 +139,8 @@ GameStatisticsObserver::GameStatisticsObserver(const GameStatisticsObserver &ini
 }
 
 // Default destructor
-GameStatisticsObserver::~GameStatisticsObserver() {
+GameStatisticsObserver::~GameStatisticsObserver()
+{
     for (Player *t : players)
     {
         delete t;
@@ -133,7 +152,8 @@ GameStatisticsObserver::~GameStatisticsObserver() {
 }
 
 // Assignment operator
-GameStatisticsObserver &GameStatisticsObserver::operator=(const GameStatisticsObserver &gameStatisticsObserver) {
+GameStatisticsObserver &GameStatisticsObserver::operator=(const GameStatisticsObserver &gameStatisticsObserver)
+{
 
     cout << "Inside operator = of GameStatisticsObserver" << endl;
     for (int i = 0; i < gameStatisticsObserver.players.size(); i++)
@@ -146,7 +166,8 @@ GameStatisticsObserver &GameStatisticsObserver::operator=(const GameStatisticsOb
 }
 
 // Stream insertion operator
-std::ostream &operator<<(std::ostream &stream, const GameStatisticsObserver &gameStatisticsObserver) {
+std::ostream &operator<<(std::ostream &stream, const GameStatisticsObserver &gameStatisticsObserver)
+{
     stream << "GameStatisticsObserver details: numTerritories " << gameStatisticsObserver.nbTerritories << ", gameStarted=" << gameStatisticsObserver.gameStarted << endl;
     stream << "GameStatisticsObserver has this collection of players: {";
     for (Player *p : gameStatisticsObserver.players)
@@ -157,40 +178,50 @@ std::ostream &operator<<(std::ostream &stream, const GameStatisticsObserver &gam
 }
 
 // Start game
-void GameStatisticsObserver::Start() {
+void GameStatisticsObserver::Start()
+{
     gameStarted = true;
 }
 
 // Update gameStatisticsObserver
-void GameStatisticsObserver::update() {
-    if (gameStarter->getIsStatisticsObserverTurnedOn() == true) {
+void GameStatisticsObserver::update()
+{
+    if (gameStarter->getIsStatisticsObserverTurnedOn() == true)
+    {
         cout << "\n---------------------------------------------------------------------" << endl;
-        for (Player *player : players) {
-            float ownedPercent = 100.0f * (float) player->getTerritoriesOwned().size() /
-                                 (float) nbTerritories;
+        for (Player *player : players)
+        {
+            float ownedPercent = 100.0f * (float)player->getTerritoriesOwned().size() /
+                                 (float)nbTerritories;
             cout << "Player " << player->getPlayerId() << ": owns " << ownedPercent << "% of the map || ";
         }
-        if (gameStarted) {
-            for (int i = 0; i < players.size(); i++) {
-                if (players[i]->getTerritoriesOwned().size() == 0) {
+        if (gameStarted)
+        {
+            for (int i = 0; i < players.size(); i++)
+            {
+                if (players[i]->getTerritoriesOwned().size() == 0)
+                {
                     players.erase(players.begin() + i);
                     cout << "\nPlayer " << players[i]->getPlayerId()
                          << " has been eliminated... Better luck next time!" << endl;
-                } else if (players[i]->getTerritoriesOwned().size() == nbTerritories) {
+                }
+                else if (players[i]->getTerritoriesOwned().size() == nbTerritories)
+                {
                     cout << "\nPlayer " << players[i]->getPlayerId()
                          << " has conquered all of the Territories! Congratulations on your win!!!" << endl;
                 }
             }
         }
-        cout << "\n---------------------------------------------------------------------\n" << endl;
+        cout << "\n---------------------------------------------------------------------\n"
+             << endl;
     }
 }
 
 // Add player to GameStatisticsObserver
-void GameStatisticsObserver::addPlayer(Player *player) {
+void GameStatisticsObserver::addPlayer(Player *player)
+{
     this->players.push_back(player);
 }
-
 
 //============================ PhaseObserver Class ============================//
 
@@ -198,12 +229,14 @@ void GameStatisticsObserver::addPlayer(Player *player) {
 PhaseObserver::PhaseObserver() {}
 
 // Parameterized constructor
-PhaseObserver::PhaseObserver(GameStarter *gameStarter) {
+PhaseObserver::PhaseObserver(GameStarter *gameStarter)
+{
     this->gameStarter = gameStarter;
 }
 
 // Copy constructor
-PhaseObserver::PhaseObserver(const PhaseObserver &initPhaseObserver) {
+PhaseObserver::PhaseObserver(const PhaseObserver &initPhaseObserver)
+{
     for (int i = 0; i < initPhaseObserver.players.size(); i++)
     {
         this->players.push_back(new Player(*(initPhaseObserver.players[i])));
@@ -212,7 +245,8 @@ PhaseObserver::PhaseObserver(const PhaseObserver &initPhaseObserver) {
 }
 
 // Default destructor
-PhaseObserver::~PhaseObserver() {
+PhaseObserver::~PhaseObserver()
+{
     for (Player *t : players)
     {
         delete t;
@@ -224,7 +258,8 @@ PhaseObserver::~PhaseObserver() {
 }
 
 // Assignment operator
-PhaseObserver &PhaseObserver::operator=(const PhaseObserver &phaseObserver) {
+PhaseObserver &PhaseObserver::operator=(const PhaseObserver &phaseObserver)
+{
     cout << "Inside operator = of PhaseObserver" << endl;
     for (int i = 0; i < phaseObserver.players.size(); i++)
     {
@@ -235,62 +270,80 @@ PhaseObserver &PhaseObserver::operator=(const PhaseObserver &phaseObserver) {
 }
 
 // Stream insertion operator
-std::ostream &operator<<(std::ostream &stream, const PhaseObserver &phaseObserver) {
+std::ostream &operator<<(std::ostream &stream, const PhaseObserver &phaseObserver)
+{
     stream << "PhaseObserver details: current phase " << phaseObserver.currentPhase << endl;
     stream << "PhaseObserver has this collection of players: ";
-    for (Player *p : phaseObserver.players) {
+    for (Player *p : phaseObserver.players)
+    {
         stream << *(p);
     }
 }
 
 // Adding player to PhaseObserver
-void PhaseObserver::addPlayer(Player *player) {
+void PhaseObserver::addPlayer(Player *player)
+{
     this->players.push_back(player);
 }
 
 // Get current phase being observed by PhaseObserver
-Phase PhaseObserver::getPhase() {
+Phase PhaseObserver::getPhase()
+{
     return this->currentPhase;
 }
 
 // Update PhaseObserver
-void PhaseObserver::update() {
-
+void PhaseObserver::update()
+{
 }
 
 //Update execute orders phase in phase observer
-void PhaseObserver::UpdateExecuteOrders(Player *player) {
-    cout <<"**************************************************\n"
-           "Player " + int_to_str(player->getPlayerId()) + ": Execute orders phase\n" +
-           "Player currently has orders " << endl;
-    for (int i = 0; i < player->getOrders()->getOrdersList().size(); i++) {
-        cout << "Order Type: " + player->getOrders()->getOrdersList()[i]->getOrderType()<< endl;
+void PhaseObserver::UpdateExecuteOrders(Player *player)
+{
+    cout << "**************************************************\n"
+            "Player " +
+                int_to_str(player->getPlayerId()) + ": Execute orders phase\n" +
+                "Player currently has orders "
+         << endl;
+    for (int i = 0; i < player->getOrders()->getOrdersList().size(); i++)
+    {
+        cout << "Order Type: " + player->getOrders()->getOrdersList()[i]->getOrderType() << endl;
     }
     cout << "Player currently has territories " << endl;
-    for (int i = 0; i < player->getOrders()->getOrdersList().size(); i++) {
-        cout << "Order Type: " + player->getOrders()->getOrdersList()[i]->getOrderType()<< endl;
+    for (int i = 0; i < player->getOrders()->getOrdersList().size(); i++)
+    {
+        cout << "Order Type: " + player->getOrders()->getOrdersList()[i]->getOrderType() << endl;
     }
     cout << "Player currently has " + int_to_str(player->getReinforcementPool()) + " armies" << endl;
-    cout <<"**************************************************\n" << endl;
+    cout << "**************************************************\n"
+         << endl;
 }
 
 //Update issue orders phase in phase observer
-void PhaseObserver::UpdateIssueOrders(Player *player) {
+void PhaseObserver::UpdateIssueOrders(Player *player)
+{
     cout << "**************************************************\n"
-            "Player " + int_to_str(player->getPlayerId()) + ": Issue orders phase\n" +
-            "Player currently has orders " << endl;
-    for (int i = 0; i < player->getOrders()->getOrdersList().size(); i++) {
-        cout << "Order Type: " + player->getOrders()->getOrdersList()[i]->getOrderType()<< endl;
+            "Player " +
+                int_to_str(player->getPlayerId()) + ": Issue orders phase\n" +
+                "Player currently has orders "
+         << endl;
+    for (int i = 0; i < player->getOrders()->getOrdersList().size(); i++)
+    {
+        cout << "Order Type: " + player->getOrders()->getOrdersList()[i]->getOrderType() << endl;
     }
     cout << "Player currently has the following hand " << endl;
     player->getCards()->print();
-    cout << "**************************************************\n" <<endl;
+    cout << "**************************************************\n"
+         << endl;
 }
 
 //Update reinforcements phase in phase observer
-void PhaseObserver::UpdateReinforcements(Player *player) {
-    cout <<"**************************************************\n"
-           "Player with id " + int_to_str(player->getPlayerId()) + ": Reinforcements phase\n" +
-           "Player currently has " + to_string(player->getReinforcementPool()) + " reinforcements"
-           "**************************************************\n" << endl;
+void PhaseObserver::UpdateReinforcements(Player *player)
+{
+    cout << "**************************************************\n"
+            "Player with id " +
+                int_to_str(player->getPlayerId()) + ": Reinforcements phase\n" +
+                "Player currently has " + to_string(player->getReinforcementPool()) + " reinforcements"
+                                                                                      "**************************************************\n"
+         << endl;
 }
