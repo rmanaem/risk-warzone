@@ -1,5 +1,6 @@
 #pragma once
-#include "Player.h"
+#include "./Player/Player.h"
+#include "./GameEngine/GameEngine.h"
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -8,27 +9,19 @@ using namespace std;
 class Deck;
 class Hand;
 class Player;
+class GameStarter;
 
 //============================ Card Class ============================//
 /*  Represents a card that can be placed in a deck or hand
-    Attributes: cardType (enum), type of the card
+    Attributes: cardType (string), type of the card
 */
 class Card
 {
 public:
-    enum CardType
-    {
-        SPY,
-        BOMB,
-        REINFORCEMENT,
-        BLOCKADE,
-        AIRLIFT,
-        DIPLOMACY
-    };
 
     //-------------- Constructors --------------//
     Card();
-    Card(CardType cardType);
+    Card(string cardType);
     Card(int intCardType);
 
     Card(const Card &initCard);
@@ -37,17 +30,16 @@ public:
     friend std::ostream &operator<<(std::ostream &stream, const Card &card);
 
     //-------------- Getters --------------//
-    CardType getCardType();
     string getCardTypeString();
 
     //-------------- Setters --------------//
-    void setCardType(CardType cardType);
+    void setCardType(string cardType);
 
     //-------------- Others --------------//
-    void play(Deck *deck, Player *player);
+    void play(Deck *deck, Player *player, Map *map, GameStarter *gameStarter);
 
 private:
-    CardType cardType;
+    string cardType;
 };
 
 //============================ Deck Class ============================//
