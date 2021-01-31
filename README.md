@@ -73,3 +73,7 @@ of the players owns all the territories in the map.
 [Warzone](https://www.warzone.com/)
 
 [Domination game maps](http://domination.sourceforge.net/getmaps.shtml)
+
+## License
+
+This repository is licensed under the [MIT License](https://github.com/rmanaem/risk-warzone/blob/master/LICENSE).
